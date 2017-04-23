@@ -1,4 +1,4 @@
-package com.webapp.controllers;
+package com.mzps.controllers;
 
 import org.junit.Before;
 import org.junit.Test;

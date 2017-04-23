@@ -1,4 +1,5 @@
-package com.webapp.controllers;
+/*
+package com.mzps.controllers;
 
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
@@ -12,4 +13,4 @@ public class IndexController {
 
         return "index";
     }
-}
+}*/
