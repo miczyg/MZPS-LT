@@ -1,6 +1,8 @@
 # MZPS-LT
 
 #db mock script
+
+
 create database mzps;
 use mzps;
 create table TEAMS (
