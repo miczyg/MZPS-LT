@@ -28,7 +28,7 @@
 	
 	                <div class="row">
 	                    <div class="form-group col-md-12">
-	                        <label class="col-md-2 control-lable" for="sex">Salary</label>
+	                        <label class="col-md-2 control-lable" for="sex">Sex</label>
 	                        <div class="col-md-7">
 								<#--dropdown here-->
 	                            <input type="text" ng-model="ctrl.team.sex" id="sex" class="form-control input-sm" placeholder="MALE/FEMALE"/>
