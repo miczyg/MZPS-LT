@@ -1,11 +1,10 @@
-package com.mzps.service;
+package com.mzps.web.teams;
 
 import java.util.List;
 
 import com.mzps.model.Team;
-import com.mzps.repositories.TeamRepository;
-import com.mzps.service.TeamService;
 
+import com.mzps.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.mzps.controllers;
+package com.mzps.web.teams;
 
 import java.util.List;
 
@@ -16,21 +16,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.mzps.service.TeamService;
 import com.mzps.util.CustomErrorType;
 
 @RestController
-@RequestMapping("/api")
-public class RestApiController {
+@RequestMapping("/teams")
+public class TeamController {
 
-	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+	public static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
 	@Autowired
 	TeamService teamService; //Service which will do all data retrieval/manipulation work
 
 	// -------------------Retrieve All Users---------------------------------------------
-
-	@RequestMapping(value = "/team/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<List<Team>> listAllUsers() {
 		List<Team> teams = teamService.findAllTeams();
 		if (teams.isEmpty()) {
@@ -42,7 +40,7 @@ public class RestApiController {
 
 	// -------------------Retrieve Single Team------------------------------------------
 
-	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUser(@PathVariable("id") long id) {
 		logger.info("Fetching Team with id {}", id);
 		Team team = teamService.findById(id);
@@ -56,7 +54,7 @@ public class RestApiController {
 
 	// -------------------Create a Team-------------------------------------------
 
-	@RequestMapping(value = "/team/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody Team team, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Team : {}", team);
 
@@ -68,13 +66,13 @@ public class RestApiController {
 		teamService.saveTeam(team);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/team/{id}").buildAndExpand(team.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(team.getId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 
 	// ------------------- Update a Team ------------------------------------------------
 
-	@RequestMapping(value = "/team/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody Team team) {
 		logger.info("Updating Team with id {}", id);
 
@@ -96,7 +94,7 @@ public class RestApiController {
 
 	// ------------------- Delete a Team-----------------------------------------
 
-	@RequestMapping(value = "/team/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
 		logger.info("Fetching & Deleting Team with id {}", id);
 
@@ -112,7 +110,7 @@ public class RestApiController {
 
 	// ------------------- Delete All Users-----------------------------
 
-	@RequestMapping(value = "/team/", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public ResponseEntity<Team> deleteAllUsers() {
 		logger.info("Deleting All Users");
 

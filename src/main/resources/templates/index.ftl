@@ -13,6 +13,7 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <link rel="stylesheet" type="text/css" href="css/app.css"/>
         <link rel="stylesheet" type="text/css" href="css/navbar.css">
 
@@ -20,9 +21,9 @@
         <script src="js/lib/angular-ui-router.min.js" ></script>
         <script src="js/lib/localforage.min.js" ></script>
         <script src="js/lib/ngStorage.min.js"></script>
-        <script src="js/app/app.js"></script>
-        <script src="js/app/TeamService.js"></script>
-        <script src="js/app/TeamController.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers/TeamService.js"></script>
+        <script src="js/controllers/TeamController.js"></script>
     </head>
     <body  ng-app="mzpsApp">
         <div role="navigation" class="navbar navbar-inverse">
@@ -30,8 +31,8 @@
                 <a class="navbar-brand" ui-sref="home">Turnieje Ligowe MZPS</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a ui-sref="classification">Tabela</a></li>
-                <li><a ui-sref="tournaments">Turnieje</a></li>
+                <li><a ui-sref="standings">Tabela</a></li>
+                <li><a ui-sref="tourneys">Turnieje</a></li>
                 <li><a ui-sref="teams">Zespoły</a></li>
             </ul>
         </div>

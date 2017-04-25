@@ -1,4 +1,4 @@
-package com.mzps.repositories;
+package com.mzps.repository;
 
 
 import com.mzps.model.Team;
