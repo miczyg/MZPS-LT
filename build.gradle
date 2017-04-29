@@ -4,7 +4,13 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+        classpath "gradle.plugin.name.mazgalov:gradle-sass-vaadin-compiler:0.1.1"
     }
+}
+
+plugins {
+    id "com.moowork.node" version "1.1.1"
+    id "org.kravemir.gradle.sass" version "1.2.2"
 }
 
 apply plugin: 'java'
@@ -30,8 +36,6 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-tomcat")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-//    sth not working with thumeleaf, or I cannot set i properly, freemarker works without any setup at least for now
-//    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-freemarker:1.5.2.RELEASE")
     compile("org.springframework.boot:spring-boot-devtools")
 
@@ -48,5 +52,12 @@ dependencies {
 
     testCompile("junit:junit")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+sass {
+    main {
+        srcDir = file("$projectDir/src/main/resources/static/sass")
+        outDir = file("$projectDir/src/main/resources/static/css")
+    }
 }
 
