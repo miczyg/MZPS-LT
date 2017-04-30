@@ -1,27 +1,27 @@
-var app = angular.module('mzpsApp',['ui.router','ngStorage']);
+var app = angular.module('mzpsApp', ['ui.router', 'ngStorage']);
 
 app.constant('urls', {
     BASE: 'http://localhost:8080/',
-    TEAM_SERVICE_API : 'http://localhost:8080/teams/'
+    TEAM_SERVICE_API: 'http://localhost:8080/teams/'
 });
 
 app.config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+    function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
-            .state('home',{
+            .state('home', {
                 url: '/',
                 templateUrl: 'home',
                 controller: 'HomeController',
                 controllerAs: 'ctrl'
             })
-            .state('standings',{
+            .state('standings', {
                 url: '/standings',
                 templateUrl: 'standings',
                 controller: 'StandingsController',
                 controllerAs: 'ctrl'
             })
-            .state('tourneys',{
+            .state('tourneys', {
                 url: '/tourneys',
                 templateUrl: 'tourneys',
                 controller: 'TourneysController',
@@ -30,8 +30,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
             .state('teams', {
                 url: '/teams',
                 templateUrl: 'teams',
-                controller:'TeamController',
-                controllerAs:'ctrl',
+                controller: 'TeamController',
+                controllerAs: 'ctrl',
                 resolve: {
                     teams: function ($q, TeamService) {
                         console.log('Load all teams');
@@ -40,7 +40,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
                         return deferred.promise;
                     }
                 }
-            });
+            })
+            .state('teams.category', {
+                url: '/teams/category'
+            })
+        ;
         $urlRouterProvider.otherwise('/');
     }]);
 
