@@ -1,33 +1,37 @@
-<div class="container-fluid">
-<ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a ui-sref="male16">Młodzicy</a></li>
-    <li role="presentation"><a ui-sref="female18">Młodziczki</a></li>
-    <li role="presentation"><a ui-sref="male16">Kadeci</a></li>
-    <li role="presentation"><a ui-sref="female18">Kadetki</a></li>
-</ul>
+<div class="panel">
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a ui-sref="all">Wszystkie</a></li>
+        <li role="presentation"><a ui-sref="male16">Młodzicy</a></li>
+        <li role="presentation"><a ui-sref="female18">Młodziczki</a></li>
+        <li role="presentation"><a ui-sref="male16">Kadeci</a></li>
+        <li role="presentation"><a ui-sref="female18">Kadetki</a></li>
+    </ul>
 </div>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading"><span class="lead">List of Teams </span></div>
+    <div class="panel-heading"><span class="lead">Lista Zespołów </span></div>
     <div class="panel-body">
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>NAME</th>
-                    <th>CATEGORY</th>
-                    <th>SEX</th>
+                    <th></th>
+                    <th>Nazwa zespołu</th>
+                    <th>Kategoria</th>
+                    <th>Trener</th>
+                    <th>Telefon kontaktowy</th>
                     <th width="100"></th>
                     <th width="100"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="u in ctrl.getAllTeams()">
-                    <td>{{u.id}}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
                     <td>{{u.category}}</td>
-                    <td>{{u.sex}}</td>
+                    <td>{{u.coach}}</td>
+                    <td>{{u.phone}}</td>
+                <#--SHOW ONLY IF ADMIN-->
                     <td>
                         <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edit
                         </button>
@@ -44,10 +48,10 @@
     </div>
 </div>
 
-<#--only if admin-->
+<#--ONLY IF ADMIN-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading"><span class="lead">Team </span></div>
+    <div class="panel-heading"><span class="lead">Nowy zespół </span></div>
     <div class="panel-body">
         <div class="formcontainer">
             <div class="alert alert-success" role="alert" ng-if="ctrl.successMessage">{{ctrl.successMessage}}</div>
@@ -56,7 +60,7 @@
                 <input type="hidden" ng-model="ctrl.team.id"/>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable" for="uname">Name</label>
+                        <label class="col-md-2 control-label" for="uname">Nazwa zespołu</label>
                         <div class="col-md-7">
                             <input type="text" ng-model="ctrl.team.name" id="uname"
                                    class="username form-control input-sm" placeholder="Enter team name" required
@@ -67,24 +71,36 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable" for="category">Category</label>
+                        <label class="col-md-2 control-label" for="category">Kategoria</label>
                         <div class="col-md-7">
-                            <input type="text" ng-model="ctrl.team.category" id="category" class="form-control input-sm"
-                                   placeholder="Enter category, ex. U16" required ng-minlength="3"/>
+                            <select ng-model="ctrl.team.category" id="category" required">
+                            <option>Mlodzik</option>
+                            <option>Mlodziczka</option>
+                            <option>Kadet</option>
+                            <option>Kadetka</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable" for="sex">Sex</label>
+                        <label class="col-md-2 control-label" for="sex">Trener</label>
                         <div class="col-md-7">
-                        <#--dropdown here-->
-                            <select ng-model="ctrl.team.sex" id="sex" class="form-control input-sm"
-                                    placeholder="MALE/FEMALE">
-                                <option>MALE</option>
-                                <option>FEMALE</option>
-                            </select>
+                            <input type="text" ng-model="ctrl.team.coach" id="coach"
+                                   class="form-control input-sm" placeholder="Enter coach name" required
+                                   ng-minlength="5"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="contact">Telefon kontaktowy</label>
+                        <div class="col-md-7">
+                            <input type="number" ng-model="ctrl.team.phone" id="phone"
+                                   class="form-control input-sm" placeholder="Enter contact phone number" required
+                                   ng-minlength="9"/>
                         </div>
                     </div>
                 </div>

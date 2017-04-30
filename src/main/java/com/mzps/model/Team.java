@@ -17,13 +17,17 @@ public class Team implements Serializable{
 	@Column(name="NAME", nullable=false)
 	private String name;
 
+//	@Enumerated(EnumType.STRING)
 	@Column(name="CATEGORY", nullable=false)
 	private String category;
 
-	@Column(name="SEX", nullable=false)
-	private String sex;
+	@Column(name="COACH", nullable=false)
+	private String coach;
 
-	public Long getId() {
+    @Column(name="PHONE", nullable=false)
+    private String phone;
+
+    public Long getId() {
 		return id;
 	}
 
@@ -47,13 +51,22 @@ public class Team implements Serializable{
 		this.category = category;
 	}
 
-	public String getSex() {
-		return sex;
-	}
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
 
 	@Override
 	public boolean equals(Object o) {
@@ -62,28 +75,28 @@ public class Team implements Serializable{
 
 		Team team = (Team) o;
 
-		if (sex != null ? !sex.equals(team.sex) : team.sex!= null) return false;
+//		TODO: sth may be messed here
 		if (id != null ? !id.equals(team.id) : team.id != null) return false;
 		if (name != null ? !name.equals(team.name) : team.name != null) return false;
 		return category != null ? category.equals(team.category) : team.category == null;
 	}
 
-	@Override
-	public int hashCode() {
-		int result;
-		long temp;
-		result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (category != null ? category.hashCode() : 0);
-		result = 31 * result + (sex != null ? sex.hashCode() : 0);
-		return result;
-	}
+//	@Override
+//	public int hashCode() {
+//		int result;
+//		result = id != null ? id.hashCode() : 0;
+//		result = 31 * result + (name != null ? name.hashCode() : 0);
+//		result = 31 * result + (category != null ? category.hashCode() : 0);
+//		result = 31 * result + (coach != null ? coach.hashCode() : 0);
+//		return result;
+//	}
 
 	@Override
 	public String toString() {
 		return "Team [id=" + id + ", name=" + name + ", category=" + category
-				+ ", sex=" + sex + "]";
+				+ ", coach=" + coach + "]";
 	}
+
 
 
 }

@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mzps.util.CustomErrorType;
@@ -28,7 +24,7 @@ public class TeamController {
 	TeamService teamService; //Service which will do all data retrieval/manipulation work
 
 	// -------------------Retrieve All Users---------------------------------------------
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping(value = "/")
 	public ResponseEntity<List<Team>> listAllUsers() {
 		List<Team> teams = teamService.findAllTeams();
 		if (teams.isEmpty()) {
@@ -40,7 +36,7 @@ public class TeamController {
 
 	// -------------------Retrieve Single Team------------------------------------------
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getUser(@PathVariable("id") long id) {
 		logger.info("Fetching Team with id {}", id);
 		Team team = teamService.findById(id);
@@ -54,7 +50,7 @@ public class TeamController {
 
 	// -------------------Create a Team-------------------------------------------
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@PostMapping(value = "/")
 	public ResponseEntity<?> createUser(@RequestBody Team team, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Team : {}", team);
 
@@ -72,7 +68,7 @@ public class TeamController {
 
 	// ------------------- Update a Team ------------------------------------------------
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody Team team) {
 		logger.info("Updating Team with id {}", id);
 
@@ -86,7 +82,8 @@ public class TeamController {
 
 		currentTeam.setName(team.getName());
 		currentTeam.setCategory(team.getCategory());
-		currentTeam.setSex(team.getSex());
+		currentTeam.setCoach(team.getCoach());
+		currentTeam.setPhone(team.getPhone());
 
 		teamService.updateTeam(currentTeam);
 		return new ResponseEntity<Team>(currentTeam, HttpStatus.OK);
@@ -94,7 +91,7 @@ public class TeamController {
 
 	// ------------------- Delete a Team-----------------------------------------
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
 		logger.info("Fetching & Deleting Team with id {}", id);
 
@@ -110,7 +107,7 @@ public class TeamController {
 
 	// ------------------- Delete All Users-----------------------------
 
-	@RequestMapping(value = "/", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/")
 	public ResponseEntity<Team> deleteAllUsers() {
 		logger.info("Deleting All Users");
 

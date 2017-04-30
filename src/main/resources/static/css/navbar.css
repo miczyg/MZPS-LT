@@ -24,3 +24,11 @@
 .navbar-inverse .navbar-nav > li > a {
     color: white;
 }
+
+.navbar-inverse .navbar-brand{
+    color: white;
+}
+
+.container-fluid{
+    margin-top: 15px;
+}

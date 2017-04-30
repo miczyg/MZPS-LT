@@ -13,6 +13,8 @@ public interface TeamService {
 
 	Team findByName(String name);
 
+	List<Team> findByCategory(String category);
+
 	void saveTeam(Team team);
 
 	void updateTeam(Team team);

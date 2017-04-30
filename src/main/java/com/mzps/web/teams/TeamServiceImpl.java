@@ -26,6 +26,11 @@ public class TeamServiceImpl implements TeamService {
 		return teamRepository.findByName(name);
 	}
 
+	@Override
+	public List<Team> findByCategory(String category) {
+		return teamRepository.findByCategory(category);
+	}
+
 	public void saveTeam(Team team) {
 		teamRepository.save(team);
 	}
