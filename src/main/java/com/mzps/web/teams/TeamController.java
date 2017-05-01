@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mzps.util.CustomErrorType;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @RestController
 @RequestMapping("/teams")
@@ -33,6 +34,12 @@ public class TeamController {
 		}
 		return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "{category}")
+    public ResponseEntity<List<Team>> getCategory(@PathVariable("category") String category){
+        //TODO: implement
+        return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
+    }
 
 	// -------------------Retrieve Single Team------------------------------------------
 

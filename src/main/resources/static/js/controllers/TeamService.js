@@ -37,6 +37,13 @@ angular.module('mzpsApp').factory('TeamService',
                 return $localStorage.teams;
             }
 
+            function getCategory(category) {
+                console.log('Fetching category: ' + category);
+                var deferred = $q.defer();
+                $http.get(urls.TEAM_SERVICE_API + )
+
+            }
+
             function getTeam(id) {
                 console.log('Fetching Team with id :' + id);
                 var deferred = $q.defer();

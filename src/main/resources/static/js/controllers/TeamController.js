@@ -89,6 +89,10 @@ angular.module('mzpsApp').controller('TeamController',
             return TeamService.getAllTeams();
         }
 
+        function getCategory(category){
+            return TeamService.getCategory(category);
+        }
+
         function editTeam(id) {
             self.successMessage='';
             self.errorMessage='';
