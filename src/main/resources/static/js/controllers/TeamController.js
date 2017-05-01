@@ -76,10 +76,10 @@ angular.module('mzpsApp').controller('TeamController',
             TeamService.removeTeam(id)
                 .then(
                     function(){
-                        console.log('Team '+id + ' removed successfully');
+                        console.log('Team '+ id + ' removed successfully');
                     },
                     function(errResponse){
-                        console.error('Error while removing team '+id +', Error :'+errResponse.data);
+                        console.error('Error while removing team '+ id +', Error :' + errResponse.data);
                     }
                 );
         }

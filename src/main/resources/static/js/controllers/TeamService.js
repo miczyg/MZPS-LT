@@ -33,21 +33,21 @@ angular.module('mzpsApp').factory('TeamService',
                 return deferred.promise;
             }
 
-            function getAllTeams(){
+            function getAllTeams() {
                 return $localStorage.teams;
             }
 
             function getTeam(id) {
-                console.log('Fetching Team with id :'+id);
+                console.log('Fetching Team with id :' + id);
                 var deferred = $q.defer();
                 $http.get(urls.TEAM_SERVICE_API + id)
                     .then(
                         function (response) {
-                            console.log('Fetched successfully Team with id :'+id);
+                            console.log('Fetched successfully Team with id :' + id);
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while loading team with id :'+id);
+                            console.error('Error while loading team with id :' + id);
                             deferred.reject(errResponse);
                         }
                     );
@@ -64,15 +64,15 @@ angular.module('mzpsApp').factory('TeamService',
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                           console.error('Error while creating Team : '+ errResponse.data.errorMessage);
-                           deferred.reject(errResponse);
+                            console.error('Error while creating Team : ' + errResponse.data.errorMessage);
+                            deferred.reject(errResponse);
                         }
                     );
                 return deferred.promise;
             }
 
             function updateTeam(team, id) {
-                console.log('Updating Team with id '+id);
+                console.log('Updating Team with id ' + id);
                 var deferred = $q.defer();
                 $http.put(urls.TEAM_SERVICE_API + id, team)
                     .then(
@@ -81,7 +81,7 @@ angular.module('mzpsApp').factory('TeamService',
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while updating Team with id :'+id);
+                            console.error('Error while updating Team with id :' + id);
                             deferred.reject(errResponse);
                         }
                     );
@@ -89,7 +89,7 @@ angular.module('mzpsApp').factory('TeamService',
             }
 
             function removeTeam(id) {
-                console.log('Removing Team with id '+id);
+                console.log('Removing Team with id ' + id);
                 var deferred = $q.defer();
                 $http.delete(urls.TEAM_SERVICE_API + id)
                     .then(
@@ -98,7 +98,7 @@ angular.module('mzpsApp').factory('TeamService',
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while removing Team with id :'+id);
+                            console.error('Error while removing Team with id :' + id);
                             deferred.reject(errResponse);
                         }
                     );
