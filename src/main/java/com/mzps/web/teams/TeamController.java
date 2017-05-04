@@ -37,6 +37,7 @@ public class TeamController {
 
 	@GetMapping(value = "{category}")
     public ResponseEntity<List<Team>> getCategory(@PathVariable("category") String category){
+		List<Team> teams = teamService.findByCategory(category);
         //TODO: implement
         return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
     }

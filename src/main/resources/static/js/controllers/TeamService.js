@@ -40,7 +40,7 @@ angular.module('mzpsApp').factory('TeamService',
             function getCategory(category) {
                 console.log('Fetching category: ' + category);
                 var deferred = $q.defer();
-                $http.get(urls.TEAM_SERVICE_API + )
+                $http.get(urls.TEAM_SERVICE_API + category)
 
             }
 

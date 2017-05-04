@@ -1,25 +1,26 @@
 package com.mzps.model;
 
+import com.mzps.model.enums.TeamCategory;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="TEAMS")
+@Table(name="Teams")
 public class Team implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Long id;
 
 	@NotEmpty
 	@Column(name="NAME", nullable=false)
 	private String name;
 
-//	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	@Column(name="CATEGORY", nullable=false)
-	private String category;
+	private TeamCategory category;
 
 	@Column(name="COACH", nullable=false)
 	private String coach;
@@ -43,11 +44,11 @@ public class Team implements Serializable{
 		this.name = name;
 	}
 
-	public String getCategory() {
+	public TeamCategory getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(TeamCategory category) {
 		this.category = category;
 	}
 
