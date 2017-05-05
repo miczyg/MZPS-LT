@@ -16,10 +16,10 @@ public class Tourney implements Serializable {
     private Long id;
 
     @NotEmpty
-    @Column(name="NAME", nullable=false)
+    @Column(name="Name", nullable=false)
     private String name;
 
-    @Column(name="DATE", nullable=false)
+    @Column(name="Date", nullable=false)
     private DateTime date;
 
     public Long getId() {

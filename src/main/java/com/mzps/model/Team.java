@@ -15,18 +15,25 @@ public class Team implements Serializable{
 	private Long id;
 
 	@NotEmpty
-	@Column(name="NAME", nullable=false)
+	@Column(name="Name", nullable=false)
 	private String name;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name="CATEGORY", nullable=false)
+	@Column(name="Category", nullable=false)
 	private TeamCategory category;
 
-	@Column(name="COACH", nullable=false)
+	@Column(name="Coach", nullable=false)
 	private String coach;
 
-    @Column(name="PHONE", nullable=false)
+    @Column(name="Phone", nullable=false)
     private String phone;
+
+	@Column(name="TotalSeasonPoints", nullable=false)
+	private int totalSeasonPoints;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="League_ID")
+	private League league;
 
     public Long getId() {
 		return id;
@@ -52,7 +59,6 @@ public class Team implements Serializable{
 		this.category = category;
 	}
 
-
     public String getPhone() {
         return phone;
     }
@@ -68,6 +74,37 @@ public class Team implements Serializable{
     public String getCoach() {
         return coach;
     }
+
+	public int getTotalSeasonPoints() {
+		return totalSeasonPoints;
+	}
+
+	public void setTotalSeasonPoints(int totalSeasonPoints) {
+		this.totalSeasonPoints = totalSeasonPoints;
+	}
+
+	public League getLeague() {
+		return league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
+
+		//maintaining ManyToOne relationship
+		if (!league.getTeams().contains(this)) {
+			league.getTeams().add(this);
+		}
+	}
+
+	public League removeLeague() {
+		League league = this.league;
+    	if(league.getTeams().contains(this)) {
+			league.getTeams().remove(this);
+			this.league = null;
+		}
+
+		return league;
+	}
 
 	@Override
 	public boolean equals(Object o) {
