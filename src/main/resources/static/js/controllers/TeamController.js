@@ -3,30 +3,29 @@
 angular.module('mzpsApp').controller('TeamController',
     ['TeamService', '$scope',  function( TeamService, $scope) {
 
-        var self = this;
-        self.team = {};
-        self.teams=[];
+        this.team = {};
+        this.teams=[];
 
-        self.submit = submit;
-        self.getAllTeams = getAllTeams;
-        self.createTeam = createTeam;
-        self.updateTeam = updateTeam;
-        self.removeTeam = removeTeam;
-        self.editTeam = editTeam;
-        self.reset = reset;
+        this.submit = submit;
+        this.getAllTeams = getAllTeams;
+        this.createTeam = createTeam;
+        this.updateTeam = updateTeam;
+        this.removeTeam = removeTeam;
+        this.editTeam = editTeam;
+        this.reset = reset;
 
-        self.successMessage = '';
-        self.errorMessage = '';
-        self.done = false;
+        this.successMessage = '';
+        this.errorMessage = '';
+        this.done = false;
 
         function submit() {
             console.log('Submitting');
-            if (self.team.id === undefined || self.team.id === null) {
-                console.log('Saving New Team', self.team);
-                createTeam(self.team);
+            if (this.team.id === undefined || this.team.id === null) {
+                console.log('Saving New Team', this.team);
+                createTeam(this.team);
             } else {
-                updateTeam(self.team, self.team.id);
-                console.log('Team updated with id ', self.team.id);
+                updateTeam(this.team, this.team.id);
+                console.log('Team updated with id ', this.team.id);
             }
         }
 
@@ -36,16 +35,16 @@ angular.module('mzpsApp').controller('TeamController',
                 .then(
                     function (response) {
                         console.log('Team created successfully');
-                        self.successMessage = 'Team created successfully';
-                        self.errorMessage='';
-                        self.done = true;
-                        self.team={};
+                        this.successMessage = 'Team created successfully';
+                        this.errorMessage='';
+                        this.done = true;
+                        this.team={};
                         $scope.myForm.$setPristine();
                     },
                     function (errResponse) {
                         console.error('Error while creating Team');
-                        self.errorMessage = 'Error while creating Team: ' + errResponse.data.errorMessage;
-                        self.successMessage='';
+                        this.errorMessage = 'Error while creating Team: ' + errResponse.data.errorMessage;
+                        this.successMessage='';
                     }
                 );
         }
@@ -57,15 +56,15 @@ angular.module('mzpsApp').controller('TeamController',
                 .then(
                     function (response){
                         console.log('Team updated successfully');
-                        self.successMessage='Team updated successfully';
-                        self.errorMessage='';
-                        self.done = true;
+                        this.successMessage='Team updated successfully';
+                        this.errorMessage='';
+                        this.done = true;
                         $scope.myForm.$setPristine();
                     },
                     function(errResponse){
                         console.error('Error while updating Team');
-                        self.errorMessage='Error while updating Team '+errResponse.data;
-                        self.successMessage='';
+                        this.errorMessage='Error while updating Team '+errResponse.data;
+                        this.successMessage='';
                     }
                 );
         }
@@ -94,11 +93,11 @@ angular.module('mzpsApp').controller('TeamController',
         }
 
         function editTeam(id) {
-            self.successMessage='';
-            self.errorMessage='';
+            this.successMessage='';
+            this.errorMessage='';
             TeamService.getTeam(id).then(
                 function (team) {
-                    self.team = team;
+                    this.team = team;
                 },
                 function (errResponse) {
                     console.error('Error while removing team ' + id + ', Error :' + errResponse.data);
@@ -106,9 +105,9 @@ angular.module('mzpsApp').controller('TeamController',
             );
         }
         function reset(){
-            self.successMessage='';
-            self.errorMessage='';
-            self.team={};
+            this.successMessage='';
+            this.errorMessage='';
+            this.team={};
             $scope.myForm.$setPristine(); //reset Form
         }
     }
