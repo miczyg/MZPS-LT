@@ -1,10 +1,15 @@
 <div class="panel">
-    <ul class="nav nav-pills">
-        <li role="presentation" class="active"><a ui-sref="all">Wszystkie</a></li>
-        <li role="presentation"><a ui-sref="male16">Młodzicy</a></li>
-        <li role="presentation"><a ui-sref="female18">Młodziczki</a></li>
-        <li role="presentation"><a ui-sref="male16">Kadeci</a></li>
-        <li role="presentation"><a ui-sref="female18">Kadetki</a></li>
+    <ul class="nav nav-pills" role = "tablist">
+        <li role="presentation" class="active" ng-class="{active:ctrl.isSelected(1)}">
+            <a role="tab" ui-sref="teams" ng-click="ctrl.select(1)">Wszystkie</a></li>
+        <li role="presentation" ng-class="{active:ctrl.isSelected(2)}">
+            <a role="tab" ng-click="ctrl.select(2)" >Młodzicy</a></li>
+        <li role="presentation" ng-class="{active:ctrl.isSelected(3)}">
+            <a role="tab" data-toggle="tab" ng-click="ctrl.select(3)"">Młodziczki</a></li>
+        <li role="presentation" ng-class="{active:ctrl.isSelected(4)}">
+            <a role="tab" ng-click="ctrl.select(4)">Kadeci</a></li>
+        <li role="presentation" ng-class="{active:ctrl.isSelected(5)}">
+            <a role="tab" ng-click="ctrl.select(5)">Kadetki</a></li>
     </ul>
 </div>
 <div class="panel panel-default">
@@ -25,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="u in ctrl.getAllTeams()">
+                <tr ng-repeat="u in ctrl.getAllTeams() | filter:ctrl.categoryFilter:ctrl.strictFilter">
                     <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
                     <td>{{u.category}}</td>

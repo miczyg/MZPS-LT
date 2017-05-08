@@ -35,13 +35,6 @@ public class TeamController {
 		return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "{category}")
-    public ResponseEntity<List<Team>> getCategory(@PathVariable("category") String category){
-		List<Team> teams = teamService.findByCategory(category);
-        //TODO: implement
-        return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
-    }
-
 	// -------------------Retrieve Single Team------------------------------------------
 
 	@GetMapping(value = "/{id}")
