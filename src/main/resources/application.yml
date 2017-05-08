@@ -1,0 +1,54 @@
+spring:
+  mobile:
+    devicedelegatingviewresolver:
+      enabled: true
+    sitepreference:
+      enabled: true
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    suffix: .ftl
+  jpa:
+    database-platform: MYSQL
+  profiles:
+    active: development   #IMPORTANT! change to 'production' for production env database MySQL, and to 'development' for embedded h2 database
+
+---
+server:
+  port: 8080
+  contextPath: /
+---
+spring:
+  profiles: production
+datasource:
+  mzps:
+    url: jdbc:mysql://localhost:3306/mzps
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+    defaultSchema:
+    maxPoolSize: 20
+    hibernate:
+      hbm2ddl.method: update #unsafe for production env, better to write your own DML queries
+      ddl-auto: update #also unsafe
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQLDialect
+---
+
+spring:
+  profiles: development
+datasource:
+  mzps:
+    url: jdbc:h2:mem:testdbl;Mode=MySQL
+    driverClassName: org.h2.Driver
+    defaultSchema:
+    hibernate:
+      hbm2ddl.method: update
+      ddl-auto: update
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQLDialect
+
+
+
