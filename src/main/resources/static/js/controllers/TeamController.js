@@ -17,6 +17,30 @@ angular.module('mzpsApp').controller('TeamController',
         this.successMessage = '';
         this.errorMessage = '';
         this.done = false;
+        this.tab = 1;
+        this.categoryFilter = '';
+        this.strictFilter = false;
+
+        this.select = function(setTab) {
+            this.tab = setTab;
+            this.strictFilter = true;
+            if (setTab === 2)
+                this.categoryFilter = "Mlodzik";
+            else if (setTab === 3)
+                this.categoryFilter = "Mlodziczka";
+            else if (setTab === 4)
+                this.categoryFilter = "Kadet";
+            else if (setTab === 5)
+                this.categoryFilter = "Kadetka";
+            else {
+                this.strictFilter = false;
+                this.categoryFilter = "";
+            }
+            };
+
+        this.isSelected = function(checkTab) {
+            return (this.tab === checkTab);
+        };
 
         function submit() {
             console.log('Submitting');
