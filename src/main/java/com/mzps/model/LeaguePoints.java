@@ -13,7 +13,7 @@ public class LeaguePoints {
     private Long id;
 
     @NotEmpty
-    @Column(name="Place", nullable=false)
+    @Column(name="Place", unique = true, nullable=false)
     private int place;
 
     @NotEmpty
