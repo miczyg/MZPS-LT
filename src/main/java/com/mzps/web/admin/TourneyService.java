@@ -15,4 +15,6 @@ public interface TourneyService {
     List<Tourney> findAllTourneys();
 
     void deleteTourneyById(Long id);
+
+    boolean tourneyExists(Tourney tourney);
 }

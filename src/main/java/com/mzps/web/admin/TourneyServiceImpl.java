@@ -4,6 +4,7 @@ package com.mzps.web.admin;
 import com.mzps.model.Tourney;
 import com.mzps.repository.MatchResultRepository;
 import com.mzps.repository.TourneyRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +42,10 @@ public class TourneyServiceImpl implements TourneyService {
     @Override
     public void deleteTourneyById(Long id) {
         tourneyRepository.delete(id);
+    }
+
+    @Override
+    public boolean tourneyExists(Tourney tourney) {
+        return tourneyRepository.findByNameAndDate(tourney.getName(), DateTime.parse(tourney.getDate())) != null;
     }
 }

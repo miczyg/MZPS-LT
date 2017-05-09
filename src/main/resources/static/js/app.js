@@ -29,10 +29,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
                 controller: 'TourneysController',
                 controllerAs: 'ctrl',
                 resolve: {
-                    matchResults: function ($q, TourneysService) {
+                    matchResults: function ($q, MatchResultService) {
                         console.log('Load tourneys');
                         var deferred = $q.defer();
-                        TourneysService.loadAllMatchResults().then(deferred.resolve, deferred.resolve);
+                        MatchResultService.loadAllMatchResults().then(deferred.resolve, deferred.resolve);
                         return deferred.promise;
                     }
                 }
@@ -57,10 +57,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
                 controller: 'AdminController',
                 controllerAs: 'ctrl',
                 resolve: {
-                    tourneys: function ($q, AdminService) {
+                    tourneys: function ($q, TourneyService) {
                         console.log('Load all tourneys');
                         var deferred = $q.defer();
-                        AdminService.loadAllTourneys().then(deferred.resolve, deferred.resolve);
+                        TourneyService.loadAllTourneys().then(deferred.resolve, deferred.resolve);
                         return deferred.promise;
                     }
                 }

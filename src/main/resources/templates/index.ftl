@@ -22,14 +22,18 @@
     <script src="js/lib/angular-ui-router.min.js"></script>
     <script src="js/lib/localforage.min.js"></script>
     <script src="js/lib/ngStorage.min.js"></script>
+
     <script src="js/app.js"></script>
-    <script src="js/controllers/TeamService.js"></script>
+
+    <script src="js/services/TeamService.js"></script>
+    <script src="js/services/MatchResultService.js"></script>
+    <script src="js/services/TourneyService.js"></script>
+
     <script src="js/controllers/TeamController.js"></script>
     <script src="js/controllers/StandingsController.js"></script>
-    <script src="js/controllers/TourneysService.js"></script>
     <script src="js/controllers/TourneysController.js"></script>
-    <script src="js/controllers/AdminService.js"></script>
     <script src="js/controllers/AdminController.js"></script>
+
     <script src="js/utils/SidenavControls.js"></script>
 </head>
 

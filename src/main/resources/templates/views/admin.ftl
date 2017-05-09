@@ -34,21 +34,19 @@
 	</div>
 </div>
 
-<#--ONLY IF ADMIN-->
 <div class="panel panel-default">
-    <!-- Default panel contents -->
     <div class="panel-heading"><span class="lead">Nowy turniej</span></div>
     <div class="panel-body">
         <div class="formcontainer">
             <div class="alert alert-success" role="alert" ng-if="ctrl.successMessage">{{ctrl.successMessage}}</div>
             <div class="alert alert-danger" role="alert" ng-if="ctrl.errorMessage">{{ctrl.errorMessage}}</div>
-            <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
-                <input type="hidden" ng-model="ctrl.team.id"/>
+            <form ng-submit="ctrl.submit()" name="tourneyForm" class="form-horizontal">
+                <input type="hidden" ng-model="ctrl.tourney.id"/>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="uname">Nazwa zespołu</label>
+                        <label class="col-md-2 control-label" for="tourneyName">Nazwa turnieju</label>
                         <div class="col-md-7">
-                            <input type="text" ng-model="ctrl.team.name" id="uname"
+                            <input type="text" ng-model="ctrl.tourney.name" id="tourneyName"
                                    class="username form-control input-sm" placeholder="Enter team name" required
                                    ng-minlength="3"/>
                         </div>
@@ -57,46 +55,19 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="category">Kategoria</label>
+                        <label class="col-md-2 control-label" for="tourneyDate">Data</label>
                         <div class="col-md-7">
-                            <select ng-model="ctrl.team.category" id="category" required">
-                            <option>Mlodzik</option>
-                            <option>Mlodziczka</option>
-                            <option>Kadet</option>
-                            <option>Kadetka</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="sex">Trener</label>
-                        <div class="col-md-7">
-                            <input type="text" ng-model="ctrl.team.coach" id="coach"
-                                   class="form-control input-sm" placeholder="Enter coach name" required
-                                   ng-minlength="5"/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="contact">Telefon kontaktowy</label>
-                        <div class="col-md-7">
-                            <input type="number" ng-model="ctrl.team.phone" id="phone"
-                                   class="form-control input-sm" placeholder="Enter contact phone number" required
-                                   ng-minlength="9"/>
+                            <input type="date" ng-model="ctrl.tourney.date" id="tourneyDate" required />
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-actions floatRight">
-                        <input type="submit" value="{{!ctrl.team.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm"
-                               ng-disabled="myForm.$invalid || myForm.$pristine">
+                        <input type="submit" value="{{!ctrl.tourney.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm"
+                               ng-disabled="tourneyForm.$invalid || tourneyForm.$pristine">
                         <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm"
-                                ng-disabled="myForm.$pristine">Reset Form
+                                ng-disabled="tourneyForm.$pristine">Reset Form
                         </button>
                     </div>
                 </div>

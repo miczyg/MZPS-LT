@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mzpsApp').factory('TourneysService',
+angular.module('mzpsApp').factory('MatchResultService',
     ['$localStorage', '$http', '$q', 'urls',
         function ($localStorage, $http, $q, urls) {
             var factory = {

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TourneysController',
-    ['TourneysService', '$scope',
-        function (TourneysService, $scope) {
+    ['MatchResultService', '$scope',
+        function (MatchResultService, $scope) {
 
             this.matchResult = {};
             this.matchResults = [];
@@ -10,7 +10,7 @@ angular.module('mzpsApp').controller('TourneysController',
             this.getAllMatchResults = getAllMatchResults;
 
             function getAllMatchResults() {
-                return TourneysService.getAllMatchResults();
+                return MatchResultService.getAllMatchResults();
             }
         }
     ]);
