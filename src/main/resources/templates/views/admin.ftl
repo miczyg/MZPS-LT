@@ -47,8 +47,22 @@
                         <label class="col-md-2 control-label" for="tourneyName">Nazwa turnieju</label>
                         <div class="col-md-7">
                             <input type="text" ng-model="ctrl.tourney.name" id="tourneyName"
-                                   class="username form-control input-sm" placeholder="Enter team name" required
+                                   class="username form-control input-sm" placeholder="Enter tourney name" required
                                    ng-minlength="3"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="category">Kategoria</label>
+                        <div class="col-md-7">
+                            <select ng-model="ctrl.tourney.category" id="category" required">
+                            <option>Mlodzik</option>
+                            <option>Mlodziczka</option>
+                            <option>Kadet</option>
+                            <option>Kadetka</option>
+                            </select>
                         </div>
                     </div>
                 </div>
