@@ -38,8 +38,8 @@ public class Tourney implements Serializable {
         this.name = name;
     }
 
-    public DateTime getDate() {
-        return date;
+    public String getDate() {
+        return date.toString("dd-MM-yyyy");
     }
 
     public void setDate(DateTime date) {

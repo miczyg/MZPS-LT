@@ -15,7 +15,7 @@ public class Team implements Serializable{
 	private Long id;
 
 	@NotEmpty
-	@Column(name="Name", nullable=false)
+	@Column(name="Name", unique=true, nullable=false)
 	private String name;
 
 	@Enumerated(EnumType.STRING)

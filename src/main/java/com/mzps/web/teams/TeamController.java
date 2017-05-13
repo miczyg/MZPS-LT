@@ -24,9 +24,9 @@ public class TeamController {
 	@Autowired
 	TeamService teamService; //Service which will do all data retrieval/manipulation work
 
-	// -------------------Retrieve All Users---------------------------------------------
+	// -------------------Retrieve All Teams---------------------------------------------
 	@GetMapping(value = "/")
-	public ResponseEntity<List<Team>> listAllUsers() {
+	public ResponseEntity<List<Team>> listAllTeams() {
 		List<Team> teams = teamService.findAllTeams();
 		if (teams.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -38,7 +38,7 @@ public class TeamController {
 	// -------------------Retrieve Single Team------------------------------------------
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getUser(@PathVariable("id") long id) {
+	public ResponseEntity<?> getTeam(@PathVariable("id") long id) {
 		logger.info("Fetching Team with id {}", id);
 		Team team = teamService.findById(id);
 		if (team == null) {
@@ -52,7 +52,7 @@ public class TeamController {
 	// -------------------Create a Team-------------------------------------------
 
 	@PostMapping(value = "/")
-	public ResponseEntity<?> createUser(@RequestBody Team team, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> createTeam(@RequestBody Team team, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Team : {}", team);
 
 		if (teamService.isTeamExist(team)) {
@@ -70,7 +70,7 @@ public class TeamController {
 	// ------------------- Update a Team ------------------------------------------------
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody Team team) {
+	public ResponseEntity<?> updateTeam(@PathVariable("id") long id, @RequestBody Team team) {
 		logger.info("Updating Team with id {}", id);
 
 		Team currentTeam = teamService.findById(id);
@@ -93,7 +93,7 @@ public class TeamController {
 	// ------------------- Delete a Team-----------------------------------------
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
+	public ResponseEntity<?> deleteTeam(@PathVariable("id") long id) {
 		logger.info("Fetching & Deleting Team with id {}", id);
 
 		Team team = teamService.findById(id);
@@ -106,11 +106,11 @@ public class TeamController {
 		return new ResponseEntity<Team>(HttpStatus.NO_CONTENT);
 	}
 
-	// ------------------- Delete All Users-----------------------------
+	// ------------------- Delete All Teams-----------------------------
 
 	@DeleteMapping(value = "/")
-	public ResponseEntity<Team> deleteAllUsers() {
-		logger.info("Deleting All Users");
+	public ResponseEntity<Team> deleteAllTeams() {
+		logger.info("Deleting All Teams");
 
 		teamService.deleteAllTeams();
 		return new ResponseEntity<Team>(HttpStatus.NO_CONTENT);

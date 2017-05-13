@@ -65,9 +65,9 @@
                 <input type="hidden" ng-model="ctrl.team.id"/>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="uname">Nazwa zespołu</label>
+                        <label class="col-md-2 control-label" for="teamName">Nazwa zespołu</label>
                         <div class="col-md-7">
-                            <input type="text" ng-model="ctrl.team.name" id="uname"
+                            <input type="text" ng-model="ctrl.team.name" id="teamName"
                                    class="username form-control input-sm" placeholder="Enter team name" required
                                    ng-minlength="3"/>
                         </div>
@@ -90,7 +90,7 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="sex">Trener</label>
+                        <label class="col-md-2 control-label" for="coach">Trener</label>
                         <div class="col-md-7">
                             <input type="text" ng-model="ctrl.team.coach" id="coach"
                                    class="form-control input-sm" placeholder="Enter coach name" required
@@ -101,7 +101,7 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label" for="contact">Telefon kontaktowy</label>
+                        <label class="col-md-2 control-label" for="phone">Telefon kontaktowy</label>
                         <div class="col-md-7">
                             <input type="number" ng-model="ctrl.team.phone" id="phone"
                                    class="form-control input-sm" placeholder="Enter contact phone number" required
