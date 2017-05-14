@@ -1,13 +1,4 @@
 spring:
-  mobile:
-    devicedelegatingviewresolver:
-      enabled: true
-    sitepreference:
-      enabled: true
-  thymeleaf:
-    mode: LEGACYHTML5
-    cache: false
-    suffix: .ftl
   jpa:
     database-platform: MYSQL
   profiles:
