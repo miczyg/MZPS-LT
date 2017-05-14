@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('mzpsApp').factory('TeamService',
     ['$localStorage', '$http', '$q', 'urls',
         function ($localStorage, $http, $q, urls) {
