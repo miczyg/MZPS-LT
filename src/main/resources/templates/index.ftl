@@ -17,16 +17,23 @@
     <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="css/form-signin.css">
-    <link rel="stylesheet" type="text/css" href="css/sidenav.css">
 
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/angular-ui-router.min.js"></script>
     <script src="js/lib/localforage.min.js"></script>
     <script src="js/lib/ngStorage.min.js"></script>
+
     <script src="js/app.js"></script>
-    <script src="js/controllers/TeamService.js"></script>
+
+    <script src="js/services/TeamService.js"></script>
+    <script src="js/services/MatchResultService.js"></script>
+    <script src="js/services/TourneyService.js"></script>
+
     <script src="js/controllers/TeamController.js"></script>
     <script src="js/controllers/StandingsController.js"></script>
+    <script src="js/controllers/TourneysController.js"></script>
+    <script src="js/controllers/AdminController.js"></script>
+
     <script src="js/utils/SidenavControls.js"></script>
 </head>
 
@@ -50,6 +57,7 @@
                 <li><a ui-sref="standings">Tabela</a></li>
                 <li><a ui-sref="tourneys">Turnieje</a></li>
                 <li><a ui-sref="teams">Zespoły</a></li>
+                <li><a ui-sref="admin">Administracja</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
