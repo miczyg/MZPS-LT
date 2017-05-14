@@ -1,5 +1,6 @@
 package com.mzps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,8 +26,9 @@ public class Tourney implements Serializable {
     @Column(name="Date", nullable=false)
     private DateTime date;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="Category_ID", nullable=false)
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="Category_ID")
+    @JsonBackReference
     private Category category;
 
     @OneToOne(cascade=CascadeType.ALL)
@@ -67,10 +69,26 @@ public class Tourney implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+
+        //maintaining ManyToOne relationship
+        if (!category.getTourneys().contains(this)) {
+            category.getTourneys().add(this);
+        }
+    }
+
+    public Category removeCategory() {
+        Category category = this.category;
+        if(category.getTourneys().contains(this)) {
+            category.getTourneys().remove(this);
+            this.category = null;
+        }
+
+        return category;
     }
 
     @Override
     public String toString() {
-        return "Tourney [id=" + id + ", name=" + name + ", date=" + date + "]";
+        return "Tourney [id=" + id + ", name=" + name + ", date=" + date +
+                ", category=" + category + ", address=" + address +"]";
     }
 }

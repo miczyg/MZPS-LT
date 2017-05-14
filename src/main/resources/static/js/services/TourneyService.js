@@ -37,7 +37,6 @@ angular.module('mzpsApp').factory('TourneyService',
             function createTourney(tourney) {
                 console.log('Creating Tourney');
                 var deferred = $q.defer();
-                //TODO: convert date string to json
                 $http.post(urls.ADMIN_SERVICE_API, tourney)
                     .then(
                         function (response) {

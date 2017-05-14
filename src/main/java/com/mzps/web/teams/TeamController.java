@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mzps.util.CustomErrorType;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @RestController
 @RequestMapping("/teams")
@@ -55,8 +54,9 @@ public class TeamController {
 	public ResponseEntity<?> createTeam(@RequestBody Team team, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Team : {}", team);
 
-		if (teamService.isTeamExist(team)) {
-			logger.error("Unable to create. A Team with name {} already exist", team.getName());
+		if (teamService.teamExists(team)) {
+			logger.error("Unable to create. A Team with name {} and category {} already exist",
+					team.getName(), team.getCategoryName());
 			return new ResponseEntity(new CustomErrorType("Unable to create. A Team with name " +
 			team.getName() + " already exist."),HttpStatus.CONFLICT);
 		}
