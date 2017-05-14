@@ -52,4 +52,14 @@ public class LeaguePoints {
             league.getLeaguePoints().add(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "LeaguePoints[" +
+                "id=" + id +
+                ", place=" + place +
+                ", points=" + points +
+                ", league=" + league +
+                ']';
+    }
 }

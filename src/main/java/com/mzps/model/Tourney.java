@@ -29,7 +29,7 @@ public class Tourney implements Serializable {
     @JoinColumn(name="Category_ID", nullable=false)
     private Category category;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="Address_ID")
     private Address address;
 

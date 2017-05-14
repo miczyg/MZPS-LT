@@ -47,4 +47,15 @@ public class Address {
     public void setHallName(String hallName) {
         this.hallName = hallName;
     }
+
+
+    @Override
+    public String toString() {
+        return "Address[" +
+                "id=" + id +
+                ", cityName='" + cityName + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", hallName='" + hallName + '\'' +
+                ']';
+    }
 }

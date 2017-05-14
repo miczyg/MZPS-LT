@@ -62,4 +62,14 @@ public class League {
             leaguePoints.setLeague(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "League[" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", teams=" + teams +
+                ", leaguePoints=" + leaguePoints +
+                ']';
+    }
 }
