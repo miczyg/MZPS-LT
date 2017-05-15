@@ -67,6 +67,10 @@ public class Tourney implements Serializable {
         return category;
     }
 
+    public String getCategoryName() {
+        return this.category.getCategoryName().name();
+    }
+
     public void setCategory(Category category) {
         this.category = category;
 
@@ -84,6 +88,14 @@ public class Tourney implements Serializable {
         }
 
         return category;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

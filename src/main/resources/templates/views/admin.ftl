@@ -8,7 +8,9 @@
             	<tr>
                 	<th></th>
                 	<th>Nazwa turnieju</th>
+                    <th>Kategoria</th>
                 	<th>Data</th>
+                    <th>Adres</th>
                 	<th width="100"></th>
                 	<th width="100"></th>
 				</tr>
@@ -17,7 +19,14 @@
                 <tr ng-repeat="u in ctrl.getAllTourneys()">
                     <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
+                    <td>{{u.categoryName}}</td>
                     <td>{{u.date}}</td>
+                    <td>{{u.address.cityName}}
+                        <br>
+                        {{u.address.streetName}}
+                        <br>
+                        {{u.address.hallName}}
+                    </td>
                     <td>
                         <button type="button" ng-click="ctrl.editTourney(u.id)" class="btn btn-success custom-width">Edit
                         </button>
@@ -72,6 +81,36 @@
                         <label class="col-md-2 control-label" for="tourneyDate">Data</label>
                         <div class="col-md-7">
                             <input type="date" ng-model="ctrl.tourney.date" id="tourneyDate" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="cityName">Nazwa miasta</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.tourney.address.cityName" id="cityName"
+                                   class="username form-control input-sm" placeholder="Enter city name" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="streetName">Nazwa ulicy</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.tourney.address.streetName" id="streetName"
+                                   class="username form-control input-sm" placeholder="Enter street name" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="hallName">Nazwa hali</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.tourney.address.hallName" id="hallName"
+                                   class="username form-control input-sm" placeholder="Enter hall name" required />
                         </div>
                     </div>
                 </div>

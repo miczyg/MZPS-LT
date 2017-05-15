@@ -27,12 +27,7 @@ public class AdminController {
     @GetMapping(value = "/")
     public ResponseEntity<List<Tourney>> listAllMatchResults() {
         List<Tourney> tourneys = tourneyService.findAllTourneys();
-        //test
-        Tourney tourney = new Tourney();
-        tourney.setName("TestTurniej");
-        tourney.setDate(DateTime.now());
-        tourneys.add(tourney);
-        //endtest
+
         if (tourneys.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
