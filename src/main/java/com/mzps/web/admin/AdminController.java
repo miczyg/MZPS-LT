@@ -1,5 +1,6 @@
 package com.mzps.web.admin;
 
+import com.mzps.model.League;
 import com.mzps.model.Tourney;
 import com.mzps.util.CustomErrorType;
 import org.joda.time.DateTime;
@@ -23,9 +24,12 @@ public class AdminController {
     @Autowired
     TourneyService tourneyService; //Service which will do all data retrieval/manipulation work
 
+    @Autowired
+    LeagueService leagueService;
+
     // -------------------Retrieve All Tourneys---------------------------------------------
     @GetMapping(value = "/")
-    public ResponseEntity<List<Tourney>> listAllMatchResults() {
+    public ResponseEntity<List<Tourney>> listAllTourneys() {
         List<Tourney> tourneys = tourneyService.findAllTourneys();
 
         if (tourneys.isEmpty()) {
@@ -49,6 +53,35 @@ public class AdminController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(tourney.getId()).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+
+    // -------------------Retrieve All Leagues---------------------------------------------
+    @GetMapping(value = "/league/")
+    public ResponseEntity<List<League>> listAllLeagues() {
+        List<League> leagues = leagueService.findAllLeagues();
+
+        if (leagues.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(leagues, HttpStatus.OK);
+    }
+
+    // -------------------Create a League-------------------------------------------
+
+    @PostMapping(value = "/league/")
+    public ResponseEntity<?> createLeague(@RequestBody League league, UriComponentsBuilder ucBuilder) {
+        logger.info("Creating League : {}", league);
+
+        if (leagueService.leagueExists(league)) {
+            logger.error("Unable to create. A League with name {} already exist", league.getName());
+            return new ResponseEntity(new CustomErrorType("Unable to create. A Tourney with name " +
+                    league.getName() + " already exist."),HttpStatus.CONFLICT);
+        }
+        leagueService.saveLeague(league);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(league.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 }

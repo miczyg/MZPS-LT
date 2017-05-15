@@ -28,6 +28,7 @@
     <script src="js/services/TeamService.js"></script>
     <script src="js/services/MatchResultService.js"></script>
     <script src="js/services/TourneyService.js"></script>
+    <script src="js/services/LeagueService.js"></script>
 
     <script src="js/controllers/TeamController.js"></script>
     <script src="js/controllers/StandingsController.js"></script>
