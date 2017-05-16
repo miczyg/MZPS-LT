@@ -1,5 +1,6 @@
 package com.mzps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -12,16 +13,17 @@ public class LeaguePoints {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty
-    @Column(name="Place", unique = true, nullable=false)
-    private int place;
 
-    @NotEmpty
+    @Column(name="Place", nullable=false)
+    private Integer place;
+
+
     @Column(name="Points", nullable=false)
-    private int points;
+    private Integer points;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="League_ID")
+    @JsonBackReference
     private League league;
 
     public int getPlace() {
@@ -51,5 +53,15 @@ public class LeaguePoints {
         if (!league.getLeaguePoints().contains(this)) {
             league.getLeaguePoints().add(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "LeaguePoints[" +
+                "id=" + id +
+                ", place=" + place +
+                ", points=" + points +
+                ", league=" + league +
+                ']';
     }
 }

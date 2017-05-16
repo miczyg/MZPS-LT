@@ -35,7 +35,7 @@
                 <tr ng-repeat="u in ctrl.getAllTeams() | filter:ctrl.categoryFilter:ctrl.strictFilter">
                     <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
-                    <td>{{u.category.categoryName}}</td>
+                    <td>{{u.categoryName}}</td>
                     <td>{{u.coach}}</td>
                     <td>{{u.phone}}</td>
                 <#--SHOW ONLY IF ADMIN-->

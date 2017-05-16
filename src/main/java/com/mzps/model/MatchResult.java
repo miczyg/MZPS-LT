@@ -1,11 +1,14 @@
 package com.mzps.model;
 
 
+import org.hibernate.annotations.OnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="MatchResults")
@@ -15,25 +18,18 @@ public class MatchResult implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty
-    @Column(name="Team1", nullable = false)
-    private Team team1;
+    @OneToMany
+    @Size(min=2, max=2)
+    @JoinColumn(name="Team_ID")
+    private List<Team> matchTeams;
 
-    @NotEmpty
-    @Column(name="Team2", nullable = false)
-    private Team team2;
-
-    @NotEmpty
-    @Column(name="Tourney", nullable = false)
+    @OneToOne
+    @JoinColumn(name="Tourney_ID", nullable = false)
     private Tourney tourney;
 
-    @NotNull
-    @Column(name="Team1Result", nullable = false)
-    private TeamResult team1Result;
-
-    @NotNull
-    @Column(name="Team2Result", nullable = false)
-    private TeamResult team2Result;
+    @OneToMany
+    @Size(min=2, max=2)
+    private List<TeamResult> teamResults;
 
     public Long getId() {
         return id;
@@ -43,20 +39,12 @@ public class MatchResult implements Serializable {
         this.id = id;
     }
 
-    public Team getTeam1() {
-        return team1;
+    public List<Team> getMatchTeams() {
+        return matchTeams;
     }
 
-    public void setTeam1(Team team1) {
-        this.team1 = team1;
-    }
-
-    public Team getTeam2() {
-        return team2;
-    }
-
-    public void setTeam2(Team team2) {
-        this.team2 = team2;
+    public void setMatchTeams(List<Team> matchTeams) {
+        this.matchTeams = matchTeams;
     }
 
     public Tourney getTourney() {
@@ -67,26 +55,18 @@ public class MatchResult implements Serializable {
         this.tourney = tourney;
     }
 
-    public TeamResult getTeam1Result() {
-        return team1Result;
+    public List<TeamResult> getTeamResults() {
+        return teamResults;
     }
 
-    public void setTeam1Result(TeamResult team1Result) {
-        this.team1Result = team1Result;
-    }
-
-    public TeamResult getTeam2Result() {
-        return team2Result;
-    }
-
-    public void setTeam2Result(TeamResult team2Result) {
-        this.team2Result = team2Result;
+    public void setTeamResults(List<TeamResult> teamResults) {
+        this.teamResults = teamResults;
     }
 
     @Override
     public String toString() {
-        return "TeamResult [id=" + id + ", team1=" + team1 + ", team2=" + team2
-                + ", tourney=" + tourney + ", team1Result=" + team1Result
-                + ", team2Result=" + team2Result + "]";
+        return "TeamResult [id=" + id + ", team1=" + matchTeams.get(0) + ", team2=" + matchTeams.get(1)
+                + ", tourney=" + tourney + ", team1Result=" + teamResults.get(0)
+                + ", team2Result=" + teamResults.get(1) + "]";
     }
 }

@@ -2,7 +2,6 @@ package com.mzps.web.admin;
 
 
 import com.mzps.model.Tourney;
-import com.mzps.repository.MatchResultRepository;
 import com.mzps.repository.TourneyRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ public class TourneyServiceImpl implements TourneyService {
 
     @Autowired
     private TourneyRepository tourneyRepository;
-
 
     @Override
     public Tourney findById(Long id) {
