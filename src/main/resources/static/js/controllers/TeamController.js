@@ -123,6 +123,8 @@ angular.module('mzpsApp').controller('TeamController',
             this.errorMessage='';
             TeamService.getTeam(id).then(
                 function (team) {
+                    team.category = team.categoryName;
+                    team.phone = Number(team.phone);
                     ctrl.team = team;
                 },
                 function (errResponse) {
