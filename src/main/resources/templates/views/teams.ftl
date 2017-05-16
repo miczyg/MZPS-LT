@@ -1,17 +1,19 @@
+
+
+<#--Specify allowed categories-->
+<#assign categories_list = ["Mlodzik", "Mlodziczka", "Kadetka"] />
+
 <div class="panel">
     <ul class="nav nav-pills" role = "tablist">
-        <li role="presentation" class="active" ng-class="{active:ctrl.isSelected(1)}">
-            <a role="tab" ui-sref="teams" ng-click="ctrl.select(1)">Wszystkie</a></li>
-        <li role="presentation" ng-class="{active:ctrl.isSelected(2)}">
-            <a role="tab" ng-click="ctrl.select(2)" >Młodzicy</a></li>
-        <li role="presentation" ng-class="{active:ctrl.isSelected(3)}">
-            <a role="tab" data-toggle="tab" ng-click="ctrl.select(3)"">Młodziczki</a></li>
-        <li role="presentation" ng-class="{active:ctrl.isSelected(4)}">
-            <a role="tab" ng-click="ctrl.select(4)">Kadeci</a></li>
-        <li role="presentation" ng-class="{active:ctrl.isSelected(5)}">
-            <a role="tab" ng-click="ctrl.select(5)">Kadetki</a></li>
+        <li role="presentation" ng-class="{active:ctrl.isSelected('')}">
+            <a role="tab" ng-click="ctrl.selectCategory('')">Wszystkie</a></li>
+    <#list categories_list as category>
+        <li role="presentation" ng-class="{active:ctrl.isSelected('${category}')}">
+            <a role="tab" ng-click="ctrl.selectCategory('${category}')">${category}</a></li>
+    </#list>
     </ul>
 </div>
+
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><span class="lead">Lista Zespołów </span></div>
@@ -38,12 +40,12 @@
                     <td>{{u.phone}}</td>
                 <#--SHOW ONLY IF ADMIN-->
                     <td>
-                        <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edit
+                        <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edytuj
                         </button>
                     </td>
                     <td>
                         <button type="button" ng-click="ctrl.removeTeam(u.id)" class="btn btn-danger custom-width">
-                            Remove
+                            Usuń
                         </button>
                     </td>
                 </tr>
@@ -78,11 +80,11 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="category">Kategoria</label>
                         <div class="col-md-7">
-                            <select ng-model="ctrl.team.category" id="category" required">
-                            <option>Mlodzik</option>
-                            <option>Mlodziczka</option>
-                            <option>Kadet</option>
-                            <option>Kadetka</option>
+                            <select class="form-control" ng-model="ctrl.team.category" id="category" required">
+                            <option disabled selected value style="display: none">Wybierz kategorię </option>
+                        <#list categories_list as category>
+                            <option>${category}</option>
+                        </#list>
                             </select>
                         </div>
                     </div>
