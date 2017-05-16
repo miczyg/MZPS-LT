@@ -23,6 +23,7 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public void saveLeague(League league) {
+        league.getLeaguePoints().forEach( leaguePoints -> leaguePoints.setLeague(league));
         leagueRepository.save(league);
     }
 

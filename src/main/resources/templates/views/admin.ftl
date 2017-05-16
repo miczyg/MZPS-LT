@@ -139,6 +139,7 @@
                 <tr>
                     <th></th>
                     <th>Nazwa ligi</th>
+                    <th>Punkty ligowe</th>
                     <th width="100"></th>
                     <th width="100"></th>
                 </tr>
@@ -148,11 +149,22 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
                     <td>
-                        <button type="button" ng-click="ctrl.editTourney(u.id)" class="btn btn-success custom-width">Edit
+                        <table border="1">
+                            <tr>
+                                <th class="league-points-table">miejsce</th>
+                                <th class="league-points-table">punkty</th>
+                            </tr>
+                            <tr ng-repeat="l in u.leaguePoints">
+                                <td class="league-points-table">{{l.place}}</td>
+                                <td class="league-points-table">{{l.points}}</td>
+                            </tr>
+                        </table>
+                    <td>
+                        <button type="button" ng-click="ctrl.editLeague(u.id)" class="btn btn-success custom-width">Edit
                         </button>
                     </td>
                     <td>
-                        <button type="button" ng-click="ctrl.removeTourney(u.id)" class="btn btn-danger custom-width">
+                        <button type="button" ng-click="ctrl.removeLeague(u.id)" class="btn btn-danger custom-width">
                             Remove
                         </button>
                     </td>
@@ -179,6 +191,23 @@
                             <input type="text" ng-model="ctrl.league.name" id="leagueName"
                                    class="username form-control input-sm" placeholder="Enter league name" required
                                    ng-minlength="3"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="leaguePoints">Punkty ligowe</label>
+                        <br>
+                        <div class="col-md-7">
+                            <fieldset data-ng-repeat="leaguePoint in ctrl.league.leaguePoints">
+                                <label class="col-md-2 control-label" for="leaguePoint">{{leaguePoint.place + " miejsce"}}</label>
+                                <input type="number" ng-model="leaguePoint.points"
+                                       id="leaguePoint" placeholder="Enter league points"
+                                       class="form-control input-sm" style="width: 35%; display: inline;" required>
+                                <button class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeaguePointsChoice()">-</button>
+                            </fieldset>
+                            <button class="btn btn-success" ng-click="ctrl.addNewLeaguePointsChoice()">+</button>
                         </div>
                     </div>
                 </div>

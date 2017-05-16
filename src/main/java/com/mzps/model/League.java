@@ -1,8 +1,10 @@
 package com.mzps.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +22,14 @@ public class League {
     @OneToMany(mappedBy = "league")
     private List<Team> teams;
 
-    @OneToMany(mappedBy = "league")
+
+    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<LeaguePoints> leaguePoints;
+
+    public League() {
+        leaguePoints = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -61,6 +69,10 @@ public class League {
 
     public List<LeaguePoints> getLeaguePoints() {
         return leaguePoints;
+    }
+
+    public void setLeaguePoints(List<LeaguePoints> leaguePoints) {
+        this.leaguePoints = leaguePoints;
     }
 
     public void addLeaguePoints(LeaguePoints leaguePoints) {

@@ -61,10 +61,12 @@ public class Tourney implements Serializable {
         this.date = date;
     }
 
+    //parses ISO format from html form date input
     public void setDate(String date) {
         this.date = DateTime.parse(date, ISODateTimeFormat.dateTime());
     }
 
+    //parses pattern yyyy-MM-dd, from getDate() above
     public void setDateShortFormat(String date) {
         this.date = DateTime.parse(date);
     }

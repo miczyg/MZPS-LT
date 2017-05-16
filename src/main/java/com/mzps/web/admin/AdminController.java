@@ -135,7 +135,7 @@ public class AdminController {
 
         if (leagueService.leagueExists(league)) {
             logger.error("Unable to create. A League with name {} already exist", league.getName());
-            return new ResponseEntity(new CustomErrorType("Unable to create. A Tourney with name " +
+            return new ResponseEntity(new CustomErrorType("Unable to create. A League with name " +
                     league.getName() + " already exist."),HttpStatus.CONFLICT);
         }
         leagueService.saveLeague(league);

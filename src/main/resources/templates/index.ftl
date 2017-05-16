@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="css/form-signin.css">
+    <link rel="stylesheet" type="text/css" href="css/league-list.css">
 
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/angular-ui-router.min.js"></script>

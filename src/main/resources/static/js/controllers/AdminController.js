@@ -9,8 +9,10 @@ angular.module('mzpsApp').controller('AdminController',
             this.tourney = {};
             this.tourneys = [];
 
-            this.league = {};
+            this.leaguePoints = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
+            this.league = {leaguePoints: this.leaguePoints};
             this.leagues = [];
+
 
             this.submitTourney = submitTourney;
             this.submitLeague = submitLeague;
@@ -24,6 +26,8 @@ angular.module('mzpsApp').controller('AdminController',
             this.getAllLeagues = getAllLeagues;
             this.resetTourneyForm = resetTourneyForm;
             this.resetLeagueForm = resetLeagueForm;
+            this.addNewLeaguePointsChoice = addNewLeaguePointsChoice;
+            this.removeLeaguePointsChoice = removeLeaguePointsChoice;
 
             this.tourneySuccessMessage = '';
             this.tourneyErrorMessage = '';
@@ -177,8 +181,21 @@ angular.module('mzpsApp').controller('AdminController',
             function resetLeagueForm(){
                 this.leagueSuccessMessage='';
                 this.leagueErrorMessage='';
-                this.league={};
+                this.leaguePoints.forEach(function (part, index, theArray) {
+                    theArray[index] = {place: index+1}
+                })
+                this.league = {leaguePoints: this.leaguePoints};
                 $scope.leagueForm.$setPristine(); //reset Form
             }
+
+            function addNewLeaguePointsChoice() {
+                var newItemNo = this.leaguePoints.length+1;
+                this.leaguePoints.push({'place':newItemNo});
+            };
+
+            function removeLeaguePointsChoice() {
+                var lastItem = this.leaguePoints.length-1;
+                this.leaguePoints.splice(lastItem);
+            };
         }
     ]);
