@@ -1,12 +1,14 @@
 package com.mzps.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="Teams")
+@Table(name="Teams",
+		uniqueConstraints = { @UniqueConstraint( columnNames = { "Name", "Category_ID" } ) })
 public class Team implements Serializable{
 
 	@Id
@@ -17,8 +19,9 @@ public class Team implements Serializable{
 	@Column(name="Name", unique=true, nullable=false)
 	private String name;
 
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="Category_ID", nullable=false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="Category_ID")
+	@JsonBackReference
 	private Category category;
 
 	@Column(name="Coach", nullable=false)
@@ -54,8 +57,27 @@ public class Team implements Serializable{
 		return category;
 	}
 
+	public String getCategoryName() {
+    	return this.category.getCategoryName().name();
+	}
+
 	public void setCategory(Category category) {
 		this.category = category;
+
+		//maintaining ManyToOne relationship
+		if (!category.getTeams().contains(this)) {
+			category.getTeams().add(this);
+		}
+	}
+
+	public Category removeCategory() {
+		Category category = this.category;
+		if(category.getTeams().contains(this)) {
+			category.getTeams().remove(this);
+			this.category = null;
+		}
+
+		return category;
 	}
 
     public String getPhone() {

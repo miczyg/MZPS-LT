@@ -20,30 +20,28 @@
     <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="css/form-signin.css">
-
-    <script src="js/lib/angular.min.js"></script>
-    <script src="js/lib/angular-ui-router.min.js"></script>
-    <script src="js/lib/localforage.min.js"></script>
-    <script src="js/lib/ngStorage.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/league-list.css">
 
     <script src="js/app.js"></script>
 
     <script src="js/services/TeamService.js"></script>
     <script src="js/services/MatchResultService.js"></script>
     <script src="js/services/TourneyService.js"></script>
+    <script src="js/services/LeagueService.js"></script>
 
     <script src="js/controllers/TeamController.js"></script>
     <script src="js/controllers/StandingsController.js"></script>
     <script src="js/controllers/TourneysController.js"></script>
     <script src="js/controllers/AdminController.js"></script>
-
-    <script src="js/utils/SidenavControls.js"></script>
+    <script src="js/controllers/CategoryController.js"></script>
+    <script src="js/controllers/NavbarController.js"></script>
+    <script src="js/controllers/HomeController.js"></script>
 </head>
 
 
 <body ng-app="mzpsApp">
 <!-- Static navbar -->
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" ng-controller="NavbarController">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"

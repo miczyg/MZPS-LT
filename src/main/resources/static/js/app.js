@@ -4,7 +4,9 @@ app.constant('urls', {
     BASE: 'http://localhost:8080/',
     TEAM_SERVICE_API: 'http://localhost:8080/teams/',
     TOURNEY_SERVICE_API: 'http://localhost:8080/tourneys/',
-    ADMIN_SERVICE_API: 'http://localhost:8080/admin/'
+    ADMIN_SERVICE_API: 'http://localhost:8080/admin/',
+    ADMIN_TOURNEY_SERVICE_API: 'http://localhost:8080/admin/tourney/',
+    ADMIN_LEAGUE_SERVICE_API: 'http://localhost:8080/admin/league/'
 });
 
 app.config(['$stateProvider', '$urlRouterProvider',
@@ -61,6 +63,12 @@ app.config(['$stateProvider', '$urlRouterProvider',
                         console.log('Load all tourneys');
                         var deferred = $q.defer();
                         TourneyService.loadAllTourneys().then(deferred.resolve, deferred.resolve);
+                        return deferred.promise;
+                    },
+                    leagues: function ($q, LeagueService) {
+                        console.log('Load all leagues');
+                        var deferred = $q.defer();
+                        LeagueService.loadAllLeagues().then(deferred.resolve, deferred.resolve);
                         return deferred.promise;
                     }
                 }

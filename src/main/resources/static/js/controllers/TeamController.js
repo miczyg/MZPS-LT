@@ -1,57 +1,53 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TeamController',
-    ['TeamService', '$scope',  function( TeamService, $scope) {
+    ['TeamService', '$scope', function( TeamService, $scope) {
 
         var ctrl = this;
 
-        this.team = {};
-        this.teams=[];
+        ctrl.team = {};
+        ctrl.teams=[];
 
-        this.submit = submit;
-        this.getAllTeams = getAllTeams;
-        this.createTeam = createTeam;
-        this.updateTeam = updateTeam;
-        this.removeTeam = removeTeam;
-        this.editTeam = editTeam;
-        this.reset = reset;
+        ctrl.submit = submit;
+        ctrl.getAllTeams = getAllTeams;
+        ctrl.createTeam = createTeam;
+        ctrl.updateTeam = updateTeam;
+        ctrl.removeTeam = removeTeam;
+        ctrl.editTeam = editTeam;
+        ctrl.reset = reset;
 
-        this.successMessage = '';
-        this.errorMessage = '';
-        this.done = false;
-        this.tab = 1;
-        this.categoryFilter = '';
-        this.strictFilter = false;
+        ctrl.successMessage = '';
+        ctrl.errorMessage = '';
+        ctrl.done = false;
 
-        this.select = function(setTab) {
-            this.tab = setTab;
-            this.strictFilter = true;
-            if (setTab === 2)
-                this.categoryFilter = "Mlodzik";
-            else if (setTab === 3)
-                this.categoryFilter = "Mlodziczka";
-            else if (setTab === 4)
-                this.categoryFilter = "Kadet";
-            else if (setTab === 5)
-                this.categoryFilter = "Kadetka";
-            else {
-                this.strictFilter = false;
-                this.categoryFilter = "";
-            }
-            };
+        ctrl.categoryFilter = '';
+        ctrl.strictFilter = false;
 
-        this.isSelected = function(checkTab) {
-            return (this.tab === checkTab);
+        ctrl.selectCategory = function(category) {
+            ctrl.categoryFilter = category;
+            ctrl.strictFilter = ctrl.categoryFilter !== '';
+        };
+
+        ctrl.isSelected = function(category) {
+            return (ctrl.categoryFilter === category);
+        };
+
+        ctrl.getCategory = function(){
+            return ctrl.categoryFilter;
+        };
+
+        ctrl.isCategoryStrict = function () {
+            return ctrl.strictFilter;
         };
 
         function submit() {
             console.log('Submitting');
-            if (this.team.id === undefined || this.team.id === null) {
-                console.log('Saving New Team', this.team);
-                createTeam(this.team);
+            if (ctrl.team.id === undefined || ctrl.team.id === null) {
+                console.log('Saving New Team', ctrl.team);
+                createTeam(ctrl.team);
             } else {
-                updateTeam(this.team, this.team.id);
-                console.log('Team updated with id ', this.team.id);
+                updateTeam(ctrl.team, ctrl.team.id);
+                console.log('Team updated with id ', ctrl.team.id);
             }
         }
 
@@ -119,10 +115,12 @@ angular.module('mzpsApp').controller('TeamController',
         }
 
         function editTeam(id) {
-            this.successMessage='';
-            this.errorMessage='';
+            ctrl.successMessage='';
+            ctrl.errorMessage='';
             TeamService.getTeam(id).then(
                 function (team) {
+                    team.category = team.categoryName;
+                    team.phone = Number(team.phone);
                     ctrl.team = team;
                 },
                 function (errResponse) {
@@ -131,9 +129,9 @@ angular.module('mzpsApp').controller('TeamController',
             );
         }
         function reset(){
-            this.successMessage='';
-            this.errorMessage='';
-            this.team={};
+            ctrl.successMessage='';
+            ctrl.errorMessage='';
+            ctrl.team={};
             $scope.myForm.$setPristine(); //reset Form
         }
     }

@@ -3,6 +3,7 @@ package com.mzps.web.teams;
 
 
 
+import com.mzps.model.Category;
 import com.mzps.model.Team;
 
 import java.util.List;
@@ -11,9 +12,11 @@ public interface TeamService {
 	
 	Team findById(Long id);
 
-	Team findByName(String name);
+	List<Team> findByName(String name);
 
 	List<Team> findByCategory(String category);
+
+	Team findByNameAndCategory(String name, Category category);
 
 	void saveTeam(Team team);
 
@@ -25,5 +28,5 @@ public interface TeamService {
 
 	List<Team> findAllTeams();
 
-	boolean isTeamExist(Team team);
+	boolean teamExists(Team team);
 }
