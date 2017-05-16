@@ -30,8 +30,6 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-tomcat")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-//    sth not working with thumeleaf, or I cannot set i properly, freemarker works without any setup at least for now
-//    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-freemarker:1.5.2.RELEASE")
     compile("org.springframework.boot:spring-boot-devtools")
 

@@ -1,11 +1,16 @@
+<#include "../elements/match-modal.ftl">
+
+<#assign categories_list = ["Mlodzik", "Mlodziczka", "Kadetka"] />
+
 <div class="panel">
-    <ul class="nav nav-pills">
-        <li role="presentation" class="active"><a ui-sref="male16">Młodzicy</a></li>
-        <li role="presentation"><a ui-sref="female18">Młodziczki</a></li>
-        <li role="presentation"><a ui-sref="male16">Kadeci</a></li>
-        <li role="presentation"><a ui-sref="female18">Kadetki</a></li>
+    <ul class="nav nav-pills" role = "tablist">
+    <#list categories_list as category>
+        <li role="presentation" ng-class="{active:ctrl.isSelected('${category}')}">
+            <a role="tab" ng-click="ctrl.selectCategory('${category}')">${category}</a></li>
+    </#list>
     </ul>
 </div>
+
 <div class="panel">
     <ul class="nav nav-pills">
     <#--TODO: auto generate pill with dropdowns -->
@@ -65,7 +70,9 @@
             <tr>
                 <th>Zespół 1</th>
                 <td class="danger"></td>
-                <td>wynik 1 : 2</td>
+                <td style="cursor: pointer" data-toggle="modal" data-target="#matchModal" data-id="ctrl.matchId">wynik 1
+                    : 2
+                </td>
                 <td>wynik 1 : 3</td>
             </tr>
             <tr>
@@ -92,21 +99,23 @@
     </div>
 
 <#--TODO: logic for auto generate-->
-<div class="panel-body">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Zespół</th>
-            <th>Punkty</th>
-            <th>Sety</th>
-            <th>Małe punkty</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Zespół</th>
+                <th>Punkty</th>
+                <th>Sety</th>
+                <th>Małe punkty</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+
+
 
 
 
