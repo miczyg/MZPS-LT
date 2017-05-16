@@ -1,3 +1,5 @@
+
+
 <#--Specify allowed categories-->
 <#assign categories_list = ["Mlodzik", "Mlodziczka", "Kadetka"] />
 
@@ -38,12 +40,12 @@
                     <td>{{u.phone}}</td>
                 <#--SHOW ONLY IF ADMIN-->
                     <td>
-                        <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edit
+                        <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edytuj
                         </button>
                     </td>
                     <td>
                         <button type="button" ng-click="ctrl.removeTeam(u.id)" class="btn btn-danger custom-width">
-                            Remove
+                            Usuń
                         </button>
                     </td>
                 </tr>
