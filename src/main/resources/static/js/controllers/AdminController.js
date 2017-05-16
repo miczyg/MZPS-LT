@@ -18,6 +18,8 @@ angular.module('mzpsApp').controller('AdminController',
             this.createLeague = createLeague;
             this.updateTourney = updateTourney;
             this.updateLeague = updateLeague;
+            this.removeTourney = removeTourney;
+            this.editTourney = editTourney;
             this.getAllTourneys = getAllTourneys;
             this.getAllLeagues = getAllLeagues;
             this.resetTourneyForm = resetTourneyForm;
@@ -127,6 +129,34 @@ angular.module('mzpsApp').controller('AdminController',
                             ctrl.leagueSuccessMessage='';
                         }
                     );
+            }
+
+            function removeTourney(id){
+                console.log('About to remove Tourney with id '+id);
+                TourneyService.removeTourney(id)
+                    .then(
+                        function(){
+                            console.log('Tourney '+ id + ' removed successfully');
+                        },
+                        function(errResponse){
+                            console.error('Error while removing tourney '+ id +', Error :' + errResponse.data);
+                        }
+                    );
+            }
+
+            function editTourney(id) {
+                this.tourneySuccessMessage='';
+                this.tourneyErrorMessage='';
+                TourneyService.getTourney(id).then(
+                    function (tourney) {
+                        tourney.date = new Date(tourney.date);
+                        tourney.category = tourney.categoryName;
+                        ctrl.tourney = tourney;
+                    },
+                    function (errResponse) {
+                        console.error('Error while loading tourney to form' + id + ', Error :' + errResponse.data);
+                    }
+                );
             }
 
             function getAllTourneys() {

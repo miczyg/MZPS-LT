@@ -55,12 +55,18 @@ public class Tourney implements Serializable {
         return date.toString("yyyy-MM-dd");
     }
 
+    public DateTime getDateObject() { return date;}
+
     public void setDate(DateTime date) {
         this.date = date;
     }
 
     public void setDate(String date) {
         this.date = DateTime.parse(date, ISODateTimeFormat.dateTime());
+    }
+
+    public void setDateShortFormat(String date) {
+        this.date = DateTime.parse(date);
     }
 
     public Category getCategory() {
@@ -95,7 +101,8 @@ public class Tourney implements Serializable {
     }
 
     public void setAddress(Address address) {
-        this.address = address;
+        if(!address.equals(this.address))
+            this.address = address;
     }
 
     @Override

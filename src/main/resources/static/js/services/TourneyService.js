@@ -5,9 +5,11 @@ angular.module('mzpsApp').factory('TourneyService',
         function ($localStorage, $http, $q, urls) {
             var factory = {
                 loadAllTourneys: loadAllTourneys,
+                getTourney: getTourney,
                 getAllTourneys: getAllTourneys,
                 createTourney: createTourney,
-                updateTourney: updateTourney
+                updateTourney: updateTourney,
+                removeTourney: removeTourney
             };
 
             return factory;
@@ -15,7 +17,7 @@ angular.module('mzpsApp').factory('TourneyService',
             function loadAllTourneys() {
                 console.log("fetching tourneys");
                 var deferred = $q.defer();
-                $http.get(urls.ADMIN_SERVICE_API)
+                $http.get(urls.ADMIN_TOURNEY_SERVICE_API)
                     .then(
                         function (response) {
                             console.log('Fetched successfully all tourneys');
@@ -30,6 +32,23 @@ angular.module('mzpsApp').factory('TourneyService',
                 return deferred.promise;
             }
 
+            function getTourney(id) {
+                console.log('Fetching Tourney with id :' + id);
+                var deferred = $q.defer();
+                $http.get(urls.ADMIN_TOURNEY_SERVICE_API + id)
+                    .then(
+                        function (response) {
+                            console.log('Fetched successfully Tourney with id :' + id);
+                            deferred.resolve(response.data);
+                        },
+                        function (errResponse) {
+                            console.error('Error while loading Tourney with id :' + id);
+                            deferred.reject(errResponse);
+                        }
+                    );
+                return deferred.promise;
+            }
+
             function getAllTourneys() {
                 return $localStorage.tourneys;
             }
@@ -37,7 +56,7 @@ angular.module('mzpsApp').factory('TourneyService',
             function createTourney(tourney) {
                 console.log('Creating Tourney');
                 var deferred = $q.defer();
-                $http.post(urls.ADMIN_SERVICE_API, tourney)
+                $http.post(urls.ADMIN_TOURNEY_SERVICE_API, tourney)
                     .then(
                         function (response) {
                             loadAllTourneys();
@@ -54,7 +73,7 @@ angular.module('mzpsApp').factory('TourneyService',
             function updateTourney(tourney, id) {
                 console.log('Updating Tourney with id ' + id);
                 var deferred = $q.defer();
-                $http.put(urls.ADMIN_SERVICE_API + id, tourney)
+                $http.put(urls.ADMIN_TOURNEY_SERVICE_API + id, tourney)
                     .then(
                         function (response) {
                             loadAllTourneys();
@@ -62,6 +81,23 @@ angular.module('mzpsApp').factory('TourneyService',
                         },
                         function (errResponse) {
                             console.error('Error while updating Tourney with id :' + id);
+                            deferred.reject(errResponse);
+                        }
+                    );
+                return deferred.promise;
+            }
+
+            function removeTourney(id) {
+                console.log('Removing Tourney with id ' + id);
+                var deferred = $q.defer();
+                $http.delete(urls.ADMIN_TOURNEY_SERVICE_API + id)
+                    .then(
+                        function (response) {
+                            loadAllTourneys();
+                            deferred.resolve(response.data);
+                        },
+                        function (errResponse) {
+                            console.error('Error while removing Tourney with id :' + id);
                             deferred.reject(errResponse);
                         }
                     );

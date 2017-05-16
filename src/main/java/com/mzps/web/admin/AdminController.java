@@ -13,11 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
+    private static final String TOURNEY_URI = "/tourney/";
+    private static final String LEAGUE_URI = "/league/";
 
     public static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -28,7 +33,7 @@ public class AdminController {
     LeagueService leagueService;
 
     // -------------------Retrieve All Tourneys---------------------------------------------
-    @GetMapping(value = "/")
+    @GetMapping(value = TOURNEY_URI)
     public ResponseEntity<List<Tourney>> listAllTourneys() {
         List<Tourney> tourneys = tourneyService.findAllTourneys();
 
@@ -38,9 +43,23 @@ public class AdminController {
         return new ResponseEntity<>(tourneys, HttpStatus.OK);
     }
 
+    // -------------------Retrieve Single Tourney------------------------------------------
+
+    @GetMapping(value = TOURNEY_URI + "{id}")
+    public ResponseEntity<?> getTeam(@PathVariable("id") long id) {
+        logger.info("Fetching Tourney with id {}", id);
+        Tourney tourney = tourneyService.findById(id);
+        if (tourney == null) {
+            logger.error("Tourney with id {} not found.", id);
+            return new ResponseEntity(new CustomErrorType("Tourney with id " + id
+                    + " not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(tourney, HttpStatus.OK);
+    }
+
     // -------------------Create a Tourney-------------------------------------------
 
-    @PostMapping(value = "/")
+    @PostMapping(value = TOURNEY_URI)
     public ResponseEntity<?> createTourney(@RequestBody Tourney tourney, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Tourney : {}", tourney);
 
@@ -56,8 +75,49 @@ public class AdminController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    // ------------------- Delete a Tourney-----------------------------------------
+
+    @DeleteMapping(value = TOURNEY_URI + "{id}")
+    public ResponseEntity<?> deleteTeam(@PathVariable("id") long id) {
+        logger.info("Fetching & Deleting Tourney with id {}", id);
+
+        Tourney tourney = tourneyService.findById(id);
+        if (tourney == null) {
+            logger.error("Unable to delete. Tourney with id {} not found.", id);
+            return new ResponseEntity(
+                    new CustomErrorType("Unable to delete. Tourney with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        tourneyService.deleteTourneyById(id);
+        return new ResponseEntity<Tourney>(HttpStatus.NO_CONTENT);
+    }
+
+    // ------------------- Update a Tourney ------------------------------------------------
+
+    @PutMapping(value = TOURNEY_URI + "{id}")
+    public ResponseEntity<?> updateTourney(@PathVariable("id") long id, @RequestBody Tourney tourney) {
+        logger.info("Updating Tourney with id {}", id);
+
+        Tourney currentTourney = tourneyService.findById(id);
+
+        if (currentTourney == null) {
+            logger.error("Unable to update. Tourney with id {} not found.", id);
+            return new ResponseEntity(
+                    new CustomErrorType("Unable to upate. Tourney with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        currentTourney.setName(tourney.getName());
+        currentTourney.setCategory(tourney.getCategory());
+        currentTourney.setDateShortFormat(tourney.getDate());
+        currentTourney.setAddress(tourney.getAddress());
+
+        tourneyService.updateTourney(currentTourney);
+        return new ResponseEntity<>(tourney, HttpStatus.OK);
+    }
+
     // -------------------Retrieve All Leagues---------------------------------------------
-    @GetMapping(value = "/league/")
+    @GetMapping(value = LEAGUE_URI)
     public ResponseEntity<List<League>> listAllLeagues() {
         List<League> leagues = leagueService.findAllLeagues();
 
@@ -69,7 +129,7 @@ public class AdminController {
 
     // -------------------Create a League-------------------------------------------
 
-    @PostMapping(value = "/league/")
+    @PostMapping(value = LEAGUE_URI)
     public ResponseEntity<?> createLeague(@RequestBody League league, UriComponentsBuilder ucBuilder) {
         logger.info("Creating League : {}", league);
 
