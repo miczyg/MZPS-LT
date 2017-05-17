@@ -16,8 +16,8 @@
                             <thead>
                             <tr>
                                 <th>SET</th>
-                                <th>Zespól 1</th>
-                                <th>Zespoł 2</th>
+                                <th class="team1">...</th>
+                                <th class="team2">...</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,3 +55,4 @@
         </div>
     </div>
 </div>
+
