@@ -183,7 +183,7 @@ angular.module('mzpsApp').controller('AdminController',
                 this.leagueErrorMessage='';
                 this.leaguePoints.forEach(function (part, index, theArray) {
                     theArray[index] = {place: index+1}
-                })
+                });
                 this.league = {leaguePoints: this.leaguePoints};
                 $scope.leagueForm.$setPristine(); //reset Form
             }
@@ -191,11 +191,21 @@ angular.module('mzpsApp').controller('AdminController',
             function addNewLeaguePointsChoice() {
                 var newItemNo = this.leaguePoints.length+1;
                 this.leaguePoints.push({'place':newItemNo});
-            };
-
+            }
             function removeLeaguePointsChoice() {
                 var lastItem = this.leaguePoints.length-1;
                 this.leaguePoints.splice(lastItem);
-            };
+            }
+            $(document).ready(function(){
+                var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                var options={
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true
+                };
+                date_input.datepicker(options);
+            })
         }
     ]);

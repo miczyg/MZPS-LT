@@ -14,16 +14,16 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
     <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
-    <link rel="stylesheet" type="text/css" href="css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="css/form-signin.css">
-    <link rel="stylesheet" type="text/css" href="css/league-list.css">
 
     <script src="js/app.js"></script>
 
@@ -39,6 +39,15 @@
     <script src="js/controllers/CategoryController.js"></script>
     <script src="js/controllers/NavbarController.js"></script>
     <script src="js/controllers/HomeController.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
+    <link rel="stylesheet" type="text/css" href="css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="css/form-signin.css">
+    <link rel="stylesheet" type="text/css" href="css/league-list.css">
+
+
 </head>
 
 
