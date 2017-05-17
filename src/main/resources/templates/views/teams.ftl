@@ -38,7 +38,7 @@
                     <td>{{u.categoryName}}</td>
                     <td>{{u.coach}}</td>
                     <td>{{u.phone}}</td>
-                <#--SHOW ONLY IF ADMIN-->
+                <#--TODO: SHOW ONLY IF ADMIN-->
                     <td>
                         <button type="button" ng-click="ctrl.editTeam(u.id)" class="btn btn-success custom-width">Edytuj
                         </button>
