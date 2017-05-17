@@ -87,7 +87,9 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="tourneyDate">Data</label>
                         <div class="col-md-7">
-                            <input class="form-control input-sm" name="tourneyDate" placeholder="MM/DD/YYY" type="text" ng-model="ctrl.tourney.date" id="tourneyDate" required />
+                            <input class="form-control input-sm" name="tourneyDate" placeholder="DD/MM/YYY"
+                                   type="text" ng-model="ctrl.tourney.date" id="tourneyDate" required />
+                        </div>
                     </div>
                 </div>
 
