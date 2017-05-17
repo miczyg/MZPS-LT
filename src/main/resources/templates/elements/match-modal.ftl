@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="table-responsive">
                         <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
