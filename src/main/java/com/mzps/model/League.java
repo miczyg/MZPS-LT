@@ -21,7 +21,8 @@ public class League {
     @Column(name="Name", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "league")
+    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL)
+    @JsonManagedReference(value="team_league")
     private List<Team> teams;
 
     @ManyToMany(cascade = CascadeType.ALL)

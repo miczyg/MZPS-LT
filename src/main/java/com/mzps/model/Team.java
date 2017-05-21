@@ -31,10 +31,11 @@ public class Team implements Serializable{
     private String phone;
 
 	@Column(name="TotalSeasonPoints", nullable=false)
-	private int totalSeasonPoints;
+	private Integer totalSeasonPoints;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="League_ID")
+	@JsonBackReference(value="team_league")
 	private League league;
 
     public Long getId() {
@@ -96,7 +97,7 @@ public class Team implements Serializable{
         return coach;
     }
 
-	public int getTotalSeasonPoints() {
+	public Integer getTotalSeasonPoints() {
 		return totalSeasonPoints;
 	}
 
