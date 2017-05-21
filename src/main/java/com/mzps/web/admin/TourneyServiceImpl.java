@@ -4,11 +4,14 @@ package com.mzps.web.admin;
 import com.mzps.model.Tourney;
 import com.mzps.repository.TourneyRepository;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.mzps.model.Tourney.DATE_TIME_FORMAT;
 
 @Service("tourneyService")
 @Transactional
@@ -44,6 +47,8 @@ public class TourneyServiceImpl implements TourneyService {
 
     @Override
     public boolean tourneyExists(Tourney tourney) {
-        return tourneyRepository.findByNameAndDate(tourney.getName(), DateTime.parse(tourney.getDate())) != null;
+        return tourneyRepository.findByNameAndDate(
+                tourney.getName(),
+                DateTime.parse(tourney.getDate(), DateTimeFormat.forPattern(DATE_TIME_FORMAT))) != null;
     }
 }
