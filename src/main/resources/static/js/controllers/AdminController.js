@@ -153,7 +153,7 @@ angular.module('mzpsApp').controller('AdminController',
                 this.tourneyErrorMessage='';
                 TourneyService.getTourney(id).then(
                     function (tourney) {
-                        tourney.date = new Date(tourney.date);
+                        //tourney.date = new Date(tourney.date);
                         tourney.category = tourney.categoryName;
                         ctrl.tourney = tourney;
                     },

@@ -3,9 +3,9 @@ package com.mzps.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Entity
 @Table(name="Tourneys")
 public class Tourney implements Serializable {
+
+    public static final String DATE_TIME_FORMAT = "dd/MM/yyyy";
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -52,7 +54,7 @@ public class Tourney implements Serializable {
     }
 
     public String getDate() {
-        return date.toString("yyyy-MM-dd");
+        return date.toString(DATE_TIME_FORMAT);
     }
 
     public DateTime getDateObject() { return date;}
@@ -61,14 +63,13 @@ public class Tourney implements Serializable {
         this.date = date;
     }
 
-    //parses ISO format from html form date input
     public void setDate(String date) {
-        this.date = DateTime.parse(date, ISODateTimeFormat.dateTime());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_FORMAT);
+        this.date = dateTimeFormatter.parseDateTime(date);
     }
 
-    //parses pattern yyyy-MM-dd, from getDate() above
-    public void setDateShortFormat(String date) {
-        this.date = DateTime.parse(date);
+    public void setDateISOFormat(String date) {
+        this.date = DateTime.parse(date, ISODateTimeFormat.dateTime());
     }
 
     public Category getCategory() {

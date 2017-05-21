@@ -109,7 +109,7 @@ public class AdminController {
 
         currentTourney.setName(tourney.getName());
         currentTourney.setCategory(tourney.getCategory());
-        currentTourney.setDateShortFormat(tourney.getDate());
+        currentTourney.setDate(tourney.getDate());
         currentTourney.setAddress(tourney.getAddress());
 
         tourneyService.updateTourney(currentTourney);
