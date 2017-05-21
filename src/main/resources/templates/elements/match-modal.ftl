@@ -11,13 +11,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="table-responsive">
                         <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
                                 <th>SET</th>
-                                <th>Zespól 1</th>
-                                <th>Zespoł 2</th>
+                                <th class="team1">...</th>
+                                <th class="team2">...</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,3 +55,4 @@
         </div>
     </div>
 </div>
+

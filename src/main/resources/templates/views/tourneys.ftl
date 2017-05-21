@@ -3,7 +3,7 @@
 <#assign categories_list = ["Mlodzik", "Mlodziczka", "Kadetka"] />
 
 <div class="panel">
-    <ul class="nav nav-pills" role = "tablist">
+    <ul class="nav nav-pills" role="tablist">
     <#list categories_list as category>
         <li role="presentation" ng-class="{active:ctrl.isSelected('${category}')}">
             <a role="tab" ng-click="ctrl.selectCategory('${category}')">${category}</a></li>
@@ -59,34 +59,25 @@
     </div>
 <#--TODO: logic for auto generate-->
     <div class="panel-body">
-        <table class="table table-bordered">
-            <tbody>
+        <table class="table table-bordered col-md-4">
+            <thead>
             <tr>
                 <th></th>
-                <th>Zespół 1</th>
-                <th>Zespół 2</th>
-                <th>Zespół 3</th>
+                <th ng-repeat="team in ctrl.mock_t1.teams">{{team.name}}</th>
             </tr>
-            <tr>
-                <th>Zespół 1</th>
-                <td class="danger"></td>
-                <td style="cursor: pointer" data-toggle="modal" data-target="#matchModal" data-id="ctrl.matchId">wynik 1
-                    : 2
+            </thead>
+            <tbody>
+            <tr ng-repeat="team_row in ctrl.mock_t1.teams">
+                <th>{{team_row.name}}</th>
+                <td ng-repeat="team_col in ctrl.mock_t1.teams"
+                    data-toggle="{{team_row === team_col ? '' : 'modal'}}"
+                    data-target="#matchModal"
+                    data-team1="{{team_row.name}}"
+                    data-team2="{{team_col.name}}"
+                    ng-class="team_row === team_col ? 'danger' : 'cell_active'">
+                    {{ctrl.getMatchResult(team_row, team_col)}}
                 </td>
-                <td>wynik 1 : 3</td>
-            </tr>
-            <tr>
-                <th>Zespół 2</th>
-
-                <td>wynik 2 : 1</td>
-                <td class="danger"></td>
-                <td>wynik 2 : 3</td>
-            </tr>
-            <tr>
-                <th>Zespół 3</th>
-                <td>wynik 3 : 1</td>
-                <td>wynik 3 : 2</td>
-                <td class="danger"></td>
+            <#--TODO: change above-->
             </tr>
             </tbody>
         </table>
@@ -103,6 +94,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>Miejsce</th>
                 <th>Zespół</th>
                 <th>Punkty</th>
                 <th>Sety</th>
@@ -110,6 +102,13 @@
             </tr>
             </thead>
             <tbody>
+            <tr ng-repeat="team in ctrl.mock_t1.teams">
+                <td>{{ $index + 1 }}</td>
+                <td>{{team.name}}</td>
+            </tr>
+            <td>{{team.tpoint}}</td>
+            <td>{{team.sets}}</td>
+            <td>{{team.small_points}}</td>
             </tbody>
         </table>
     </div>

@@ -1,3 +1,9 @@
+<#--Specify allowed categories-->
+<#--TODO: categories refactor to separate file-->
+<#assign categories_list = ["Mlodzik", "Mlodziczka", "Kadetka"] />
+
+<#--TODO: split for diffrent files?-->
+<#--TOURNEY TABLE-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><span class="lead">Lista turniejów</span></div>
@@ -43,6 +49,7 @@
 	</div>
 </div>
 
+<#--TOURNEY ADD FORM-->
 <div class="panel panel-default">
     <div class="panel-heading"><span class="lead">Nowy turniej</span></div>
     <div class="panel-body">
@@ -66,11 +73,11 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="category">Kategoria</label>
                         <div class="col-md-7">
-                            <select ng-model="ctrl.tourney.category" id="category" required">
-                            <option>Mlodzik</option>
-                            <option>Mlodziczka</option>
-                            <option>Kadet</option>
-                            <option>Kadetka</option>
+                            <select class="form-control" ng-model="ctrl.tourney.category" id="category" required">
+                            <option disabled selected value style="display: none">Wybierz kategorię </option>
+                        <#list categories_list as category>
+                            <option>${category}</option>
+                        </#list>
                             </select>
                         </div>
                     </div>
@@ -80,7 +87,8 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="tourneyDate">Data</label>
                         <div class="col-md-7">
-                            <input type="date" ng-model="ctrl.tourney.date" id="tourneyDate" required />
+                            <input class="form-control input-sm" name="tourneyDate" placeholder="DD/MM/YYY"
+                                   type="text" ng-model="ctrl.tourney.date" id="tourneyDate" required />
                         </div>
                     </div>
                 </div>
@@ -129,6 +137,8 @@
     </div>
 </div>
 
+
+<#--LEAGUE LIST-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><span class="lead">Lista lig</span></div>
@@ -175,6 +185,7 @@
     </div>
 </div>
 
+<#---->
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><span class="lead">Nowa liga</span></div>
