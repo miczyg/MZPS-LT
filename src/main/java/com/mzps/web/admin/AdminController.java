@@ -3,7 +3,6 @@ package com.mzps.web.admin;
 import com.mzps.model.League;
 import com.mzps.model.Tourney;
 import com.mzps.util.CustomErrorType;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -127,6 +124,20 @@ public class AdminController {
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
+    // -------------------Retrieve Single league------------------------------------------
+
+    @GetMapping(value = LEAGUE_URI + "{id}")
+    public ResponseEntity<?> getLeague(@PathVariable("id") long id) {
+        logger.info("Fetching League with id {}", id);
+        League league = leagueService.findById(id);
+        if (league == null) {
+            logger.error("League with id {} not found.", id);
+            return new ResponseEntity(new CustomErrorType("League with id " + id
+                    + " not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(league, HttpStatus.OK);
+    }
+
     // -------------------Create a League-------------------------------------------
 
     @PostMapping(value = LEAGUE_URI)
@@ -144,4 +155,45 @@ public class AdminController {
         headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(league.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
+
+    // ------------------- Delete a League-----------------------------------------
+
+    @DeleteMapping(value = LEAGUE_URI + "{id}")
+    public ResponseEntity<?> deleteLeague(@PathVariable("id") long id) {
+        logger.info("Fetching & Deleting League with id {}", id);
+
+        League league = leagueService.findById(id);
+        if (league == null) {
+            logger.error("Unable to delete. League with id {} not found.", id);
+            return new ResponseEntity(
+                    new CustomErrorType("Unable to delete. League with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        leagueService.deleteLeagueById(id);
+        return new ResponseEntity<League>(HttpStatus.NO_CONTENT);
+    }
+
+    // ------------------- Update a Tourney ------------------------------------------------
+
+    @PutMapping(value = LEAGUE_URI + "{id}")
+    public ResponseEntity<?> updateLeague(@PathVariable("id") long id, @RequestBody League league) {
+        logger.info("Updating League with id {}", id);
+
+        League currentLeague = leagueService.findById(id);
+
+        if (currentLeague == null) {
+            logger.error("Unable to update. League with id {} not found.", id);
+            return new ResponseEntity(
+                    new CustomErrorType("Unable to update. League with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        currentLeague.setName(league.getName());
+        currentLeague.getLeaguePoints().clear();
+        currentLeague.getLeaguePoints().addAll(league.getLeaguePoints());
+
+        leagueService.updateLeague(currentLeague);
+        return new ResponseEntity<>(league, HttpStatus.OK);
+    }
+
 }

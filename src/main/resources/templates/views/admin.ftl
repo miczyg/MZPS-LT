@@ -216,9 +216,9 @@
                                 <input type="number" ng-model="leaguePoint.points"
                                        id="leaguePoint" placeholder="Enter league points"
                                        class="form-control input-sm" style="width: 35%; display: inline;" required>
-                                <button class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeaguePointsChoice()">-</button>
+                                <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeaguePointsChoice()">-</button>
                             </fieldset>
-                            <button class="btn btn-success" ng-click="ctrl.addNewLeaguePointsChoice()">+</button>
+                            <button type="button" class="btn btn-success" ng-click="ctrl.addNewLeaguePointsChoice()">+</button>
                         </div>
                     </div>
                 </div>

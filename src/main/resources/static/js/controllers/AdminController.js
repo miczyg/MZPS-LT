@@ -21,7 +21,9 @@ angular.module('mzpsApp').controller('AdminController',
             this.updateTourney = updateTourney;
             this.updateLeague = updateLeague;
             this.removeTourney = removeTourney;
+            this.removeLeague = removeLeague;
             this.editTourney = editTourney;
+            this.editLeague = editLeague;
             this.getAllTourneys = getAllTourneys;
             this.getAllLeagues = getAllLeagues;
             this.resetTourneyForm = resetTourneyForm;
@@ -148,17 +150,42 @@ angular.module('mzpsApp').controller('AdminController',
                     );
             }
 
+            function removeLeague(id){
+                console.log('About to remove League with id '+id);
+                LeagueService.removeLeague(id)
+                    .then(
+                        function(){
+                            console.log('League '+ id + ' removed successfully');
+                        },
+                        function(errResponse){
+                            console.error('Error while removing league '+ id +', Error :' + errResponse.data);
+                        }
+                    );
+            }
+
             function editTourney(id) {
                 this.tourneySuccessMessage='';
                 this.tourneyErrorMessage='';
                 TourneyService.getTourney(id).then(
                     function (tourney) {
-                        //tourney.date = new Date(tourney.date);
                         tourney.category = tourney.categoryName;
                         ctrl.tourney = tourney;
                     },
                     function (errResponse) {
                         console.error('Error while loading tourney to form' + id + ', Error :' + errResponse.data);
+                    }
+                );
+            }
+
+            function editLeague(id) {
+                this.leagueSuccessMessage='';
+                this.leagueErrorMessage='';
+                LeagueService.getLeague(id).then(
+                    function (league) {
+                        ctrl.league = league;
+                    },
+                    function (errResponse) {
+                        console.error('Error while loading league to form' + id + ', Error :' + errResponse.data);
                     }
                 );
             }
@@ -189,12 +216,13 @@ angular.module('mzpsApp').controller('AdminController',
             }
 
             function addNewLeaguePointsChoice() {
-                var newItemNo = this.leaguePoints.length+1;
-                this.leaguePoints.push({'place':newItemNo});
+                var newItemNo = this.league.leaguePoints.length+1;
+                this.league.leaguePoints.push({'place':newItemNo});
             }
             function removeLeaguePointsChoice() {
-                var lastItem = this.leaguePoints.length-1;
-                this.leaguePoints.splice(lastItem);
+                var lastItem = this.league.leaguePoints.length-1;
+                this.league.leaguePoints.splice(lastItem);
+                $scope.leagueForm.$pristine = false;
             }
             $(document).ready(function(){
                 var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"
