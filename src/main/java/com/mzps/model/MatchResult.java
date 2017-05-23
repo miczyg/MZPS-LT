@@ -23,10 +23,6 @@ public class MatchResult implements Serializable {
     @JoinColumn(name="Team_ID")
     private List<Team> matchTeams;
 
-    @OneToOne
-    @JoinColumn(name="Tourney_ID", nullable = false)
-    private Tourney tourney;
-
     @OneToMany
     @Size(min=2, max=2)
     private List<TeamResult> teamResults;
@@ -47,14 +43,6 @@ public class MatchResult implements Serializable {
         this.matchTeams = matchTeams;
     }
 
-    public Tourney getTourney() {
-        return tourney;
-    }
-
-    public void setTourney(Tourney tourney) {
-        this.tourney = tourney;
-    }
-
     public List<TeamResult> getTeamResults() {
         return teamResults;
     }
@@ -66,7 +54,7 @@ public class MatchResult implements Serializable {
     @Override
     public String toString() {
         return "TeamResult [id=" + id + ", team1=" + matchTeams.get(0) + ", team2=" + matchTeams.get(1)
-                + ", tourney=" + tourney + ", team1Result=" + teamResults.get(0)
+                + ", team1Result=" + teamResults.get(0)
                 + ", team2Result=" + teamResults.get(1) + "]";
     }
 }

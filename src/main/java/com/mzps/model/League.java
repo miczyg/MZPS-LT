@@ -1,11 +1,13 @@
 package com.mzps.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.SortNatural;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Entity
 @Table(name="Leagues")
@@ -19,11 +21,18 @@ public class League {
     @Column(name="Name", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "league")
+    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL)
+    @JsonManagedReference(value="team_league")
     private List<Team> teams;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="League_Tourney",
+            joinColumns=@JoinColumn(name="League_ID"), inverseJoinColumns=@JoinColumn(name="Tourney_ID"))
+    private List<Tourney> tourney;
 
-    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OrderBy("place ASC")
+    @SortNatural
     @JsonManagedReference
     private List<LeaguePoints> leaguePoints;
 
@@ -67,6 +76,16 @@ public class League {
         return false;
     }
 
+    public List<Tourney> getTourney() {
+        return tourney;
+    }
+
+    public void setTourney(List<Tourney> tourney) {
+        this.tourney = tourney;
+    }
+
+    public void addTourney(Tourney tourney) { this.tourney.add(tourney); }
+
     public List<LeaguePoints> getLeaguePoints() {
         return leaguePoints;
     }
@@ -75,12 +94,53 @@ public class League {
         this.leaguePoints = leaguePoints;
     }
 
+    //working algorithm, but not necessary, clear() and addAll() on list has the same effect
+    @Deprecated
+    public void updateLeaguePoints(List<LeaguePoints> newLeaguePoints) {
+
+        newLeaguePoints.sort((o1, o2) -> o1.getPlace() > o2.getPlace() ? 1 : -1);
+
+        int smallestLeaguePointsSize =
+                newLeaguePoints.size() <= leaguePoints.size() ? newLeaguePoints.size() : leaguePoints.size();
+
+        IntStream.range(0, smallestLeaguePointsSize).forEach(idx -> {
+            LeaguePoints oldLeaguePoint = leaguePoints.get(idx);
+            LeaguePoints newLeaguePoint = newLeaguePoints.get(idx);
+            if (oldLeaguePoint.getPlace().equals(newLeaguePoint.getPlace())) {
+                oldLeaguePoint.setPoints(newLeaguePoint.getPoints());
+            }
+        });
+
+        int remainingElementsSize;
+        if(newLeaguePoints.size() > leaguePoints.size()) {
+            remainingElementsSize = newLeaguePoints.size();
+            IntStream.range(smallestLeaguePointsSize, remainingElementsSize).forEach(idx -> {
+                addLeaguePoints(newLeaguePoints.get(idx));
+            });
+        }
+        else if(newLeaguePoints.size() < leaguePoints.size()) {
+            remainingElementsSize = leaguePoints.size()-1;
+            for(int idx = remainingElementsSize; idx >= smallestLeaguePointsSize; idx--) {
+                removeLeaguePoints(leaguePoints.get(idx));
+            }
+        }
+
+    }
+
     public void addLeaguePoints(LeaguePoints leaguePoints) {
         this.leaguePoints.add(leaguePoints);
         //maintaining OneToMany relationship
         if(leaguePoints.getLeague() != this) {
             leaguePoints.setLeague(this);
         }
+    }
+
+    public boolean removeLeaguePoints(LeaguePoints leaguePoints) {
+        if(this.leaguePoints.remove(leaguePoints)) {
+            leaguePoints.removeLeague();
+            return true;
+        }
+        return false;
     }
 
     @Override

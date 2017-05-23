@@ -1,7 +1,7 @@
 package com.mzps.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.validator.constraints.NotEmpty;
+
 
 import javax.persistence.*;
 
@@ -26,7 +26,7 @@ public class LeaguePoints {
     @JsonBackReference
     private League league;
 
-    public int getPlace() {
+    public Integer getPlace() {
         return place;
     }
 
@@ -34,7 +34,7 @@ public class LeaguePoints {
         this.place = place;
     }
 
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
@@ -55,13 +55,22 @@ public class LeaguePoints {
         }
     }
 
+    public League removeLeague() {
+        League league = this.league;
+        if(league.getLeaguePoints().contains(this)) {
+            league.getLeaguePoints().remove(this);
+            this.league = null;
+        }
+
+        return league;
+    }
+
     @Override
     public String toString() {
         return "LeaguePoints[" +
                 "id=" + id +
                 ", place=" + place +
                 ", points=" + points +
-                ", league=" + league +
                 ']';
     }
 }
