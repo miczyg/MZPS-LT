@@ -1,4 +1,4 @@
-var app = angular.module('mzpsApp', ['ui.router', 'ngStorage']);
+var app = angular.module('mzpsApp', ['ui.router', 'ngStorage', 'inputDropdown']);
 
 app.constant('urls', {
     BASE: 'http://localhost:8080/',

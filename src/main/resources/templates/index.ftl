@@ -23,12 +23,17 @@
     <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+    <script data-require="lodash.js@*" data-semver="2.4.1" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+
+    <script src="js/utils/inputDropdown.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/teams-table.css"/>
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="css/form-signin.css">
     <link rel="stylesheet" type="text/css" href="css/league-list.css">
     <link rel="stylesheet" type="text/css" href="css/tourneys.css">
+    <link rel="stylesheet" type="text/css" href='css/inputDropdownStyles.css' />
+
 
     <script src="js/app.js"></script>
 

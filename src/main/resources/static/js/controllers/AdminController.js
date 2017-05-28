@@ -1,17 +1,26 @@
 'use strict';
 
 angular.module('mzpsApp').controller('AdminController',
-    ['TourneyService', 'LeagueService', '$scope',
-        function (TourneyService, LeagueService, $scope) {
+    ['TourneyService', 'LeagueService', 'TeamService', '$scope',
+        function (TourneyService, LeagueService, TeamService, $scope) {
+
+
 
             var ctrl = this;
 
             this.tourney = {};
             this.tourneys = [];
 
+
+            this.teams = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
+
             this.leaguePoints = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
-            this.league = {leaguePoints: this.leaguePoints};
+            this.league = {leaguePoints: this.leaguePoints, teams: this.teams};
             this.leagues = [];
+
+
+            this.teamSelectedItems = [];
+            this.teamDropdownItems = ['teamName, category'];
 
 
             this.submitTourney = submitTourney;
@@ -30,6 +39,10 @@ angular.module('mzpsApp').controller('AdminController',
             this.resetLeagueForm = resetLeagueForm;
             this.addNewLeaguePointsChoice = addNewLeaguePointsChoice;
             this.removeLeaguePointsChoice = removeLeaguePointsChoice;
+            this.addNewLeagueTeamChoice = addNewLeagueTeamChoice;
+            this.removeLeagueTeamChoice = removeLeagueTeamChoice;
+            this.dropDownSelected = dropDownSelected;
+
 
             this.tourneySuccessMessage = '';
             this.tourneyErrorMessage = '';
@@ -50,12 +63,27 @@ angular.module('mzpsApp').controller('AdminController',
             function submitLeague() {
                 console.log('Submitting');
                 if (this.league.id === undefined || this.league.id === null) {
-                    console.log('Saving New league', this.league);
-                    createLeague(this.league);
+                    var league = this.league;
+                    league = prepareLeagueForSending(league);
+                    console.log('Saving New league', league);
+                    createLeague(league);
                 } else {
                     updateLeague(this.league, this.league.id);
                     console.log('league updated with id ', this.league.id);
                 }
+            }
+
+            function prepareLeagueForSending(league) {
+                league.teams.forEach(function (part, index, theArray) {
+                    part.team.category = part.team.categoryName;
+                    delete part.team.categoryName;
+                    delete part.team.readableName;
+                    theArray[index] = part.team;
+                    console.log(theArray[index]);
+
+                })
+
+                return league;
             }
 
             function createTourney(tourney) {
@@ -224,6 +252,45 @@ angular.module('mzpsApp').controller('AdminController',
                 this.league.leaguePoints.splice(lastItem);
                 $scope.leagueForm.$pristine = false;
             }
+
+            function addNewLeagueTeamChoice() {
+                var newItemNo = this.league.teams.length+1;
+                this.league.teams.push({'place':newItemNo});
+            }
+            function removeLeagueTeamChoice() {
+                var lastItem = this.league.teams.length-1;
+                $scope.selectedItem = '';
+                console.log($scope.defaultDropdownItems);
+
+                // TODO: fix restoring team choice after deleting row - no + and -, static row number or accessing directive scope?
+                // TODO: delete unnecessary logging from this controller and inputDropdown.js
+                // console.log(inputDropdown.selectedItem);
+                // if(this.league.teams[lastItem].team != null) {
+                //     if($scope.selectedItem != null){
+                //         $scope.defaultDropdownItems.push($scope.selectedItem);
+                //     }
+                //
+                //     $scope.dropdownItems = $scope.defaultDropdownItems || [];
+                // }
+                this.league.teams.splice(lastItem);
+                $scope.leagueForm.$pristine = false;
+            }
+
+            this.getAllTeams = _.memoize(function getAllTeams(){
+                this.teamDropdownItems = TeamService.getAllTeams();
+
+                if (typeof this.teamDropdownItems !== 'undefined' && this.teamDropdownItems.length > 0) {
+                    this.teamDropdownItems.forEach(function (part, index, theArray) {
+                        part.readableName = part.name + ", " + part.categoryName;
+                    })
+                }
+                return this.teamDropdownItems;
+            })
+
+            function dropDownSelected(item) {
+
+            }
+
             $(document).ready(function(){
                 var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"
                 // var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";

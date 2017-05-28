@@ -1,5 +1,6 @@
 package com.mzps.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.SortNatural;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -21,8 +22,8 @@ public class League {
     @Column(name="Name", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "league", cascade=CascadeType.ALL)
-    @JsonManagedReference(value="team_league")
+    @OneToMany(mappedBy = "league", cascade=CascadeType.MERGE)
+    @JsonIgnoreProperties(value = {"league"}, ignoreUnknown = true)
     private List<Team> teams;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -61,6 +62,8 @@ public class League {
     }
 
     public void addTeam(Team team) {
+        if(teams.contains(team)) return;
+
         this.teams.add(team);
         //maintaining OneToMany relationship
         if (team.getLeague() != this) {
@@ -69,8 +72,10 @@ public class League {
     }
 
     public boolean removeTeam(Team team) {
+        if(!teams.contains(team)) return false;
+
         if(teams.remove(team)) {
-            team.removeLeague();
+            team.setLeague(null);
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package com.mzps.web.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mzps.model.League;
 import com.mzps.model.Tourney;
 import com.mzps.util.CustomErrorType;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -141,7 +143,10 @@ public class AdminController {
     // -------------------Create a League-------------------------------------------
 
     @PostMapping(value = LEAGUE_URI)
-    public ResponseEntity<?> createLeague(@RequestBody League league, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createLeague(@RequestBody String league_json, UriComponentsBuilder ucBuilder) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        League node = mapper.readValue(league_json, League.class);
+        League league = mapper.convertValue(node, League.class);
         logger.info("Creating League : {}", league);
 
         if (leagueService.leagueExists(league)) {
@@ -173,7 +178,7 @@ public class AdminController {
         return new ResponseEntity<League>(HttpStatus.NO_CONTENT);
     }
 
-    // ------------------- Update a Tourney ------------------------------------------------
+    // ------------------- Update a League ------------------------------------------------
 
     @PutMapping(value = LEAGUE_URI + "{id}")
     public ResponseEntity<?> updateLeague(@PathVariable("id") long id, @RequestBody League league) {
