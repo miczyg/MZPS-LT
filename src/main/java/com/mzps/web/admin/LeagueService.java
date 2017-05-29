@@ -8,6 +8,8 @@ public interface LeagueService {
 
     League findById(Long id);
 
+    List<League> findByTourney(Long tourneyId);
+
     void saveLeague(League league);
 
     void updateLeague(League league);
@@ -17,4 +19,6 @@ public interface LeagueService {
     void deleteLeagueById(Long id);
 
     boolean leagueExists(League league);
+
+
 }

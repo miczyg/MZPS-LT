@@ -20,7 +20,7 @@ datasource:
     defaultSchema:
     maxPoolSize: 20
     hibernate:
-      hbm2ddl.method: update #unsafe for production env, better to write your own DML queries
+      hbm2ddl.method: create-drop #unsafe for production env, better to write your own DML queries
       ddl-auto: update #also unsafe
       show_sql: true
       format_sql: true

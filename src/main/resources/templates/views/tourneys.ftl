@@ -63,13 +63,13 @@
             <thead>
             <tr>
                 <th></th>
-                <th ng-repeat="team in ctrl.mock_t1.teams">{{team.name}}</th>
+                <th ng-repeat="team in ctrl.mock_league.teams">{{team.name}}</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="team_row in ctrl.mock_t1.teams">
+            <tr ng-repeat="team_row in ctrl.mock_league.teams">
                 <th>{{team_row.name}}</th>
-                <td ng-repeat="team_col in ctrl.mock_t1.teams"
+                <td ng-repeat="team_col in ctrl.mock_league.teams"
                     data-toggle="{{team_row === team_col ? '' : 'modal'}}"
                     data-target="#matchModal"
                     data-team1="{{team_row.name}}"
@@ -102,7 +102,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="team in ctrl.mock_t1.teams">
+            <tr ng-repeat="team in ctrl.mock_league.teams">
                 <td>{{ $index + 1 }}</td>
                 <td>{{team.name}}</td>
             </tr>

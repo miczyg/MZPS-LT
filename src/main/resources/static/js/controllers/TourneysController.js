@@ -3,9 +3,10 @@
 angular.module('mzpsApp').controller('TourneysController',
     ['MatchResultService', '$scope',
         function (MatchResultService, $scope) {
-
-            //DATA MOCKUP
             var ctrl = this;
+            ctrl.tourneys = [];
+            //DATA MOCKUP
+
 
             ctrl.mock_t = {
                 id: 1,

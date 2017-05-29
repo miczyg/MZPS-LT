@@ -20,9 +20,15 @@ public class LeagueServiceImpl implements LeagueService {
     private TeamService teamService;
 
 
+
     @Override
     public League findById(Long id) {
         return leagueRepository.findOne(id);
+    }
+
+    @Override
+    public List<League> findByTourney(Long tourneyId) {
+        return leagueRepository.findAllByTourney(tourneyId);
     }
 
     @Override

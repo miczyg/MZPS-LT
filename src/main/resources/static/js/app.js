@@ -31,10 +31,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
                 controller: 'TourneysController',
                 controllerAs: 'ctrl',
                 resolve: {
-                    matchResults: function ($q, MatchResultService) {
+                    tourneys: function ($q, TourneyService) {
                         console.log('Load tourneys');
                         var deferred = $q.defer();
-                        MatchResultService.loadAllMatchResults().then(deferred.resolve, deferred.resolve);
+                        TourneyService.loadAllTourneys().then(deferred.resolve, deferred.resolve);
                         return deferred.promise;
                     }
                 }
