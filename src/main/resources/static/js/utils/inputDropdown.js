@@ -65,6 +65,12 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
                 $scope.dropdownItems = $scope.defaultDropdownItems || [];
             }
         });
+
+        $scope.$watch('defaultDropdownItems', function(newValue, oldValue) {
+            if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
+                $scope.dropdownItems = $scope.defaultDropdownItems || [];
+            }
+        });
         // ----------------
     },
     link: function(scope, element) {

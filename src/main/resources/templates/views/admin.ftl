@@ -246,7 +246,9 @@
                             <input-dropdown
                                     selected-item="ctrl.league.tourney"
                                     my-default-dropdown-items="ctrl.getAllTourneys()"
-                                    input-required="true">
+                                    input-required="true"
+                                    filter-list-method="ctrl.filterTourneys(userInput)"
+                                    item-selected-method="ctrl.tourneySelected(item)">
                             </input-dropdown>
                         </div>
                     </div>
@@ -257,11 +259,11 @@
                         <label class="col-md-2 control-label" for="teams">Drużyny</label>
                         <br>
                         <div class="col-md-7">
-                            <fieldset data-ng-repeat="teamPlace in ctrl.league.teams">
+                            <fieldset data-ng-repeat="teamPlace in ctrl.league.teams" ng-disabled="ctrl.league.tourney == null">
                                 <label class="col-md-2 control-label" for="leagueTeam">{{$index + 1 + " miejsce"}}</label>
                                 <input-dropdown
                                     selected-item="teamPlace.team"
-                                    default-dropdown-items="ctrl.getAllTeams()"
+                                    default-dropdown-items="ctrl.teamDropdownItems"
                                     input-required="true">
                                 </input-dropdown>
                                 <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeagueTeamChoice()">-</button>

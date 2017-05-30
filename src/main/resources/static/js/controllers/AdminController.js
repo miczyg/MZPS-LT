@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('AdminController',
-    ['TourneyService', 'LeagueService', 'TeamService', '$scope',
-        function (TourneyService, LeagueService, TeamService, $scope) {
+    ['TourneyService', 'LeagueService', 'TeamService', '$scope', '$q', '$filter',
+        function (TourneyService, LeagueService, TeamService, $scope, $q, $filter) {
 
 
 
@@ -44,6 +44,8 @@ angular.module('mzpsApp').controller('AdminController',
             this.removeLeaguePointsChoice = removeLeaguePointsChoice;
             this.addNewLeagueTeamChoice = addNewLeagueTeamChoice;
             this.removeLeagueTeamChoice = removeLeagueTeamChoice;
+            this.filterTourneys = filterTourneys;
+            this.tourneySelected = tourneySelected;
 
 
             this.tourneySuccessMessage = '';
@@ -289,11 +291,48 @@ angular.module('mzpsApp').controller('AdminController',
 
                 if (typeof this.teamDropdownItems !== 'undefined' && this.teamDropdownItems.length > 0) {
                     this.teamDropdownItems.forEach(function (part, index, theArray) {
-                        part.readableName = part.name + ", " + part.categoryName;
+                        part.readableName = part.name;
                     })
                 }
                 return this.teamDropdownItems;
             })
+
+            this.getAllTeams();
+
+            function filterTourneys(userInput) {
+                var deferred = $q.defer();
+
+                var splitInput = userInput.split(",");
+                var tourneyName = splitInput[0].trim();
+                var tourneyCategory = splitInput[1].trim();
+                var filteredTourneys = $filter('filter')(getAllTourneys(), function(item) {
+                    if(tourneyCategory){
+                        return item.name.indexOf(tourneyName) !== -1 && item.categoryName.indexOf(tourneyCategory) !== -1;
+                    }
+                    else{
+                        return item.name.indexOf(tourneyName) !== -1;
+                    }
+                })
+                deferred.resolve(filteredTourneys);
+
+
+                return deferred.promise;
+            }
+
+            function tourneySelected(tourney) {
+                if(tourney.categoryName){
+                    var filteredTeams = $filter('filter')(TeamService.getAllTeams(), function(item) {
+                        return item.categoryName.indexOf(tourney.categoryName) !== -1;
+                    })
+
+                    this.teamDropdownItems = filteredTeams;
+                }
+                else{
+                    this.teamDropdownItems = TeamService.getAllTeams();
+                }
+
+            }
+
 
             $(document).ready(function(){
                 var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"
