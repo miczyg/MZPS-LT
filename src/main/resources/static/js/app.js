@@ -70,6 +70,12 @@ app.config(['$stateProvider', '$urlRouterProvider',
                         var deferred = $q.defer();
                         LeagueService.loadAllLeagues().then(deferred.resolve, deferred.resolve);
                         return deferred.promise;
+                    },
+                    teams: function ($q, TeamService) {
+                        console.log('Load all teams');
+                        var deferred = $q.defer();
+                        TeamService.loadAllTeams().then(deferred.resolve, deferred.resolve);
+                        return deferred.promise;
                     }
                 }
             })

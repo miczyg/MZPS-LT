@@ -57,8 +57,6 @@ public class Tourney implements Serializable {
         return date.toString(DATE_TIME_FORMAT);
     }
 
-    public DateTime getDateObject() { return date;}
-
     public void setDate(DateTime date) {
         this.date = date;
     }

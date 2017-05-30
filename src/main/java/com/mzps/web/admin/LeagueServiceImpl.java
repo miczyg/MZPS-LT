@@ -19,6 +19,9 @@ public class LeagueServiceImpl implements LeagueService {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private TourneyService tourneyService;
+
 
 
     @Override
@@ -34,6 +37,9 @@ public class LeagueServiceImpl implements LeagueService {
     @Override
     public void saveLeague(League league) {
         league.getLeaguePoints().forEach( leaguePoints -> leaguePoints.setLeague(league));
+        if( tourneyService.tourneyExists(league.getTourney()) ){
+            league.setTourney(tourneyService.find(league.getTourney()));
+        }
         leagueRepository.save(league);
         league.getTeams().forEach( team -> {
             team.setLeague(league);
@@ -53,6 +59,8 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public void deleteLeagueById(Long id) {
+        League league = findById(id);
+        league.removeAllTeams();
         leagueRepository.delete(id);
     }
 

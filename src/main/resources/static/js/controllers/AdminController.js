@@ -13,10 +13,13 @@ angular.module('mzpsApp').controller('AdminController',
 
 
             this.teams = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
+            this.tourneyDropdownItems = ['tourneyName, category'];
+            this.tourneyDropdown = {};
 
             this.leaguePoints = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
-            this.league = {leaguePoints: this.leaguePoints, teams: this.teams};
+            this.league = {leaguePoints: this.leaguePoints, tourney: this.tourneyDropdown, teams: this.teams};
             this.leagues = [];
+
 
 
             this.teamSelectedItems = [];
@@ -41,7 +44,6 @@ angular.module('mzpsApp').controller('AdminController',
             this.removeLeaguePointsChoice = removeLeaguePointsChoice;
             this.addNewLeagueTeamChoice = addNewLeagueTeamChoice;
             this.removeLeagueTeamChoice = removeLeagueTeamChoice;
-            this.dropDownSelected = dropDownSelected;
 
 
             this.tourneySuccessMessage = '';
@@ -81,7 +83,10 @@ angular.module('mzpsApp').controller('AdminController',
                     theArray[index] = part.team;
                     console.log(theArray[index]);
 
-                })
+                });
+
+                league.tourney.category = league.tourney.categoryName;
+                delete league.tourney.categoryName;
 
                 return league;
             }
@@ -137,6 +142,9 @@ angular.module('mzpsApp').controller('AdminController',
                             ctrl.tourneyErrorMessage='';
                             ctrl.done = true;
                             $scope.tourneyForm.$setPristine();
+
+                            //update leagues list to show changes
+                            LeagueService.loadAllLeagues();
                         },
                         function(errResponse){
                             console.error('Error while updating Tourney');
@@ -286,10 +294,6 @@ angular.module('mzpsApp').controller('AdminController',
                 }
                 return this.teamDropdownItems;
             })
-
-            function dropDownSelected(item) {
-
-            }
 
             $(document).ready(function(){
                 var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"

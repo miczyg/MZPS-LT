@@ -20,7 +20,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
           'ng-class="{\'active\': activeItemIndex === $index}"' +
           '>' +
         '<span ng-if="item.readableName">{{item.readableName}}</span>' +
-        '<span ng-if="!item.readableName">{{item}}</span>' +
+        '<span ng-if="!item.readableName">{{item.name + ", " + item.categoryName}}</span>' +
       '</li>' +
     '</ul>' +
   '</div>';
@@ -28,6 +28,9 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
   return {
     restrict: 'E',
     scope: {
+      //----------- custom modification
+      myDefaultDropdownItems: '=',
+        //---------------
       defaultDropdownItems: '=',
       selectedItem: '=',
       allowCustomInput: '=',
@@ -52,6 +55,17 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
       this.getInput = function() {
         return $scope.inputValue;
       };
+        //------------------- custom modification
+        $scope.$watch('myDefaultDropdownItems', function(newValue, oldValue) {
+            if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
+                $scope.defaultDropdownItems = angular.copy(newValue);
+                if($scope.defaultDropdownItems.indexOf($scope.selectedItem) == -1) {
+                    $scope.selectedItem = null;
+                }
+                $scope.dropdownItems = $scope.defaultDropdownItems || [];
+            }
+        });
+        // ----------------
     },
     link: function(scope, element) {
       var pressedDropdown = false;
@@ -83,6 +97,11 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
             if (typeof newValue === 'string') {
               scope.inputValue = newValue;
             }
+            //-------------- custom modification
+            else if(newValue.readableName == null){
+              scope.inputValue = newValue.name + ", " + newValue.categoryName;
+            }
+              //------------
             else {
               scope.inputValue = newValue.readableName;
             }
@@ -111,7 +130,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
       scope.inputChange = function() {
 
           //----------------custom modification
-          if(scope.selectedItem != null){
+          if(scope.selectedItem != null && typeof scope.defaultDropdownItems.push === 'function'){
               console.log(scope.selectedItem)
               scope.defaultDropdownItems.push(scope.selectedItem);
           }

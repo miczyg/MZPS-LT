@@ -150,6 +150,7 @@
                     <th></th>
                     <th>Nazwa ligi</th>
                     <th>Punkty ligowe</th>
+                    <th>Turniej</th>
                     <th>Drużyny</th>
                     <th width="100"></th>
                     <th width="100"></th>
@@ -171,6 +172,7 @@
                             </tr>
                         </table>
                     </td>
+                    <td>{{u.tourney.name + " " + u.tourney.date}}</td>
                     <td>
                         <table border="1">
                             <tr>
@@ -239,6 +241,19 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="tourneysDropdown">Turnieje</label>
+                        <div class="col-md-7">
+                            <input-dropdown
+                                    selected-item="ctrl.league.tourney"
+                                    my-default-dropdown-items="ctrl.getAllTourneys()"
+                                    input-required="true">
+                            </input-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="teams">Drużyny</label>
                         <br>
                         <div class="col-md-7">
@@ -247,8 +262,7 @@
                                 <input-dropdown
                                     selected-item="teamPlace.team"
                                     default-dropdown-items="ctrl.getAllTeams()"
-                                    input-required="true"
-                                    item-selected-method="ctrl.dropDownSelected(item)">
+                                    input-required="true">
                                 </input-dropdown>
                                 <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeagueTeamChoice()">-</button>
                             </fieldset>

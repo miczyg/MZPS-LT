@@ -26,10 +26,15 @@ public class League {
     @JsonIgnoreProperties(value = {"league"}, ignoreUnknown = true)
     private List<Team> teams;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="League_Tourney",
-            joinColumns=@JoinColumn(name="League_ID"), inverseJoinColumns=@JoinColumn(name="Tourney_ID"))
-    private List<Tourney> tourney;
+    //commented in case relation changes back to many-many
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name="League_Tourney",
+//            joinColumns=@JoinColumn(name="League_ID"), inverseJoinColumns=@JoinColumn(name="Tourney_ID"))
+//    private List<Tourney> tourney;
+    @ManyToOne
+    @JoinColumn(name = "Tourney_ID")
+    private Tourney tourney;
+
 
     @OneToMany(mappedBy = "league", cascade=CascadeType.ALL, orphanRemoval=true)
     @OrderBy("place ASC")
@@ -81,15 +86,21 @@ public class League {
         return false;
     }
 
-    public List<Tourney> getTourney() {
+    public void removeAllTeams() {
+        for(int i = teams.size()-1; i>=0; i--) {
+            removeTeam(teams.get(i));
+        }
+    }
+
+    public Tourney getTourney() {
         return tourney;
     }
 
-    public void setTourney(List<Tourney> tourney) {
+    public void setTourney(Tourney tourney) {
         this.tourney = tourney;
     }
 
-    public void addTourney(Tourney tourney) { this.tourney.add(tourney); }
+//    public void addTourney(Tourney tourney) { this.tourney.add(tourney); }
 
     public List<LeaguePoints> getLeaguePoints() {
         return leaguePoints;
@@ -153,6 +164,7 @@ public class League {
         return "League[" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", tourney=" + tourney +
                 ", teams=" + teams +
                 ", leaguePoints=" + leaguePoints +
                 ']';
