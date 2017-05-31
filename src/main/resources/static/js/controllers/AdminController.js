@@ -45,6 +45,7 @@ angular.module('mzpsApp').controller('AdminController',
             this.addNewLeagueTeamChoice = addNewLeagueTeamChoice;
             this.removeLeagueTeamChoice = removeLeagueTeamChoice;
             this.filterTourneys = filterTourneys;
+            this.filterTeams = filterTeams;
             this.tourneySelected = tourneySelected;
 
 
@@ -312,6 +313,18 @@ angular.module('mzpsApp').controller('AdminController',
                     else{
                         return item.name.indexOf(tourneyName) !== -1;
                     }
+                })
+                deferred.resolve(filteredTourneys);
+
+
+                return deferred.promise;
+            }
+
+            function filterTeams(userInput) {
+                var deferred = $q.defer();
+
+                var filteredTourneys = $filter('filter')(this.teamDropdownItems, function(item) {
+                    return item.name.indexOf(userInput) !== -1;
                 })
                 deferred.resolve(filteredTourneys);
 
