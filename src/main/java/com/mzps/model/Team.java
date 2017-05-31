@@ -1,6 +1,7 @@
 package com.mzps.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="Teams",
-		uniqueConstraints = { @UniqueConstraint( columnNames = { "Name", "Category_ID" } ) })
+		uniqueConstraints = { @UniqueConstraint( columnNames = { "Name", "Category_ID" } )})
 public class Team implements Serializable{
 
 	@Id
@@ -16,7 +17,7 @@ public class Team implements Serializable{
 	private Long id;
 
 	@NotEmpty
-	@Column(name="Name", unique=true, nullable=false)
+	@Column(name="Name", unique=false, nullable=false)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -31,12 +32,14 @@ public class Team implements Serializable{
     private String phone;
 
 	@Column(name="TotalSeasonPoints", nullable=false)
-	private Integer totalSeasonPoints;
+	private Integer totalSeasonPoints = 0;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="League_ID")
-	@JsonBackReference(value="team_league")
+	@JsonIgnoreProperties(value = {"teams"}, ignoreUnknown = true)
 	private League league;
+
+
 
     public Long getId() {
 		return id;
@@ -110,22 +113,22 @@ public class Team implements Serializable{
 	}
 
 	public void setLeague(League league) {
+		if (sameAsFormer(league)) return ;
+
+		League oldLeague = this.league;
 		this.league = league;
 
-		//maintaining ManyToOne relationship
-		if (!league.getTeams().contains(this)) {
-			league.getTeams().add(this);
+		if(oldLeague!=null){
+			oldLeague.removeTeam(this);
+		}
+
+		if(league!=null){
+			league.addTeam(this);
 		}
 	}
 
-	public League removeLeague() {
-		League league = this.league;
-    	if(league.getTeams().contains(this)) {
-			league.getTeams().remove(this);
-			this.league = null;
-		}
-
-		return league;
+	private boolean sameAsFormer(League newLeague) {
+		return league==null? newLeague == null : league.equals(newLeague);
 	}
 
 	@Override

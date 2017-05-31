@@ -150,6 +150,8 @@
                     <th></th>
                     <th>Nazwa ligi</th>
                     <th>Punkty ligowe</th>
+                    <th>Turniej</th>
+                    <th>Drużyny</th>
                     <th width="100"></th>
                     <th width="100"></th>
                 </tr>
@@ -169,6 +171,20 @@
                                 <td class="league-points-table">{{l.points}}</td>
                             </tr>
                         </table>
+                    </td>
+                    <td>{{u.tourney.name + " " + u.tourney.date}}</td>
+                    <td>
+                        <table border="1">
+                            <tr>
+                                <th class="league-points-table">miejsce</th>
+                                <th class="league-points-table">drużyna</th>
+                            </tr>
+                            <tr ng-repeat="t in u.teams">
+                                <td class="league-points-table">{{$index + 1}}</td>
+                                <td class="league-points-table">{{t.name}}</td>
+                            </tr>
+                        </table>
+                    </td>
                     <td>
                         <button type="button" ng-click="ctrl.editLeague(u.id)" class="btn btn-success custom-width">Edit
                         </button>
@@ -219,6 +235,42 @@
                                 <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeaguePointsChoice()">-</button>
                             </fieldset>
                             <button type="button" class="btn btn-success" ng-click="ctrl.addNewLeaguePointsChoice()">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="tourneysDropdown">Turnieje</label>
+                        <div class="col-md-7">
+                            <input-dropdown
+                                    selected-item="ctrl.league.tourney"
+                                    my-default-dropdown-items="ctrl.getAllTourneys()"
+                                    input-required="true"
+                                    filter-list-method="ctrl.filterTourneys(userInput)"
+                                    item-selected-method="ctrl.tourneySelected(item)">
+                            </input-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="teams">Drużyny</label>
+                        <br>
+                        <div class="col-md-7">
+                            <fieldset data-ng-repeat="teamPlace in ctrl.league.teams" ng-disabled="ctrl.league.tourney == null">
+                                <label class="col-md-2 control-label" for="leagueTeam">{{$index + 1 + " miejsce"}}</label>
+                                <input-dropdown
+                                    selected-item="teamPlace.team"
+                                    default-dropdown-items="ctrl.teamDropdownItems"
+                                    filter-list-method="ctrl.filterTeams(userInput)"
+                                    tourney-selected-watch="ctrl.league.tourney"
+                                    input-required="true">
+                                </input-dropdown>
+                                <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeagueTeamChoice()">-</button>
+                            </fieldset>
+                            <button type="button" class="btn btn-success" ng-click="ctrl.addNewLeagueTeamChoice()">+</button>
                         </div>
                     </div>
                 </div>
