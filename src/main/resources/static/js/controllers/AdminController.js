@@ -84,7 +84,6 @@ angular.module('mzpsApp').controller('AdminController',
                     delete part.team.categoryName;
                     delete part.team.readableName;
                     theArray[index] = part.team;
-                    console.log(theArray[index]);
 
                 });
 
@@ -270,19 +269,10 @@ angular.module('mzpsApp').controller('AdminController',
             }
             function removeLeagueTeamChoice() {
                 var lastItem = this.league.teams.length-1;
-                $scope.selectedItem = '';
-                console.log($scope.defaultDropdownItems);
 
-                // TODO: fix restoring team choice after deleting row - no + and -, static row number or accessing directive scope?
-                // TODO: delete unnecessary logging from this controller and inputDropdown.js
-                // console.log(inputDropdown.selectedItem);
-                // if(this.league.teams[lastItem].team != null) {
-                //     if($scope.selectedItem != null){
-                //         $scope.defaultDropdownItems.push($scope.selectedItem);
-                //     }
-                //
-                //     $scope.dropdownItems = $scope.defaultDropdownItems || [];
-                // }
+                if(this.league.teams[lastItem].team != null && this.teamDropdownItems.indexOf(this.league.teams[lastItem].team) < 0) {
+                    this.teamDropdownItems.push(this.league.teams[lastItem].team);
+                }
                 this.league.teams.splice(lastItem);
                 $scope.leagueForm.$pristine = false;
             }

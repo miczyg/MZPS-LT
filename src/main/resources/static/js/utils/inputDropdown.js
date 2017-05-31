@@ -30,6 +30,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
     scope: {
       //----------- custom modification
       myDefaultDropdownItems: '=',
+      tourneySelectedWatch: '=',
         //---------------
       defaultDropdownItems: '=',
       selectedItem: '=',
@@ -69,6 +70,12 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
         $scope.$watch('defaultDropdownItems', function(newValue, oldValue) {
             if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
                 $scope.dropdownItems = $scope.defaultDropdownItems || [];
+            }
+        });
+
+        $scope.$watch('tourneySelectedWatch', function(newValue, oldValue) {
+            if (newValue == null) {
+                $scope.selectedItem = null;
             }
         });
         // ----------------
@@ -137,7 +144,6 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
 
           //----------------custom modification
           if(scope.selectedItem != null && typeof scope.defaultDropdownItems.push === 'function'){
-              console.log(scope.selectedItem)
               scope.defaultDropdownItems.push(scope.selectedItem);
           }
           //-----------------------------------
@@ -190,10 +196,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
           //----------------custom modification
         if(!_.isEqual(scope.selectedItem, item)){
             var index = scope.defaultDropdownItems.indexOf(item);
-            console.log(index)
-            console.log(scope.defaultDropdownItems)
             scope.defaultDropdownItems.splice(index, 1);
-            console.log(scope.defaultDropdownItems)
         }
           //-----------------------------------
         scope.selectedItem = item;

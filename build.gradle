@@ -45,6 +45,7 @@ dependencies {
     compile group: 'com.h2database', name: 'h2', version: '1.4.195'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
     compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+    compile group: 'org.jadira.usertype', name: 'usertype.core', version: '5.0.0.GA'
 
     compile "org.apache.commons:commons-lang3:3.5"
     compile "org.webjars:bootstrap:3.3.6"

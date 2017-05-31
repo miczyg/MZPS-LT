@@ -265,6 +265,7 @@
                                     selected-item="teamPlace.team"
                                     default-dropdown-items="ctrl.teamDropdownItems"
                                     filter-list-method="ctrl.filterTeams(userInput)"
+                                    tourney-selected-watch="ctrl.league.tourney"
                                     input-required="true">
                                 </input-dropdown>
                                 <button type="button" class="btn btn-danger btn-sm" ng-show="$last" ng-click="ctrl.removeLeagueTeamChoice()">-</button>
