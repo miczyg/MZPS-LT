@@ -12,8 +12,8 @@ angular.module('mzpsApp').controller('AdminController',
             this.tourneys = [];
 
 
-            this.teams = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
-            this.tourneyDropdownItems = ['tourneyName, category'];
+            this.teams = [{team: {}}, {team: {}}, {team: {}}, {team: {}}];
+            this.tourneyDropdownItems = [];
             this.tourneyDropdown = {};
 
             this.leaguePoints = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
@@ -67,14 +67,14 @@ angular.module('mzpsApp').controller('AdminController',
 
             function submitLeague() {
                 console.log('Submitting');
-                if (this.league.id === undefined || this.league.id === null) {
-                    var league = this.league;
-                    league = prepareLeagueForSending(league);
+                var league = angular.copy(this.league);
+                league = prepareLeagueForSending(league);
+                if (league.id === undefined || league.id === null) {
                     console.log('Saving New league', league);
                     createLeague(league);
                 } else {
-                    updateLeague(this.league, this.league.id);
-                    console.log('league updated with id ', this.league.id);
+                    updateLeague(league, league.id);
+                    console.log('league updated with id ', league.id);
                 }
             }
 
@@ -221,6 +221,13 @@ angular.module('mzpsApp').controller('AdminController',
                 LeagueService.getLeague(id).then(
                     function (league) {
                         ctrl.league = league;
+                        ctrl.league.teams.forEach(function (part, index, theArray) {
+                            var new_part = {};
+                            delete part.team;
+                            new_part.team = part;
+                            new_part.team.readableName = new_part.team.name;
+                            theArray[index] = new_part;
+                        });
                     },
                     function (errResponse) {
                         console.error('Error while loading league to form' + id + ', Error :' + errResponse.data);
@@ -249,7 +256,8 @@ angular.module('mzpsApp').controller('AdminController',
                 this.leaguePoints.forEach(function (part, index, theArray) {
                     theArray[index] = {place: index+1}
                 });
-                this.league = {leaguePoints: this.leaguePoints};
+                this.league = {leaguePoints: this.leaguePoints, tourney: null, teams: this.teams};
+                TourneyService.loadAllTourneys();
                 $scope.leagueForm.$setPristine(); //reset Form
             }
 
@@ -295,7 +303,10 @@ angular.module('mzpsApp').controller('AdminController',
 
                 var splitInput = userInput.split(",");
                 var tourneyName = splitInput[0].trim();
-                var tourneyCategory = splitInput[1].trim();
+                var tourneyCategory;
+                if(splitInput[1]){
+                    tourneyCategory = splitInput[1].trim();
+                }
                 var filteredTourneys = $filter('filter')(getAllTourneys(), function(item) {
                     if(tourneyCategory){
                         return item.name.indexOf(tourneyName) !== -1 && item.categoryName.indexOf(tourneyCategory) !== -1;
@@ -325,7 +336,9 @@ angular.module('mzpsApp').controller('AdminController',
             function tourneySelected(tourney) {
                 if(tourney.categoryName){
                     var filteredTeams = $filter('filter')(TeamService.getAllTeams(), function(item) {
-                        return item.categoryName.indexOf(tourney.categoryName) !== -1;
+                        if(item.categoryName){
+                            return item.categoryName.indexOf(tourney.categoryName) !== -1;
+                        }
                     })
 
                     this.teamDropdownItems = filteredTeams;

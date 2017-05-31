@@ -22,7 +22,7 @@ public class League {
     @Column(name="Name", nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "league", cascade=CascadeType.MERGE)
+    @OneToMany(mappedBy = "league", cascade=CascadeType.MERGE, orphanRemoval=true)
     @JsonIgnoreProperties(value = {"league"}, ignoreUnknown = true)
     private List<Team> teams;
 
