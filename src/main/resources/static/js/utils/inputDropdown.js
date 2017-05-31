@@ -58,7 +58,8 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
       };
         //------------------- custom modification
         $scope.$watch('myDefaultDropdownItems', function(newValue, oldValue) {
-            if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
+            if (newValue != null && (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null
+                || !angular.equals(newValue, $scope.defaultDropdownItems))) {
                 $scope.defaultDropdownItems = angular.copy(newValue);
                 if($scope.defaultDropdownItems.indexOf($scope.selectedItem) == -1) {
                     $scope.selectedItem = null;
@@ -128,6 +129,16 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
             //-------------------------------
           }
         }
+        //------------ custom modification
+        else if(newValue != null) {
+            if(newValue.readableName == null){
+                scope.inputValue = newValue.name + ", " + newValue.categoryName;
+            }
+            else {
+                scope.inputValue = newValue.readableName;
+            }
+        }
+        //----------------------
       });
 
       scope.setInputActive = function() {

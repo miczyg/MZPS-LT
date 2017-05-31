@@ -196,6 +196,9 @@ public class AdminController {
         currentLeague.setName(league.getName());
         currentLeague.getLeaguePoints().clear();
         currentLeague.getLeaguePoints().addAll(league.getLeaguePoints());
+        currentLeague.removeAllTeams();
+        currentLeague.getTeams().addAll(league.getTeams());
+        currentLeague.setTourney(league.getTourney());
 
         leagueService.updateLeague(currentLeague);
         return new ResponseEntity<>(league, HttpStatus.OK);
