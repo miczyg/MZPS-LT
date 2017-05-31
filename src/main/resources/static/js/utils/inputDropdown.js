@@ -20,7 +20,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
           'ng-class="{\'active\': activeItemIndex === $index}"' +
           '>' +
         '<span ng-if="item.readableName">{{item.readableName}}</span>' +
-        '<span ng-if="!item.readableName">{{item}}</span>' +
+        '<span ng-if="!item.readableName">{{item.name + ", " + item.categoryName}}</span>' +
       '</li>' +
     '</ul>' +
   '</div>';
@@ -28,6 +28,10 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
   return {
     restrict: 'E',
     scope: {
+      //----------- custom modification
+      myDefaultDropdownItems: '=',
+      tourneySelectedWatch: '=',
+        //---------------
       defaultDropdownItems: '=',
       selectedItem: '=',
       allowCustomInput: '=',
@@ -52,6 +56,29 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
       this.getInput = function() {
         return $scope.inputValue;
       };
+        //------------------- custom modification
+        $scope.$watch('myDefaultDropdownItems', function(newValue, oldValue) {
+            if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
+                $scope.defaultDropdownItems = angular.copy(newValue);
+                if($scope.defaultDropdownItems.indexOf($scope.selectedItem) == -1) {
+                    $scope.selectedItem = null;
+                }
+                $scope.dropdownItems = $scope.defaultDropdownItems || [];
+            }
+        });
+
+        $scope.$watch('defaultDropdownItems', function(newValue, oldValue) {
+            if (!angular.equals(newValue, oldValue) || $scope.defaultDropdownItems == null) {
+                $scope.dropdownItems = $scope.defaultDropdownItems || [];
+            }
+        });
+
+        $scope.$watch('tourneySelectedWatch', function(newValue, oldValue) {
+            if (newValue == null) {
+                $scope.selectedItem = null;
+            }
+        });
+        // ----------------
     },
     link: function(scope, element) {
       var pressedDropdown = false;
@@ -83,6 +110,11 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
             if (typeof newValue === 'string') {
               scope.inputValue = newValue;
             }
+            //-------------- custom modification
+            else if(newValue.readableName == null){
+              scope.inputValue = newValue.name + ", " + newValue.categoryName;
+            }
+              //------------
             else {
               scope.inputValue = newValue.readableName;
             }
@@ -111,8 +143,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
       scope.inputChange = function() {
 
           //----------------custom modification
-          if(scope.selectedItem != null){
-              console.log(scope.selectedItem)
+          if(scope.selectedItem != null && typeof scope.defaultDropdownItems.push === 'function'){
               scope.defaultDropdownItems.push(scope.selectedItem);
           }
           //-----------------------------------
@@ -165,10 +196,7 @@ angular.module('inputDropdown', []).directive('inputDropdown', [function() {
           //----------------custom modification
         if(!_.isEqual(scope.selectedItem, item)){
             var index = scope.defaultDropdownItems.indexOf(item);
-            console.log(index)
-            console.log(scope.defaultDropdownItems)
             scope.defaultDropdownItems.splice(index, 1);
-            console.log(scope.defaultDropdownItems)
         }
           //-----------------------------------
         scope.selectedItem = item;

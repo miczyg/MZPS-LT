@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('AdminController',
-    ['TourneyService', 'LeagueService', 'TeamService', '$scope',
-        function (TourneyService, LeagueService, TeamService, $scope) {
+    ['TourneyService', 'LeagueService', 'TeamService', '$scope', '$q', '$filter',
+        function (TourneyService, LeagueService, TeamService, $scope, $q, $filter) {
 
 
 
@@ -13,10 +13,13 @@ angular.module('mzpsApp').controller('AdminController',
 
 
             this.teams = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
+            this.tourneyDropdownItems = ['tourneyName, category'];
+            this.tourneyDropdown = {};
 
             this.leaguePoints = [{place: 1}, {place: 2}, {place: 3}, {place: 4}];
-            this.league = {leaguePoints: this.leaguePoints, teams: this.teams};
+            this.league = {leaguePoints: this.leaguePoints, tourney: this.tourneyDropdown, teams: this.teams};
             this.leagues = [];
+
 
 
             this.teamSelectedItems = [];
@@ -41,7 +44,9 @@ angular.module('mzpsApp').controller('AdminController',
             this.removeLeaguePointsChoice = removeLeaguePointsChoice;
             this.addNewLeagueTeamChoice = addNewLeagueTeamChoice;
             this.removeLeagueTeamChoice = removeLeagueTeamChoice;
-            this.dropDownSelected = dropDownSelected;
+            this.filterTourneys = filterTourneys;
+            this.filterTeams = filterTeams;
+            this.tourneySelected = tourneySelected;
 
 
             this.tourneySuccessMessage = '';
@@ -79,9 +84,11 @@ angular.module('mzpsApp').controller('AdminController',
                     delete part.team.categoryName;
                     delete part.team.readableName;
                     theArray[index] = part.team;
-                    console.log(theArray[index]);
 
-                })
+                });
+
+                league.tourney.category = league.tourney.categoryName;
+                delete league.tourney.categoryName;
 
                 return league;
             }
@@ -137,6 +144,9 @@ angular.module('mzpsApp').controller('AdminController',
                             ctrl.tourneyErrorMessage='';
                             ctrl.done = true;
                             $scope.tourneyForm.$setPristine();
+
+                            //update leagues list to show changes
+                            LeagueService.loadAllLeagues();
                         },
                         function(errResponse){
                             console.error('Error while updating Tourney');
@@ -259,19 +269,10 @@ angular.module('mzpsApp').controller('AdminController',
             }
             function removeLeagueTeamChoice() {
                 var lastItem = this.league.teams.length-1;
-                $scope.selectedItem = '';
-                console.log($scope.defaultDropdownItems);
 
-                // TODO: fix restoring team choice after deleting row - no + and -, static row number or accessing directive scope?
-                // TODO: delete unnecessary logging from this controller and inputDropdown.js
-                // console.log(inputDropdown.selectedItem);
-                // if(this.league.teams[lastItem].team != null) {
-                //     if($scope.selectedItem != null){
-                //         $scope.defaultDropdownItems.push($scope.selectedItem);
-                //     }
-                //
-                //     $scope.dropdownItems = $scope.defaultDropdownItems || [];
-                // }
+                if(this.league.teams[lastItem].team != null && this.teamDropdownItems.indexOf(this.league.teams[lastItem].team) < 0) {
+                    this.teamDropdownItems.push(this.league.teams[lastItem].team);
+                }
                 this.league.teams.splice(lastItem);
                 $scope.leagueForm.$pristine = false;
             }
@@ -281,15 +282,60 @@ angular.module('mzpsApp').controller('AdminController',
 
                 if (typeof this.teamDropdownItems !== 'undefined' && this.teamDropdownItems.length > 0) {
                     this.teamDropdownItems.forEach(function (part, index, theArray) {
-                        part.readableName = part.name + ", " + part.categoryName;
+                        part.readableName = part.name;
                     })
                 }
                 return this.teamDropdownItems;
             })
 
-            function dropDownSelected(item) {
+            this.getAllTeams();
+
+            function filterTourneys(userInput) {
+                var deferred = $q.defer();
+
+                var splitInput = userInput.split(",");
+                var tourneyName = splitInput[0].trim();
+                var tourneyCategory = splitInput[1].trim();
+                var filteredTourneys = $filter('filter')(getAllTourneys(), function(item) {
+                    if(tourneyCategory){
+                        return item.name.indexOf(tourneyName) !== -1 && item.categoryName.indexOf(tourneyCategory) !== -1;
+                    }
+                    else{
+                        return item.name.indexOf(tourneyName) !== -1;
+                    }
+                })
+                deferred.resolve(filteredTourneys);
+
+
+                return deferred.promise;
+            }
+
+            function filterTeams(userInput) {
+                var deferred = $q.defer();
+
+                var filteredTourneys = $filter('filter')(this.teamDropdownItems, function(item) {
+                    return item.name.indexOf(userInput) !== -1;
+                })
+                deferred.resolve(filteredTourneys);
+
+
+                return deferred.promise;
+            }
+
+            function tourneySelected(tourney) {
+                if(tourney.categoryName){
+                    var filteredTeams = $filter('filter')(TeamService.getAllTeams(), function(item) {
+                        return item.categoryName.indexOf(tourney.categoryName) !== -1;
+                    })
+
+                    this.teamDropdownItems = filteredTeams;
+                }
+                else{
+                    this.teamDropdownItems = TeamService.getAllTeams();
+                }
 
             }
+
 
             $(document).ready(function(){
                 var date_input=$('input[name="tourneyDate"]'); //our date input has the name "date"

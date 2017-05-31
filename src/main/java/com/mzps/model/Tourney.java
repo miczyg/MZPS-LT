@@ -1,6 +1,7 @@
 package com.mzps.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -26,6 +27,7 @@ public class Tourney implements Serializable {
     private String name;
 
     @Column(name="Date", nullable=false)
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime date;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -56,8 +58,6 @@ public class Tourney implements Serializable {
     public String getDate() {
         return date.toString(DATE_TIME_FORMAT);
     }
-
-    public DateTime getDateObject() { return date;}
 
     public void setDate(DateTime date) {
         this.date = date;

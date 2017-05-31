@@ -17,7 +17,7 @@ public class Team implements Serializable{
 	private Long id;
 
 	@NotEmpty
-	@Column(name="Name", unique=true, nullable=false)
+	@Column(name="Name", unique=false, nullable=false)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +32,7 @@ public class Team implements Serializable{
     private String phone;
 
 	@Column(name="TotalSeasonPoints", nullable=false)
-	private Integer totalSeasonPoints;
+	private Integer totalSeasonPoints = 0;
 
 	@ManyToOne
 	@JoinColumn(name="League_ID")
