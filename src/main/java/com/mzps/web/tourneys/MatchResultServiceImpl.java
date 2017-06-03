@@ -2,8 +2,8 @@ package com.mzps.web.tourneys;
 
 
 import com.mzps.model.MatchResult;
+import com.mzps.model.Team;
 import com.mzps.repository.MatchResultRepository;
-import com.mzps.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +36,16 @@ public class MatchResultServiceImpl implements MatchResultService {
     @Override
     public List<MatchResult> findAllMatchResults() {
         return matchResultRepository.findAll();
+    }
+
+    @Override
+    public List<MatchResult> findAllByLeagueId(Long leagueId) {
+        return matchResultRepository.findByLeagueId(leagueId);
+    }
+
+    @Override
+    public List<MatchResult> findAllByTeamsAndLeague(List<Team> matchTeams, Long leagueId) {
+        return matchResultRepository.findByMatchTeamsAndLeagueId(matchTeams, leagueId);
     }
 
     @Override

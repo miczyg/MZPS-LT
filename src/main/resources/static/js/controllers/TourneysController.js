@@ -5,6 +5,7 @@ angular.module('mzpsApp').controller('TourneysController',
         function (MatchResultService, $scope) {
             var ctrl = this;
             ctrl.tourneys = [];
+            ctrl.category = "";
             //DATA MOCKUP
 
 

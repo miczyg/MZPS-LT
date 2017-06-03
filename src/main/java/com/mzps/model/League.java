@@ -18,6 +18,7 @@ public class League {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+//    TODO: fix error with duplicate name -> might be duplicated
     @NotEmpty
     @Column(name="Name", nullable=false)
     private String name;

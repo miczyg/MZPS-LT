@@ -12,7 +12,7 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
     List<Team> findByName(String name);
-    List<Team> findByCategory(String category);
+    List<Team> findByCategory(Category category);
     Team findByNameAndCategory(String name, Category category);
 
 }

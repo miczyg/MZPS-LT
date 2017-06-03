@@ -154,12 +154,17 @@ public class Team implements Serializable{
 //		return result;
 //	}
 
+
 	@Override
 	public String toString() {
-		return "Team [id=" + id + ", name=" + name + ", category=" + category
-				+ ", coach=" + coach + "]";
+		return "Team{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", category=" + category +
+				", coach='" + coach + '\'' +
+				", phone='" + phone + '\'' +
+				", totalSeasonPoints=" + totalSeasonPoints +
+				", league=" + league +
+				'}';
 	}
-
-
-
 }

@@ -1,9 +1,6 @@
 package com.mzps.model;
 
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,6 +24,9 @@ public class MatchResult implements Serializable {
     @Size(min=2, max=2)
     private List<TeamResult> teamResults;
 
+    @NotNull
+    private Long leagueId;
+
     public Long getId() {
         return id;
     }
@@ -49,6 +49,14 @@ public class MatchResult implements Serializable {
 
     public void setTeamResults(List<TeamResult> teamResults) {
         this.teamResults = teamResults;
+    }
+
+    public Long getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(Long leagueId) {
+        this.leagueId = leagueId;
     }
 
     @Override

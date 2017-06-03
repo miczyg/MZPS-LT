@@ -82,6 +82,6 @@ public class TourneyController {
         MatchResult updatedMatch = matchResultService.findById(id);
         updatedMatch.setTeamResults(matchResult.getTeamResults());
         matchResultService.updateMatchResult(updatedMatch);
-        return new ResponseEntity<MatchResult>(updatedMatch, HttpStatus.OK);
+        return new ResponseEntity<>(updatedMatch, HttpStatus.OK);
     }
 }
