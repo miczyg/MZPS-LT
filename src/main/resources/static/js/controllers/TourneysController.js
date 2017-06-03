@@ -1,11 +1,49 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TourneysController',
-    ['MatchResultService', '$scope',
-        function (MatchResultService, $scope) {
+    ['MatchResultService', '$scope', '$http', 'urls',
+        function (MatchResultService, $scope, $http, urls) {
             var ctrl = this;
             ctrl.tourneys = [];
+            ctrl.leagues = [];
             ctrl.category = "";
+
+            //TODO: rework for diffrent controller
+            ctrl.selectCategory = function (category) {
+                ctrl.category = category;
+                ctrl.strictFilter = ctrl.category !== '';
+                ctrl.getByCategory();
+            };
+
+            ctrl.isSelected = function (category) {
+                return (ctrl.category === category);
+            };
+
+            ctrl.getCategory = function () {
+                return ctrl.category;
+            };
+
+            ctrl.isCategoryStrict = function () {
+                return ctrl.strictFilter;
+            };
+
+            ctrl.getTourneysForCategory = function(){
+                $http.get(urls.TOURNEY_SERVICE_API, {params: {"category": ctrl.category}})
+                    .then(
+                        function (response) {
+                            ctrl.tourneys = response.data;
+                        },
+                        function () {
+                            console.error('Error while loading tourneys with category' + ctrl.category);
+                        }
+                    );
+            };
+
+            ctrl.getRequiredLeagues = function () {
+                $http.get(urls.TOURNEY_SERVICE_API + "/leagues", {params: {"category": ctrl.category}})
+            };
+
+
             //DATA MOCKUP
 
 

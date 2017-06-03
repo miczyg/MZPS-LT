@@ -8,6 +8,8 @@ public interface TourneyService {
 
     Tourney findById(Long id);
 
+    List<Tourney> findByCategory(String category);
+
     Tourney find(Tourney tourney);
 
     void saveTourney(Tourney tourney);

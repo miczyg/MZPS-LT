@@ -2,7 +2,7 @@ angular.module('mzpsApp').controller('StandingsController',
     ['$scope', "$location", '$http', '$q', 'urls', function ($scope, $location, $http, $q, urls) {
 
         var ctrl = this;
-        ctrl.category = "Mlodzik";
+        ctrl.category = "";
         ctrl.teams = {};
 
         ctrl.selectCategory = function (category) {

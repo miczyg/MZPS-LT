@@ -36,16 +36,16 @@ public class TourneyController {
 
     // -------------------Retrieve All MatchResults---------------------------------------------
     @GetMapping(value = "/")
-    public ResponseEntity<List<Tourney>> getTourneys() {
-        List<Tourney> tourneys = tourneyService.findAllTourneys();
+    public ResponseEntity<List<Tourney>> getTourneys(@RequestParam("category") String category) {
+        List<Tourney> tourneys = tourneyService.findByCategory(category);
         if (tourneys.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(tourneys, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{tourneyId}/leagues")
-    public ResponseEntity<List<League>> getLeaguesForTourney(@PathVariable Long tourneyId){
+    @GetMapping(value = "/leagues")
+    public ResponseEntity<List<League>> getLeaguesForTourney(@RequestParam("tourneyId") Long tourneyId){
         List<League> leagues = leagueService.findByTourney(tourneyId);
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
