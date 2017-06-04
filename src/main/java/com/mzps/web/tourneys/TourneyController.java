@@ -35,7 +35,7 @@ public class TourneyController {
     MatchResultService matchResultService;
 
     // -------------------Retrieve All MatchResults---------------------------------------------
-    @GetMapping(value = "/", produces = "application/json")
+    @GetMapping(value = "/")
     public ResponseEntity<List<Tourney>> getTourneys(@RequestParam("category") String category) {
         List<Tourney> tourneys = tourneyService.findByCategory(category);
         if (tourneys.isEmpty()) {
@@ -50,31 +50,27 @@ public class TourneyController {
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/league/{leagueId}")
-    public ResponseEntity<League> getLeague(@PathVariable Long leagueId){
-        League league = leagueService.findById(leagueId);
-        return new ResponseEntity<>(league, HttpStatus.OK);
+    @GetMapping(value = "/leagues/{leagueId}/matches")
+    public ResponseEntity<List<MatchResult>> getLeague(@PathVariable Long leagueId){
+        List<MatchResult> leagueMatches = matchResultService.findAllByLeagueId(leagueId);
+        return new ResponseEntity<>(leagueMatches, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/match/{matchId}")
-    public ResponseEntity<MatchResult> getMatchResult(@PathVariable Long matchId, @RequestBody MatchResult matchResult){
-//        MatchResult result = matchResultService.findById(matchId);
-
-
+    public ResponseEntity<MatchResult> getMatchResult(@PathVariable Long matchId){
         MatchResult result = new MatchResult();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "match/")
-    public ResponseEntity<?> setMatchResult(@RequestBody MatchResult matchResult,
-                                            UriComponentsBuilder ucBuilder){
-        matchResultService.saveMatchResult(matchResult);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(
-                matchResult.getId()).toUri());
-        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "match/")
+//    public ResponseEntity<?> setMatchResult(@RequestBody MatchResult matchResult,
+//                                            UriComponentsBuilder ucBuilder){
+//        matchResultService.saveMatchResult(matchResult);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(
+//                matchResult.getId()).toUri());
+//        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+//    }
 
     @PutMapping(value = "match/{matchId}")
     public ResponseEntity<?> updateMatchResult(@PathVariable long id,

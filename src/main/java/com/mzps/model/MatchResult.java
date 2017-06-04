@@ -20,7 +20,7 @@ public class MatchResult implements Serializable {
     @JoinColumn(name="Team_ID")
     private List<Team> matchTeams;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @Size(min=2, max=2)
     private List<TeamResult> teamResults;
 
@@ -61,8 +61,11 @@ public class MatchResult implements Serializable {
 
     @Override
     public String toString() {
-        return "TeamResult [id=" + id + ", team1=" + matchTeams.get(0) + ", team2=" + matchTeams.get(1)
-                + ", team1Result=" + teamResults.get(0)
-                + ", team2Result=" + teamResults.get(1) + "]";
+        return "MatchResult{" +
+                "id=" + id +
+                ", matchTeams=" + matchTeams +
+                ", teamResults=" + teamResults +
+                ", leagueId=" + leagueId +
+                '}';
     }
 }

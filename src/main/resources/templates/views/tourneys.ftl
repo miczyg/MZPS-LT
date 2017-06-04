@@ -11,6 +11,7 @@
     </ul>
 </div>
 
+<#--TOURNEY DROPDOWNS-->
 <div class="panel">
     <ul class="nav nav-pills">
         <li class="dropdown" ng-repeat="t in ctrl.tourneys">
@@ -23,7 +24,7 @@
     </ul>
 </div>
 
-
+<#--BERGER TABLE-->
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="lead">Tabela Bergera</span>
@@ -55,6 +56,7 @@
     </div>
 </div>
 
+<#--TOURNEY CLASSIFICATION-->
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="lead">Klasyfikacja turnieju </span>

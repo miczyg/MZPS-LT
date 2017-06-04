@@ -1,9 +1,9 @@
 package com.mzps.web.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mzps.model.League;
-import com.mzps.model.Tourney;
+import com.mzps.model.*;
 import com.mzps.util.CustomErrorType;
+import com.mzps.web.tourneys.MatchResultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -30,6 +32,9 @@ public class AdminController {
 
     @Autowired
     LeagueService leagueService;
+
+    @Autowired
+    MatchResultService matchResultService;
 
     // -------------------Retrieve All Tourneys---------------------------------------------
     @GetMapping(value = TOURNEY_URI)
@@ -156,9 +161,24 @@ public class AdminController {
         }
         leagueService.saveLeague(league);
 
+        generateMatchesForLeague(league);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(league.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+
+    private void generateMatchesForLeague(League league) {
+        List<Team> teamList = league.getTeams();
+        for(int i = 0; i < teamList.size(); i++){
+            for(int j = i + 1; j < teamList.size(); j++){
+                MatchResult emptyResult = new MatchResult();
+                emptyResult.setMatchTeams(Arrays.asList(teamList.get(i), teamList.get(j)));
+                emptyResult.setLeagueId(league.getId());
+                emptyResult.setTeamResults(Arrays.asList(new TeamResult(), new TeamResult()));
+                matchResultService.saveMatchResult(emptyResult);
+            }
+        }
     }
 
     // ------------------- Delete a League-----------------------------------------
