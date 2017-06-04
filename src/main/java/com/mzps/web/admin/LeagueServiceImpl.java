@@ -24,7 +24,6 @@ public class LeagueServiceImpl implements LeagueService {
     private TourneyService tourneyService;
 
 
-
     @Override
     public League findById(Long id) {
         return leagueRepository.findOne(id);
@@ -37,12 +36,12 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public void saveLeague(League league) {
-        league.getLeaguePoints().forEach( leaguePoints -> leaguePoints.setLeague(league));
-        if( tourneyService.tourneyExists(league.getTourney()) ){
+        league.getLeaguePoints().forEach(leaguePoints -> leaguePoints.setLeague(league));
+        if (tourneyService.tourneyExists(league.getTourney())) {
             league.setTourney(tourneyService.find(league.getTourney()));
         }
         leagueRepository.save(league);
-        league.getTeams().forEach( team -> {
+        league.getTeams().forEach(team -> {
             team.setLeague(league);
             teamService.updateTeam(team);
         });
@@ -67,7 +66,10 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public boolean leagueExists(League league) {
-        return leagueRepository.findByName(league.getName()) != null;
+        List<League> allByTourney = leagueRepository.findAllByTourneyId(league.getTourney().getId());
+        return allByTourney.stream().
+                filter(l -> l.getName().equals(league.getName())).
+                count() != 0;
     }
 
     @Override

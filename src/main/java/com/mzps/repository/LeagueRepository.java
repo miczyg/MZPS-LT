@@ -9,10 +9,9 @@ import java.util.Collection;
 import java.util.List;
 
 public interface LeagueRepository extends JpaRepository<League, Long> {
+    League findById(Long id);
 
     League findByName(String name);
-
-    List<League> findAllByTourney(Long tourneyId);
 
     List<League> findAllByTourneyIn(Collection<Tourney> tourney);
 
