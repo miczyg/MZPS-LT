@@ -1,5 +1,6 @@
 package com.mzps.web.admin;
 
+import com.mzps.model.Category;
 import com.mzps.model.League;
 import com.mzps.repository.LeagueRepository;
 import com.mzps.web.teams.TeamService;
@@ -67,5 +68,10 @@ public class LeagueServiceImpl implements LeagueService {
     @Override
     public boolean leagueExists(League league) {
         return leagueRepository.findByName(league.getName()) != null;
+    }
+
+    @Override
+    public List<League> findByCategory(String category) {
+        return leagueRepository.findByTourneyCategory(new Category(category));
     }
 }

@@ -5,14 +5,15 @@ angular.module('mzpsApp').controller('TourneysController',
         function (MatchResultService, $scope, $http, urls) {
             var ctrl = this;
             ctrl.tourneys = [];
-            ctrl.leagues = [];
             ctrl.category = "";
+            ctrl.leagues = [];
 
             //TODO: rework for diffrent controller
             ctrl.selectCategory = function (category) {
                 ctrl.category = category;
                 ctrl.strictFilter = ctrl.category !== '';
-                ctrl.getByCategory();
+                ctrl.getTourneysForCategory();
+                ctrl.getLeaguesForCategory();
             };
 
             ctrl.isSelected = function (category) {
@@ -26,6 +27,7 @@ angular.module('mzpsApp').controller('TourneysController',
             ctrl.isCategoryStrict = function () {
                 return ctrl.strictFilter;
             };
+            //TODO: refactor until here============
 
             ctrl.getTourneysForCategory = function(){
                 $http.get(urls.TOURNEY_SERVICE_API, {params: {"category": ctrl.category}})
@@ -39,10 +41,18 @@ angular.module('mzpsApp').controller('TourneysController',
                     );
             };
 
-            ctrl.getRequiredLeagues = function () {
+            ctrl.getLeaguesForCategory = function(){
                 $http.get(urls.TOURNEY_SERVICE_API + "/leagues", {params: {"category": ctrl.category}})
+                    .then(
+                        function (response) {
+                            ctrl.leagues = response.data;
+                            console.log(ctrl.leagues);
+                        },
+                        function () {
+                            console.error('Error while loading leagues with category' + ctrl.category);
+                        }
+                    );
             };
-
 
             //DATA MOCKUP
 
@@ -98,3 +108,21 @@ angular.module('mzpsApp').controller('TourneysController',
 
         }
     ]);
+
+app.filter('filterForTourney', function() {
+    return function( items, tId) {
+        var filtered = [];
+
+        if(tId === undefined || tId === ''){
+            return items;
+        }
+
+        angular.forEach(items, function(item) {
+            if(tId === item.tourney.id ||  item.tourney.id === ''){
+                filtered.push(item);
+            }
+        });
+
+        return filtered;
+    };
+});

@@ -13,40 +13,11 @@
 
 <div class="panel">
     <ul class="nav nav-pills">
-    <#--TODO: auto generate pill with dropdowns -->
-        <li class="active dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">I Turniej Ligowy<span
+        <li class="dropdown" ng-repeat="t in ctrl.tourneys">
+            <a class="dropdown-toggle" data-toggle="dropdown">{{t.name}}<span
                     class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a class="active" href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">II Turniej Ligowy<span
-                    class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">III Turniej Ligowy<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">IV Turniej Ligowy<span
-                    class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
+                <li ng-repeat="l in ctrl.leagues | filterForTourney:t.id"><a class="active" ng-click="ctrl.getMatches(l.id)">{{l.name}}</a></li>
             </ul>
         </li>
     </ul>

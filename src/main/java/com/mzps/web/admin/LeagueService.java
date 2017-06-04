@@ -21,4 +21,5 @@ public interface LeagueService {
     boolean leagueExists(League league);
 
 
+    List<League> findByCategory(String category);
 }

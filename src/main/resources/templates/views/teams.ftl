@@ -32,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="u in ctrl.getAllTeams() | filter:ctrl.categoryFilter:ctrl.strictFilter">
+                <tr ng-repeat="u in ctrl.getAllTeams() | filter:ctrl.category:ctrl.strictFilter">
                     <td>{{ $index + 1 }}</td>
                     <td>{{u.name}}</td>
                     <td>{{u.categoryName}}</td>

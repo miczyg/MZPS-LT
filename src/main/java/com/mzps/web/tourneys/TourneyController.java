@@ -35,7 +35,7 @@ public class TourneyController {
     MatchResultService matchResultService;
 
     // -------------------Retrieve All MatchResults---------------------------------------------
-    @GetMapping(value = "/")
+    @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<Tourney>> getTourneys(@RequestParam("category") String category) {
         List<Tourney> tourneys = tourneyService.findByCategory(category);
         if (tourneys.isEmpty()) {
@@ -45,8 +45,8 @@ public class TourneyController {
     }
 
     @GetMapping(value = "/leagues")
-    public ResponseEntity<List<League>> getLeaguesForTourney(@RequestParam("tourneyId") Long tourneyId){
-        List<League> leagues = leagueService.findByTourney(tourneyId);
+    public ResponseEntity<List<League>> getLeaguesForTourney(@RequestParam("category") String category){
+        List<League> leagues = leagueService.findByCategory(category);
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
