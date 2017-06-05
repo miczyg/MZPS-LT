@@ -50,8 +50,8 @@ public class TourneyController {
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/leagues/{leagueId}/matches")
-    public ResponseEntity<List<MatchResult>> getLeague(@PathVariable Long leagueId){
+    @GetMapping(value = "/matches")
+    public ResponseEntity<List<MatchResult>> getLeague(@RequestParam("leagueId") Long leagueId){
         List<MatchResult> leagueMatches = matchResultService.findAllByLeagueId(leagueId);
         return new ResponseEntity<>(leagueMatches, HttpStatus.OK);
     }

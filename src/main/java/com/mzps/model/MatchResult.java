@@ -15,7 +15,7 @@ public class MatchResult implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
+    @ManyToMany
     @Size(min=2, max=2)
     @JoinColumn(name="Team_ID")
     private List<Team> matchTeams;

@@ -7,11 +7,15 @@ angular.module('mzpsApp').controller('TourneysController',
             ctrl.tourneys = [];
             ctrl.category = "";
             ctrl.leagues = [];
+            ctrl.currentLeague = {};
+            ctrl.matches = [];
+            ctrl.currenMatch = {};
 
             //TODO: rework for diffrent controller
             ctrl.selectCategory = function (category) {
                 ctrl.category = category;
                 ctrl.strictFilter = ctrl.category !== '';
+                ctrl.matches.length = 0;
                 ctrl.getTourneysForCategory();
                 ctrl.getLeaguesForCategory();
             };
@@ -54,45 +58,22 @@ angular.module('mzpsApp').controller('TourneysController',
                     );
             };
 
-            //DATA MOCKUP
-
-
-            ctrl.mock_t = {
-                id: 1,
-                name: "I turniej ligowy"
+            ctrl.selectLeague = function (league) {
+                ctrl.currentLeague = league;
+                $http.get(urls.TOURNEY_SERVICE_API + "/matches", {params: {"leagueId": league.id}})
+                    .then(
+                        function (response) {
+                            ctrl.matches = response.data;
+                        },
+                        function () {
+                            console.error('Error while loading leagues with category' + ctrl.category);
+                        }
+                    );
             };
-            ctrl.t = [ctrl.mock_t];
 
-            ctrl.mock_league = {
-                id: 1,
-                name: "I Liga",
-                category: "Mlodzik",
-                tourney: 1,
-                teams: [
-                    {name: "Wawel"},
-                    {name: "Sparta"},
-                    {name: "Dunajec"}
-                ]
+            ctrl.setActiveMatch = function (match) {
+              ctrl.activeMatch = match;
             };
-            ctrl.leagues = [ctrl.mock_league];
-
-            ctrl.mock_match = {
-                id: 1,
-                tourney: 1,
-                teams: [ {name: "Wawel"},{name: "Dunajec"}],
-                team_results: [5,6]
-            };
-            ctrl.matches = [ctrl.mock_match];
-
-            ctrl.teams_results =  [
-                {id: 1, s1: 0, s2: 0, s3: 0},
-                {id: 2, s1: 0, s2: 0, s3: 0},
-                {id: 3, s1: 0, s2: 0, s3: 0},
-                {id: 4, s1: 0, s2: 0, s3: 0},
-                {id: 5, s1: 25, s2: 18, s3: 12},
-                {id: 6, s1: 23, s2: 25, s3: 15}
-            ];
-        //    MOCK END
 
             //Passing data to modal
             $('#matchModal').on('show.bs.modal', function(e) {
