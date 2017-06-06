@@ -1,0 +1,12 @@
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (5, 6);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (5, 7);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (8, 9);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (8, 10);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (11, 12);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (11, 13);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (18, 19);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (18, 20);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (21, 22);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (21, 23);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (24, 25);
+INSERT INTO mzps.matchresults_teamresults (MatchResult_id, teamResults_id) VALUES (24, 26);

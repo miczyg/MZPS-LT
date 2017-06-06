@@ -16,6 +16,10 @@ public interface MatchResultService {
 
     List<MatchResult> findAllMatchResults();
 
+    List<MatchResult> findAllByLeagueId(Long leagueId);
+
+    List<MatchResult> findAllByTeamsAndLeague(List<Team> matchTeams, Long leagueId);
+
     void deleteMatchResultById(Long id);
 
     void deleteAllMatchResults();

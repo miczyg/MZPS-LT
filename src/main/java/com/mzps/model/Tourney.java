@@ -22,6 +22,7 @@ public class Tourney implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+//    TODO: correct name exist error
     @NotEmpty
     @Column(name="Name", nullable=false)
     private String name;

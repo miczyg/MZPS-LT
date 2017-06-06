@@ -29,7 +29,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public List<Team> findByCategory(String category) {
-		return teamRepository.findByCategory(category);
+		return teamRepository.findByCategory(new Category(category));
 	}
 
 	@Override

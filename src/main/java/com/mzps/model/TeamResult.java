@@ -14,13 +14,13 @@ public class TeamResult implements Serializable {
     private Long id;
 
     @Column(name="Set1Points", nullable = false)
-    private int set1Points;
+    private int set1Points = 0;
 
     @Column(name="Set2Points", nullable = false)
-    private int set2Points;
+    private int set2Points = 0;
 
     @Column(name="Set3Points")
-    private int set3Points;
+    private int set3Points = 0;
 
     public int getSet1Points() {
         return set1Points;

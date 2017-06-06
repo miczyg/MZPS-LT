@@ -20,20 +20,20 @@ angular.module('mzpsApp').controller('TeamController',
         ctrl.errorMessage = '';
         ctrl.done = false;
 
-        ctrl.categoryFilter = '';
+        ctrl.category = '';
         ctrl.strictFilter = false;
 
         ctrl.selectCategory = function(category) {
-            ctrl.categoryFilter = category;
-            ctrl.strictFilter = ctrl.categoryFilter !== '';
+            ctrl.category = category;
+            ctrl.strictFilter = ctrl.category !== '';
         };
 
         ctrl.isSelected = function(category) {
-            return (ctrl.categoryFilter === category);
+            return (ctrl.category === category);
         };
 
         ctrl.getCategory = function(){
-            return ctrl.categoryFilter;
+            return ctrl.category;
         };
 
         ctrl.isCategoryStrict = function () {

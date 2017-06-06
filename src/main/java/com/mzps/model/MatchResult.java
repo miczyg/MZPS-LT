@@ -1,9 +1,6 @@
 package com.mzps.model;
 
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,14 +15,17 @@ public class MatchResult implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
+    @ManyToMany
     @Size(min=2, max=2)
     @JoinColumn(name="Team_ID")
     private List<Team> matchTeams;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @Size(min=2, max=2)
     private List<TeamResult> teamResults;
+
+    @NotNull
+    private Long leagueId;
 
     public Long getId() {
         return id;
@@ -51,10 +51,21 @@ public class MatchResult implements Serializable {
         this.teamResults = teamResults;
     }
 
+    public Long getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(Long leagueId) {
+        this.leagueId = leagueId;
+    }
+
     @Override
     public String toString() {
-        return "TeamResult [id=" + id + ", team1=" + matchTeams.get(0) + ", team2=" + matchTeams.get(1)
-                + ", team1Result=" + teamResults.get(0)
-                + ", team2Result=" + teamResults.get(1) + "]";
+        return "MatchResult{" +
+                "id=" + id +
+                ", matchTeams=" + matchTeams +
+                ", teamResults=" + teamResults +
+                ", leagueId=" + leagueId +
+                '}';
     }
 }

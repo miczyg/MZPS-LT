@@ -1,0 +1,12 @@
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (6, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (7, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (9, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (10, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (12, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (13, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (19, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (20, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (22, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (23, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (25, 0, 0, 0);
+INSERT INTO mzps.teamresults (id, Set1Points, Set2Points, Set3Points) VALUES (26, 0, 0, 0);

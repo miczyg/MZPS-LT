@@ -4,6 +4,7 @@ app.constant('urls', {
     BASE: 'http://localhost:8080/',
     TEAM_SERVICE_API: 'http://localhost:8080/teams/',
     TOURNEY_SERVICE_API: 'http://localhost:8080/tourneys/',
+    STANDINGS_SERVICE_API: 'http://localhost:8080/standings/',
     ADMIN_SERVICE_API: 'http://localhost:8080/admin/',
     ADMIN_TOURNEY_SERVICE_API: 'http://localhost:8080/admin/tourney/',
     ADMIN_LEAGUE_SERVICE_API: 'http://localhost:8080/admin/league/'

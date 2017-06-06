@@ -1,0 +1,14 @@
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);
+INSERT INTO mzps.hibernate_sequence (next_val) VALUES (13);

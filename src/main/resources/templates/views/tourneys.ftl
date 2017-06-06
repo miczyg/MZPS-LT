@@ -11,87 +11,55 @@
     </ul>
 </div>
 
-<div class="panel">
+<#--TOURNEY DROPDOWNS-->
+<div class="panel" ng-if="ctrl.getTourneys().length">
     <ul class="nav nav-pills">
-    <#--TODO: auto generate pill with dropdowns -->
-        <li class="active dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">I Turniej Ligowy<span
+        <li class="dropdown" ng-repeat="t in ctrl.getTourneys()">
+            <a class="dropdown-toggle" data-toggle="dropdown">{{t.name}}<span
                     class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a class="active" href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">II Turniej Ligowy<span
-                    class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">III Turniej Ligowy<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">IV Turniej Ligowy<span
-                    class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">I Liga</a></li>
-                <li><a href="#">II Liga</a></li>
-                <li><a href="#">III Liga</a></li>
+                <li ng-repeat="l in ctrl.getLeagues() | filterForTourney:t.id">
+                    <a class="active cell_active"
+                       ng-click="ctrl.selectLeague(l)">{{l.name}}</a>
+                </li>
             </ul>
         </li>
     </ul>
 </div>
 
-
-<div class="panel panel-default">
+<#--MATCH TABLE-->
+<div class="panel panel-default " ng-if="ctrl.getMatches().length">
     <div class="panel-heading">
-        <span class="lead">Tabela Bergera</span>
+        <span class="lead">Mecze</span>
     </div>
 <#--TODO: logic for auto generate-->
     <div class="panel-body">
-        <table class="table table-bordered col-md-4">
-            <thead>
-            <tr>
-                <th></th>
-                <th ng-repeat="team in ctrl.mock_league.teams">{{team.name}}</th>
-            </tr>
-            </thead>
+        <table class="table table-striped table-nonfluid col-md-3">
             <tbody>
-            <tr ng-repeat="team_row in ctrl.mock_league.teams">
-                <th>{{team_row.name}}</th>
-                <td ng-repeat="team_col in ctrl.mock_league.teams"
-                    data-toggle="{{team_row === team_col ? '' : 'modal'}}"
+            <tr ng-repeat="match in ctrl.getMatches()">
+                <th>{{ $index + 1 }}</th>
+                <td>{{match.matchTeams[0].name}} : {{match.matchTeams[1].name}}</td>
+                <td data-toggle="modal"
                     data-target="#matchModal"
-                    data-team1="{{team_row.name}}"
-                    data-team2="{{team_col.name}}"
-                    ng-class="team_row === team_col ? 'danger' : 'cell_active'">
-                    {{ctrl.getMatchResult(team_row, team_col)}}
+                    class="cell_active"
+                    ng-click="ctrl.getActiveMatch(match)">
+                    <a>{{ctrl.displayResult(match)}}</a>
                 </td>
-            <#--TODO: change above-->
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="panel panel-default">
+<#--TOURNEY CLASSIFICATION-->
+<div class="panel panel-default " ng-if="ctrl.getMatches().length">
     <div class="panel-heading">
         <span class="lead">Klasyfikacja turnieju </span>
     </div>
 
 <#--TODO: logic for auto generate-->
     <div class="panel-body">
-        <table class="table table-striped">
+        <table class="table table-striped table-nonfluid">
             <thead>
             <tr>
                 <th>Miejsce</th>
@@ -102,15 +70,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="team in ctrl.mock_league.teams">
+            <#--add popupus with detailed-->
+            <tr ng-repeat="result in ctrl.getStandings() | orderBy:['tPoints', 'setsWon - pointsLost', 'pointsWon - setsLost']">
                 <td>{{ $index + 1 }}</td>
-                <td>{{team.name}}</td>
+                <td>{{result.name}}</td>
+                <td>{{result.tPoints}}</td>
+                <td>{{result.pointsWon - result.pointsLost}}</td>
+                <td>{{result.setsWon - result.setsLost}}</td>
             </tr>
-            <td>{{team.tpoint}}</td>
-            <td>{{team.sets}}</td>
-            <td>{{team.small_points}}</td>
             </tbody>
         </table>
+        <button type="button" ng-click="ctrl.confirmTourneyResults()" class="btn btn-warning btn-sm">
+            Zatwierdź wyniki turnieju
+        </button>
     </div>
 </div>
 

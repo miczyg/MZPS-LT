@@ -8,7 +8,7 @@ angular.module('mzpsApp').factory('TeamService',
                 getTeam: getTeam,
                 createTeam: createTeam,
                 updateTeam: updateTeam,
-                removeTeam: removeTeam
+                removeTeam: removeTeam,
             };
 
             return factory;

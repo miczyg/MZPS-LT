@@ -1,9 +1,10 @@
 spring:
+  freemarker:
+    cache: false
   jpa:
     database-platform: MYSQL
   profiles:
-    active: development   #IMPORTANT! change to 'production' for production env database MySQL, and to 'development' for embedded h2 database
-
+    active: production   #IMPORTANT! change to 'production' for production env database MySQL, and to 'development' for embedded h2 database
 ---
 server:
   port: 8080
@@ -11,6 +12,8 @@ server:
 ---
 spring:
   profiles: production
+  freemarker:
+      cache: false
 datasource:
   mzps:
     url: jdbc:mysql://localhost:3306/mzps
@@ -20,8 +23,8 @@ datasource:
     defaultSchema:
     maxPoolSize: 20
     hibernate:
-      hbm2ddl.method: create-drop #unsafe for production env, better to write your own DML queries
-      ddl-auto: create-drop #also unsafe
+      hbm2ddl.method: update #unsafe for production env, better to write your own DML queries
+      ddl-auto: update #also unsafe
       show_sql: true
       format_sql: true
       dialect: org.hibernate.dialect.MySQLDialect
@@ -29,14 +32,16 @@ datasource:
 
 spring:
   profiles: development
+  freemarker:
+      cache: false
 datasource:
   mzps:
     url: jdbc:h2:mem:testdbl;Mode=MySQL
     driverClassName: org.h2.Driver
     defaultSchema:
     hibernate:
-      hbm2ddl.method: update
-      ddl-auto: update
+      hbm2ddl.method: create
+      ddl-auto: create
       show_sql: true
       format_sql: true
       dialect: org.hibernate.dialect.MySQLDialect

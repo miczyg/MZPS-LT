@@ -4,24 +4,24 @@
 
 angular.module('mzpsApp').controller('CategoryController', ['$scope', function ($scope) {
     var ctrl = this;
-    ctrl.categoryFilter = '';
+    ctrl.category = '';
     ctrl.strictFilter = true;
 
     ctrl.selectCategory = function(category) {
-        ctrl.categoryFilter = category;
-        if(ctrl.categoryFilter === 'Wszystkie'){
+        ctrl.category = category;
+        if(ctrl.category === 'Wszystkie'){
             ctrl.strictFilter = false;
-            ctrl.categoryFilter='';
+            ctrl.category='';
         }
         else ctrl.strictFilter = true;
     };
 
     ctrl.isSelected = function(category) {
-        return (ctrl.categoryFilter === category);
+        return (ctrl.category === category);
     };
 
     ctrl.getCategory = function(){
-        return ctrl.categoryFilter;
+        return ctrl.category;
     };
 
     ctrl.isStrict = function () {

@@ -2,6 +2,7 @@ package com.mzps.web.admin;
 
 
 import com.mzps.model.Address;
+import com.mzps.model.Category;
 import com.mzps.model.Tourney;
 import com.mzps.repository.AddressRepository;
 import com.mzps.repository.TourneyRepository;
@@ -28,6 +29,11 @@ public class TourneyServiceImpl implements TourneyService {
     @Override
     public Tourney findById(Long id) {
         return tourneyRepository.findOne(id);
+    }
+
+    @Override
+    public List<Tourney> findByCategory(String category) {
+        return tourneyRepository.findByCategory(new Category(category));
     }
 
     @Override
