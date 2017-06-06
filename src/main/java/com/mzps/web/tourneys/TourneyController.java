@@ -6,6 +6,7 @@ import com.mzps.web.admin.LeagueService;
 import com.mzps.web.admin.TourneyService;
 import com.mzps.web.teams.TeamController;
 import org.apache.xerces.impl.xpath.regex.Match;
+import org.hibernate.jpa.criteria.expression.function.AggregationFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,14 @@ public class TourneyController {
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/league")
+    public ResponseEntity<League> getLeague(@RequestParam("leagueId") Long leagueId){
+        League league = leagueService.findById(leagueId);
+        return new ResponseEntity<>(league, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/matches")
-    public ResponseEntity<List<MatchResult>> getLeague(@RequestParam("leagueId") Long leagueId){
+    public ResponseEntity<List<MatchResult>> getMatchesForLeague(@RequestParam("leagueId") Long leagueId){
         List<MatchResult> leagueMatches = matchResultService.findAllByLeagueId(leagueId);
         return new ResponseEntity<>(leagueMatches, HttpStatus.OK);
     }
@@ -72,10 +79,10 @@ public class TourneyController {
 //        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 //    }
 
-    @PutMapping(value = "match/{matchId}")
-    public ResponseEntity<?> updateMatchResult(@PathVariable long id,
+    @PutMapping(value = "/match/{matchId}")
+    public ResponseEntity<?> updateMatchResult(@PathVariable long matchId,
                                                @RequestBody MatchResult matchResult) {
-        MatchResult updatedMatch = matchResultService.findById(id);
+        MatchResult updatedMatch = matchResultService.findById(matchId);
         updatedMatch.setTeamResults(matchResult.getTeamResults());
         matchResultService.updateMatchResult(updatedMatch);
         return new ResponseEntity<>(updatedMatch, HttpStatus.OK);
