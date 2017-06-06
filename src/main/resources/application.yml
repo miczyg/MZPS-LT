@@ -4,7 +4,7 @@ spring:
   jpa:
     database-platform: MYSQL
   profiles:
-    active: production   #IMPORTANT! change to 'production' for production env database MySQL, and to 'development' for embedded h2 database
+    active: development   #IMPORTANT! change to 'production' for production env database MySQL, and to 'development' for embedded h2 database
 ---
 server:
   port: 8080

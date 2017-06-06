@@ -74,6 +74,8 @@ angular.module('mzpsApp').controller('TeamController',
 
         function updateTeam(team, id){
             console.log('About to update team');
+            //fixes updating team that is in a league
+            if(team.league) delete team.league;
             TeamService.updateTeam(team, id)
                 .then(
                     function (response){
