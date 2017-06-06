@@ -22,7 +22,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td scope="row">1</td>
+                                <th scope="row">1</th>
                                 <td>
                                     <input class="form-control" type="number " min="0"
                                            ng-model="ctrl.activeMatch.teamResults[0].set1Points"/>
@@ -32,7 +32,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td scope="row">1</td>
+                                <th scope="row">3</th>
                                 <td>
                                     <input class="form-control" type="number" min="0"
                                            ng-model="ctrl.activeMatch.teamResults[0].set2Points"/>
@@ -42,7 +42,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td scope="row">1</td>
+                                <th scope="row">3</th>
                                 <td>
                                     <input class="form-control" type="number" min="0"
                                            ng-model="ctrl.activeMatch.teamResults[0].set3Points"/>

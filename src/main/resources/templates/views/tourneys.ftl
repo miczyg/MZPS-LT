@@ -43,7 +43,7 @@
                     data-target="#matchModal"
                     class="cell_active"
                     ng-click="ctrl.getActiveMatch(match)">
-                    <a>{{ctrl.displayResult(match)}}</a>
+                    {{ctrl.displayResult(match)}}
                 </td>
             </tr>
             </tbody>
@@ -71,12 +71,18 @@
             </thead>
             <tbody>
             <#--add popupus with detailed-->
-            <tr ng-repeat="result in ctrl.getStandings() | orderBy:['tPoints', 'setsWon - pointsLost', 'pointsWon - setsLost']">
+            <tr ng-repeat="result in ctrl.overallResults | resultOrder:'tPoints':true">
                 <td>{{ $index + 1 }}</td>
                 <td>{{result.name}}</td>
                 <td>{{result.tPoints}}</td>
-                <td>{{result.pointsWon - result.pointsLost}}</td>
-                <td>{{result.setsWon - result.setsLost}}</td>
+                <td>
+                <#--{{result.setsWon - result.setsLost}}-->
+                    {{result.setsWon}} : {{result.setsLost}}
+                </td>
+                <td>
+                <#--{{result.pointsWon - result.pointsLost}}-->
+                    {{result.pointsWon}} : {{result.pointsLost}}
+                </td>
             </tr>
             </tbody>
         </table>

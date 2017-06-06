@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TourneysController',
-    ['MatchResultService', '$scope', '$http', 'urls', '$q',
-        function (MatchResultService, $scope, $http, urls, $q) {
+    ['MatchResultService', 'TeamService','$scope', '$http', 'urls', '$q',
+        function (TeamService, MatchResultService, $scope, $http, urls, $q) {
             var ctrl = this;
             ctrl.tourneys = [];
             ctrl.category = "";
@@ -122,12 +122,15 @@ angular.module('mzpsApp').controller('TourneysController',
 
             ctrl.submitMatchResult = function () {
                 console.log('Updating Match with id ' + ctrl.activeMatch.id);
-                console.log(ctrl.activeMatch.teamResults);
                 var deferred = $q.defer();
                 $http.put(urls.TOURNEY_SERVICE_API + "match/" + ctrl.activeMatch.id, ctrl.activeMatch.teamResults)
                     .then(
                         function (response) {
-                            ctrl.loadMatches(ctrl.currentLeague.id);
+                            ctrl.loadMatches(ctrl.currentLeague.id)
+                                .then(function () {
+                                    ctrl.overallResults = ctrl.calculateResults(ctrl.getTeams(), ctrl.getMatches());
+                                });
+
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
@@ -135,10 +138,7 @@ angular.module('mzpsApp').controller('TourneysController',
                             deferred.reject(errResponse);
                         }
                     );
-                return deferred.promise
-                    .then(function () {
-                        ctrl.overallResults = ctrl.calculateResults(ctrl.getTeams(), ctrl.getMatches());
-                    });
+                return deferred.promise;
             };
 
             ctrl.getStandings = function () {
@@ -239,6 +239,13 @@ angular.module('mzpsApp').controller('TourneysController',
                 return tourneyResults;
             };
 
+            ctrl.confirmTourneyResults = function () {
+                var teams = ctrl.getTeams();
+                console.log(ctrl.currentLeague);
+                angular.forEach(teams, function (team) {
+                    console.log(team);
+                })
+            }
         }
     ]);
 
@@ -258,6 +265,21 @@ app.filter('filterForTourney', function () {
             }
         });
 
+        return filtered;
+    };
+});
+
+app.filter('resultOrder', function() {
+    return function(items, field, reverse) {
+        var filtered = [];
+        angular.forEach(items, function(item) {
+            filtered.push(item);
+        });
+        filtered.sort(function (a, b) {
+
+            return (a[field] > b[field] ? 1 : -1);
+        });
+        if(reverse) filtered.reverse();
         return filtered;
     };
 });
