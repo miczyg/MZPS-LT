@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TourneysController',
-    ['MatchResultService', '$scope', '$http', 'urls', '$q',
-        function (MatchResultService, $scope, $http, urls, $q) {
+    ['MatchResultService', 'TeamService', '$scope', '$http', 'urls', '$q', '$filter',
+        function (MatchResultService, TeamService, $scope, $http, urls, $q, $filter) {
             var ctrl = this;
             ctrl.tourneys = [];
             ctrl.category = "";
@@ -11,7 +11,7 @@ angular.module('mzpsApp').controller('TourneysController',
             ctrl.matches = [];
             ctrl.activeMatch = {};
             ctrl.leagueResults = [];
-            ctrl.overallResults = {};
+            ctrl.overallResults = [];
 
             ctrl.selectCategory = function (category) {
                 ctrl.category = category;
@@ -122,12 +122,15 @@ angular.module('mzpsApp').controller('TourneysController',
 
             ctrl.submitMatchResult = function () {
                 console.log('Updating Match with id ' + ctrl.activeMatch.id);
-                console.log(ctrl.activeMatch.teamResults);
                 var deferred = $q.defer();
                 $http.put(urls.TOURNEY_SERVICE_API + "match/" + ctrl.activeMatch.id, ctrl.activeMatch.teamResults)
                     .then(
                         function (response) {
-                            ctrl.loadMatches(ctrl.currentLeague.id);
+                            ctrl.loadMatches(ctrl.currentLeague.id)
+                                .then(function () {
+                                    ctrl.overallResults = ctrl.calculateResults(ctrl.getTeams(), ctrl.getMatches());
+                                });
+
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
@@ -135,10 +138,7 @@ angular.module('mzpsApp').controller('TourneysController',
                             deferred.reject(errResponse);
                         }
                     );
-                return deferred.promise
-                    .then(function () {
-                        ctrl.overallResults = ctrl.calculateResults(ctrl.getTeams(), ctrl.getMatches());
-                    });
+                return deferred.promise;
             };
 
             ctrl.getStandings = function () {
@@ -203,6 +203,7 @@ angular.module('mzpsApp').controller('TourneysController',
 
                 angular.forEach(teams, function (team) {
                     tourneyResults[team.id] = {
+                        id: team.id,
                         name: team.name,
                         pointsWon: 0,
                         pointsLost: 0,
@@ -235,10 +236,34 @@ angular.module('mzpsApp').controller('TourneysController',
 
                 });
                 // console.log(tourneyResults);
+                var resultArray = [];
+                angular.forEach(tourneyResults, function (result) {
+                    resultArray.push(result);
+                });
 
-                return tourneyResults;
+                resultArray.sort(function (a, b) {
+                    var sortByTP = a.tPoints < b.tPoints;
+                    var sortBySets = (a.setsWon - a.setsLost) < (b.setsWon - b.setsLost);
+                    var sortByPoints = (a.pointsWon - a.pointsLost) < (b.pointsWon - b.pointsLost);
+                    return sortByTP ? 1 : sortBySets ? 1 : sortByPoints ? 1 : -1;
+                });
+
+                return resultArray;
             };
 
+            ctrl.confirmTourneyResults = function () {
+                console.log(ctrl.currentLeague);
+                console.log(ctrl.overallResults);
+                for (var place = 0; place < ctrl.overallResults.length; place++) {
+                    var resId = ctrl.overallResults[place].id;
+                    var properTeam = $filter('filter')(ctrl.currentLeague.teams, function (team) {
+                        return team.id === resId;
+                    })[0];
+                    console.log(properTeam);
+                    properTeam.totalSeasonPoints += ctrl.currentLeague.leaguePoints[place].points;
+                    $http.put(urls.TOURNEY_SERVICE_API + "confirm/" + properTeam.id, properTeam.totalSeasonPoints)
+                }
+            }
         }
     ]);
 
@@ -258,6 +283,20 @@ app.filter('filterForTourney', function () {
             }
         });
 
+        return filtered;
+    };
+});
+
+app.filter('resultOrder', function () {
+    return function (items, field, reverse) {
+        var filtered = [];
+        angular.forEach(items, function (item) {
+            filtered.push(item);
+        });
+        filtered.sort(function (a, b) {
+            return (a[field] > b[field] ? 1 : -1);
+        });
+        if (reverse) filtered.reverse();
         return filtered;
     };
 });

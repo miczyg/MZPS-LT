@@ -30,15 +30,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
                 url: '/tourneys',
                 templateUrl: 'tourneys',
                 controller: 'TourneysController',
-                controllerAs: 'ctrl',
-                resolve: {
-                    tourneys: function ($q, TourneyService) {
-                        console.log('Load tourneys');
-                        var deferred = $q.defer();
-                        TourneyService.loadAllTourneys().then(deferred.resolve, deferred.resolve);
-                        return deferred.promise;
-                    }
-                }
+                controllerAs: 'ctrl'
             })
             .state('teams', {
                 url: '/teams',
