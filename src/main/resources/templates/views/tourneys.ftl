@@ -42,9 +42,8 @@
                 <td data-toggle="modal"
                     data-target="#matchModal"
                     class="cell_active"
-                    ng-click="ctrl.setActiveMatch(match)"
-                >
-                    {{ctrl.displayResult(match)}}
+                    ng-click="ctrl.getActiveMatch(match)">
+                    <a>{{ctrl.displayResult(match)}}</a>
                 </td>
             </tr>
             </tbody>

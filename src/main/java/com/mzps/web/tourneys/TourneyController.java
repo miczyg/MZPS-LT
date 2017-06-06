@@ -64,9 +64,9 @@ public class TourneyController {
     }
 
     @GetMapping(value = "/match/{matchId}")
-    public ResponseEntity<MatchResult> getMatchResult(@PathVariable Long matchId){
-        MatchResult result = new MatchResult();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<?> getMatchResult(@PathVariable Long matchId){
+        MatchResult result = matchResultService.findById(matchId);
+        return new ResponseEntity<MatchResult>(result, HttpStatus.OK);
     }
 
 //    @PostMapping(value = "match/")
@@ -81,10 +81,10 @@ public class TourneyController {
 
     @PutMapping(value = "/match/{matchId}")
     public ResponseEntity<?> updateMatchResult(@PathVariable long matchId,
-                                               @RequestBody MatchResult matchResult) {
+                                               @RequestBody List<TeamResult> teamResults) {
         MatchResult updatedMatch = matchResultService.findById(matchId);
-        updatedMatch.setTeamResults(matchResult.getTeamResults());
+        updatedMatch.setTeamResults(teamResults);
         matchResultService.updateMatchResult(updatedMatch);
-        return new ResponseEntity<>(updatedMatch, HttpStatus.OK);
+        return new ResponseEntity<MatchResult>(updatedMatch, HttpStatus.OK);
     }
 }

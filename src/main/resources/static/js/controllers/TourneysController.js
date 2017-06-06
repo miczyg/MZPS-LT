@@ -9,7 +9,7 @@ angular.module('mzpsApp').controller('TourneysController',
             ctrl.leagues = [];
             ctrl.currentLeague = {};
             ctrl.matches = [];
-            ctrl.currenMatch = {};
+            ctrl.activeMatch = {};
             ctrl.leagueResults = [];
             ctrl.overallResults = {};
 
@@ -103,21 +103,35 @@ angular.module('mzpsApp').controller('TourneysController',
 
             };
 
-            ctrl.setActiveMatch = function (match) {
-                ctrl.activeMatch = match;
+            ctrl.getActiveMatch = function (match) {
+                console.log('Getting Match with id ' + match.id);
+                var deferred = $q.defer();
+                $http.get(urls.TOURNEY_SERVICE_API + "match/" + match.id, match)
+                    .then(
+                        function (response) {
+                            ctrl.activeMatch = response.data;
+                            deferred.resolve(response.data);
+                        },
+                        function (errResponse) {
+                            console.error('Error while getting Team with id :' + match.id);
+                            deferred.reject(errResponse);
+                        }
+                    );
+                return deferred.promise
             };
 
-            ctrl.submitMatchResult = function (match) {
-                console.log('Updating Match with id ' + match.id);
+            ctrl.submitMatchResult = function () {
+                console.log('Updating Match with id ' + ctrl.activeMatch.id);
+                console.log(ctrl.activeMatch.teamResults);
                 var deferred = $q.defer();
-                $http.put(urls.TOURNEY_SERVICE_API + "match/" + match.id, match)
+                $http.put(urls.TOURNEY_SERVICE_API + "match/" + ctrl.activeMatch.id, ctrl.activeMatch.teamResults)
                     .then(
                         function (response) {
                             ctrl.loadMatches(ctrl.currentLeague.id);
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while updating Team with id :' + match.id);
+                            console.error('Error while updating Team with id :' + ctrl.activeMatch.id);
                             deferred.reject(errResponse);
                         }
                     );
@@ -125,7 +139,6 @@ angular.module('mzpsApp').controller('TourneysController',
                     .then(function () {
                         ctrl.overallResults = ctrl.calculateResults(ctrl.getTeams(), ctrl.getMatches());
                     });
-
             };
 
             ctrl.getStandings = function () {
