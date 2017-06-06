@@ -5,6 +5,7 @@ import com.mzps.util.CustomErrorType;
 import com.mzps.web.admin.LeagueService;
 import com.mzps.web.admin.TourneyService;
 import com.mzps.web.teams.TeamController;
+import com.mzps.web.teams.TeamService;
 import org.apache.xerces.impl.xpath.regex.Match;
 import org.hibernate.jpa.criteria.expression.function.AggregationFunction;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class TourneyController {
     TourneyService tourneyService;
 
     @Autowired
+    TeamService teamService;
+
+    @Autowired
     LeagueService leagueService;
 
     @Autowired
@@ -46,25 +50,25 @@ public class TourneyController {
     }
 
     @GetMapping(value = "/leagues")
-    public ResponseEntity<List<League>> getLeaguesForTourney(@RequestParam("category") String category){
+    public ResponseEntity<List<League>> getLeaguesForTourney(@RequestParam("category") String category) {
         List<League> leagues = leagueService.findByCategory(category);
         return new ResponseEntity<>(leagues, HttpStatus.OK);
     }
 
     @GetMapping(value = "/league")
-    public ResponseEntity<League> getLeague(@RequestParam("leagueId") Long leagueId){
+    public ResponseEntity<League> getLeague(@RequestParam("leagueId") Long leagueId) {
         League league = leagueService.findById(leagueId);
         return new ResponseEntity<>(league, HttpStatus.OK);
     }
 
     @GetMapping(value = "/matches")
-    public ResponseEntity<List<MatchResult>> getMatchesForLeague(@RequestParam("leagueId") Long leagueId){
+    public ResponseEntity<List<MatchResult>> getMatchesForLeague(@RequestParam("leagueId") Long leagueId) {
         List<MatchResult> leagueMatches = matchResultService.findAllByLeagueId(leagueId);
         return new ResponseEntity<>(leagueMatches, HttpStatus.OK);
     }
 
     @GetMapping(value = "/match/{matchId}")
-    public ResponseEntity<?> getMatchResult(@PathVariable Long matchId){
+    public ResponseEntity<?> getMatchResult(@PathVariable Long matchId) {
         MatchResult result = matchResultService.findById(matchId);
         return new ResponseEntity<MatchResult>(result, HttpStatus.OK);
     }
@@ -86,5 +90,15 @@ public class TourneyController {
         updatedMatch.setTeamResults(teamResults);
         matchResultService.updateMatchResult(updatedMatch);
         return new ResponseEntity<MatchResult>(updatedMatch, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/confirm/{teamId}")
+    public ResponseEntity<?> confirmLeague(@PathVariable("teamId") long teamId,
+                                           @RequestBody Integer total) {
+        System.out.println("TOTAL POINST:" + total);
+        Team byId = teamService.findById(teamId);
+        byId.setTotalSeasonPoints(total);
+        teamService.updateTeam(byId);
+        return new ResponseEntity<Team>(byId, HttpStatus.OK);
     }
 }

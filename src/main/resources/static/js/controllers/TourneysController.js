@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mzpsApp').controller('TourneysController',
-    ['MatchResultService', 'TeamService','$scope', '$http', 'urls', '$q',
-        function (TeamService, MatchResultService, $scope, $http, urls, $q) {
+    ['MatchResultService', 'TeamService', '$scope', '$http', 'urls', '$q', '$filter',
+        function (MatchResultService, TeamService, $scope, $http, urls, $q, $filter) {
             var ctrl = this;
             ctrl.tourneys = [];
             ctrl.category = "";
@@ -11,7 +11,7 @@ angular.module('mzpsApp').controller('TourneysController',
             ctrl.matches = [];
             ctrl.activeMatch = {};
             ctrl.leagueResults = [];
-            ctrl.overallResults = {};
+            ctrl.overallResults = [];
 
             ctrl.selectCategory = function (category) {
                 ctrl.category = category;
@@ -203,6 +203,7 @@ angular.module('mzpsApp').controller('TourneysController',
 
                 angular.forEach(teams, function (team) {
                     tourneyResults[team.id] = {
+                        id: team.id,
                         name: team.name,
                         pointsWon: 0,
                         pointsLost: 0,
@@ -235,16 +236,33 @@ angular.module('mzpsApp').controller('TourneysController',
 
                 });
                 // console.log(tourneyResults);
+                var resultArray = [];
+                angular.forEach(tourneyResults, function (result) {
+                    resultArray.push(result);
+                });
 
-                return tourneyResults;
+                resultArray.sort(function (a, b) {
+                    var sortByTP = a.tPoints < b.tPoints;
+                    var sortBySets = (a.setsWon - a.setsLost) < (b.setsWon - b.setsLost);
+                    var sortByPoints = (a.pointsWon - a.pointsLost) < (b.pointsWon - b.pointsLost);
+                    return sortByTP ? 1 : sortBySets ? 1 : sortByPoints ? 1 : -1;
+                });
+
+                return resultArray;
             };
 
             ctrl.confirmTourneyResults = function () {
-                var teams = ctrl.getTeams();
                 console.log(ctrl.currentLeague);
-                angular.forEach(teams, function (team) {
-                    console.log(team);
-                })
+                console.log(ctrl.overallResults);
+                for (var place = 0; place < ctrl.overallResults.length; place++) {
+                    var resId = ctrl.overallResults[place].id;
+                    var properTeam = $filter('filter')(ctrl.currentLeague.teams, function (team) {
+                        return team.id === resId;
+                    })[0];
+                    console.log(properTeam);
+                    properTeam.totalSeasonPoints += ctrl.currentLeague.leaguePoints[place].points;
+                    $http.put(urls.TOURNEY_SERVICE_API + "confirm/" + properTeam.id, properTeam.totalSeasonPoints)
+                }
             }
         }
     ]);
@@ -269,17 +287,16 @@ app.filter('filterForTourney', function () {
     };
 });
 
-app.filter('resultOrder', function() {
-    return function(items, field, reverse) {
+app.filter('resultOrder', function () {
+    return function (items, field, reverse) {
         var filtered = [];
-        angular.forEach(items, function(item) {
+        angular.forEach(items, function (item) {
             filtered.push(item);
         });
         filtered.sort(function (a, b) {
-
             return (a[field] > b[field] ? 1 : -1);
         });
-        if(reverse) filtered.reverse();
+        if (reverse) filtered.reverse();
         return filtered;
     };
 });

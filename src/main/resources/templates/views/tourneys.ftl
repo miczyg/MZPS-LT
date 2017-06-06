@@ -71,7 +71,7 @@
             </thead>
             <tbody>
             <#--add popupus with detailed-->
-            <tr ng-repeat="result in ctrl.overallResults | resultOrder:'tPoints':true">
+            <tr ng-repeat="result in ctrl.overallResults <#--| orderBy : ['tPoints', 'setsWon', 'pointsWon'] : true-->">
                 <td>{{ $index + 1 }}</td>
                 <td>{{result.name}}</td>
                 <td>{{result.tPoints}}</td>
