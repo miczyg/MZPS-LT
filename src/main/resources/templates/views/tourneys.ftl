@@ -37,13 +37,16 @@
         <table class="table table-striped table-nonfluid col-md-3">
             <tbody>
             <tr ng-repeat="match in ctrl.getMatches()">
-                <th>{{ $index + 1 }}</th>
-                <td>{{match.matchTeams[0].name}} : {{match.matchTeams[1].name}}</td>
-                <td data-toggle="modal"
-                    data-target="#matchModal"
-                    class="cell_active"
-                    ng-click="ctrl.getActiveMatch(match)">
-                    {{ctrl.displayResult(match)}}
+                <th style="vertical-align: middle">{{ $index + 1 }}</th>
+                <td style="vertical-align: middle">{{match.matchTeams[0].name}} : {{match.matchTeams[1].name}}</td>
+                <td>
+                    <button data-toggle="modal"
+                            data-target="#matchModal"
+                            class="btn"
+                            ng-class="ctrl.displayResult(match) != '0 : 0' ? 'btn-primary' : 'btn-info'"
+                            ng-click="ctrl.getActiveMatch(match)">
+                        {{ctrl.displayResult(match)}}
+                    </button>
                 </td>
             </tr>
             </tbody>

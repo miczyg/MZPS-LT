@@ -175,12 +175,7 @@
                     <td>{{u.tourney.name + " " + u.tourney.date}}</td>
                     <td>
                         <table border="1">
-                            <tr>
-                                <th class="league-points-table">miejsce</th>
-                                <th class="league-points-table">drużyna</th>
-                            </tr>
                             <tr ng-repeat="t in u.teams">
-                                <td class="league-points-table">{{$index + 1}}</td>
                                 <td class="league-points-table">{{t.name}}</td>
                             </tr>
                         </table>
@@ -245,6 +240,7 @@
                         <div class="col-md-7">
                             <input-dropdown
                                     selected-item="ctrl.league.tourney"
+                                    input-placeholder="Select tourney"
                                     my-default-dropdown-items="ctrl.getAllTourneys()"
                                     input-required="true"
                                     filter-list-method="ctrl.filterTourneys(userInput)"
@@ -260,9 +256,10 @@
                         <br>
                         <div class="col-md-7">
                             <fieldset data-ng-repeat="teamPlace in ctrl.league.teams" ng-disabled="ctrl.league.tourney == null">
-                                <label class="col-md-2 control-label" for="leagueTeam">{{$index + 1 + " miejsce"}}</label>
+                                <label class="col-md-2 control-label" for="leagueTeam">{{}}</label>
                                 <input-dropdown
                                     selected-item="teamPlace.team"
+                                    input-placeholder="Select team"
                                     default-dropdown-items="ctrl.teamDropdownItems"
                                     filter-list-method="ctrl.filterTeams(userInput)"
                                     tourney-selected-watch="ctrl.league.tourney"

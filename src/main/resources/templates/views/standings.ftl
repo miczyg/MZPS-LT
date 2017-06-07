@@ -19,7 +19,7 @@
                 <tr>
                     <th>MIEJSCE</th>
                     <th>ZESPÓŁ</th>
-                    <th>PUNKTY RANGINGOWE</th>
+                    <th>PUNKTY RANKINGOWE</th>
                     <th>LIGA TURNIEJOWA</th>
                 </tr>
                 </thead>

@@ -28,6 +28,22 @@ public class StandingsController {
     @GetMapping(value = "/")
     public ResponseEntity<List<Team>> getByCategory(@RequestParam("category") String category) {
         List<Team> teams = teamService.findByCategory(category);
+        teams.sort((team1, team2) -> {
+            Integer totalPointsTeam1 = team1.getTotalSeasonPoints();
+            Integer totalPointsTeam2 = team2.getTotalSeasonPoints();
+
+            int comparePoints = totalPointsTeam2.compareTo(totalPointsTeam1);
+
+            if(comparePoints != 0) {
+                return comparePoints;
+            }
+            else{
+                String leagueNameTeam1 = team1.getLeague().getName();
+                String leagueNameTeam2 = team2.getLeague().getName();
+
+                return leagueNameTeam1.compareTo(leagueNameTeam2);
+            }
+        });
         if (teams.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
